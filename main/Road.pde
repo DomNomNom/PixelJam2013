@@ -7,15 +7,13 @@ class Road {
     ArrayList<RoadTile> tiles;
 
     Road() {
-        baseLine = center.y * 1.5;
-
-        images = new ArrayList<PImage>();
-        images.add(loadImage("assets/TestRoad.png"));
+        tiles = new ArrayList<RoadTile>();
+        tiles.add(new RoadTile("assets/TestRoad.png"));
     }
 
     void draw() {
         pushMatrix();
-
+        tiles.get(0).draw();
         popMatrix();
     }
 };
@@ -31,7 +29,7 @@ class RoadTile {
     void draw() {
         image(
             img,
-            0, center.y,
+            center.x, 0,
             windowSize.x, windowSize.y
         );
 

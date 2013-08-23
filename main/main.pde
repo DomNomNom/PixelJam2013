@@ -2,6 +2,9 @@
 PVector center; // center of the screen
 PVector windowSize;
 
+float carLine;
+
+
 Car car;
 
 Road road;
@@ -15,12 +18,14 @@ void setup() {
     center = PVector.mult(windowSize, 0.5);
     size(
         (int) windowSize.x,
-        (int) windowSize.y
+        (int) windowSize.y,
+        OPENGL
     );
 
     car = new Car();
     road = new Road();
 
+    carLine = center.y * 1.5;
 }
 
 void draw() {
@@ -28,8 +33,12 @@ void draw() {
 
     car.update();
 
-    road.draw();
-    car.draw();
+
+    pushMatrix();
+        translate(0, carLine-car.pos.y);
+        road.draw();
+        car.draw();
+    popMatrix();
 }
 
 void keyPressed()  { key(keyCode, true);  }
