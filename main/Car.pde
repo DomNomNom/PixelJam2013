@@ -2,20 +2,22 @@
 
 class Car {
     PVector size = new PVector(100, 50);
-    PVector pos = new PVector(20, 20);
+    PVector pos = new PVector(600, 20);
     PVector vel = new PVector(0, 0);
-    PVector facing = new PVector(1, 0);
-    float speed = 0, maxSpeed = 30;
+    PVector facing = new PVector(0, -1);
+    float speed = 0, maxSpeed = 100;
     float steer = 0;
     
-    private final float accel = 0.25;       // car acceleration rate
-    private final float turnFactor = 0.002; // car steering rate
-    private final float maxSteer = 0.08;   // car steering limit
-    private final float drag = 0.97;       // air friction
+    PImage sprite;
+    
+    private final float accel = 0.15;       // car acceleration rate
+    private final float turnFactor = 0.003; // car steering rate
+    private final float maxSteer = 0.075;   // car steering limit
+    private final float drag = 0.02;       // air friction
     private final float turnFriction = 0.99;   // car steering limit
 
     public Car() {
-        //println("omgCar");
+        sprite = loadImage("assets/car.png");
     }
 
     void update() {
@@ -45,7 +47,13 @@ class Car {
             speed -= accel;
             if(speed < -maxSpeed*0.6) speed = -maxSpeed*0.6;
         }
-        speed *= drag;
+        if(speed < 0){
+            speed += drag;
+            if(speed > 0) speed = 0;
+        } else {
+            speed -= drag;
+            if(speed < 0) speed = 0;
+        }
         facing.normalize();
         vel.set(facing.x, facing.y);
         vel.mult(speed);
@@ -56,8 +64,11 @@ class Car {
         
         pushMatrix();
         translate(pos.x, pos.y);
-        rotate(facing.heading());
-        rect(0, 0, size.x, size.y);
+        rotate(facing.heading() + HALF_PI);
+        scale(4, 4);
+        noSmooth();
+        image(sprite, 0, 0);
+        //rect(0, 0, size.x, size.y);
         popMatrix();
         
     }
