@@ -25,8 +25,8 @@ class Road {
             Integer next = nextTileIndex();
             RoadTile nextTile = tiles.get(next);
             drawIndexes.add(next);
-            drawOffsets.add(top - nextTile.img.height * 0.5);
-            top -= nextTile.img.height * 1;
+            drawOffsets.add(top - nextTile.img.height);
+            top -= nextTile.img.height;
             // println("new top: " + drawOffsets);
         }
 
@@ -34,6 +34,10 @@ class Road {
 
     Integer nextTileIndex() {
         return 0;
+    }
+
+    Obstacle generateObstacle() {
+        return new Obstacle("assets/scaled/barrier.png", new PVector(top, center.x));
     }
 
     void draw() {
@@ -57,7 +61,7 @@ class RoadTile {
         image(
             img,
             center.x, y,
-            windowSize.x, windowSize.y
+            img.width, img.height
         );
 
     }
