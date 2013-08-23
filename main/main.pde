@@ -34,18 +34,17 @@ void draw() {
     car.draw();
 }
 
-
-void keyPressed() {
+void keyPressed()  { key(keyCode, true);  }
+void keyReleased() { key(keyCode, false); }
+private void key(int keyCode, boolean pressed){
     if (key == CODED) {
         switch (keyCode) {
             case LEFT:
             case RIGHT:
             case UP:
             case DOWN:
-                car.handleKey(keyCode);
+                Input.handleKey(keyCode, pressed);
                 break;
         }
-
     }
-}
-
+};

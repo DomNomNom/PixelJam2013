@@ -11,8 +11,26 @@ class Car {
         //println("omgCar");
     }
 
-    void draw() {
+    void update() {
+        if(Input.left){
+            facing.rotate(-0.1);
+        }
+        if(Input.right){
+            facing.rotate(0.1);
+        }
+        if(Input.up){
+            speed += 0.5;
+        }
+        if(Input.down){
+            speed -= 0.5;
+        }
         facing.normalize();
+        vel.set(facing.x, facing.y);
+        vel.mult(speed);
+        pos.add(vel);
+    }
+
+    void draw() {
         
         pushMatrix();
         translate(pos.x, pos.y);
@@ -20,26 +38,5 @@ class Car {
         rect(0, 0, size.x, size.y);
         popMatrix();
         
-        
-        
-        vel.set(facing.x, facing.y);
-        vel.mult(speed);
-        pos.add(vel);
-    }
-
-    void handleKey(int keyCode) {
-        switch (keyCode) {
-            case LEFT:
-                facing.rotate(-0.1);
-                break;
-            case RIGHT:
-                facing.rotate(0.1);
-                break;
-            case UP:
-                speed += 1;
-                println(speed);
-                break;
-            case DOWN:
-        }
     }
 };
