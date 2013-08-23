@@ -1,3 +1,8 @@
+import javax.media.opengl.*;
+import processing.opengl.*;
+import javax.media.opengl.GL2;
+GL2 gl;
+PGraphicsOpenGL pgl;
 
 PVector center; // center of the screen
 PVector windowSize;
@@ -21,8 +26,14 @@ void setup() {
         (int) windowSize.y,
         OPENGL
     );
+    pgl = (PGraphicsOpenGL) g;  // g may change
+    gl = pgl.beginPGL().gl.getGL2();
+
+    gl.glEnable(GL.GL_BLEND);
+    gl.glBlendFunc (GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA);
 
     car = new Car();
+    cam = new Camera();
     road = new Road();
 
     carLine = center.y * 1.5;
@@ -33,12 +44,13 @@ void draw() {
 
     car.update();
 
-
+    pgl.beginPGL();
     pushMatrix();
-        translate(0, carLine-car.pos.y);
+        cam.doTranslate();
         road.draw();
         car.draw();
     popMatrix();
+    pgl.endPGL();
 }
 
 void keyPressed()  { key(keyCode, true);  }
