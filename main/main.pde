@@ -17,6 +17,7 @@ void setup() {
     ellipseMode(CENTER);
     imageMode(CENTER);
     rectMode(CENTER);
+    noSmooth();
 
     windowSize = new PVector(1280, 720);
     center = PVector.mult(windowSize, 0.5);

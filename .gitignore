@@ -4,4 +4,7 @@
 *.jar
 *.war
 *.ear
+
 main/build-tmp/*
+main/assets/originals/
+main/assets/doScaling.sh

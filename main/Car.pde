@@ -21,7 +21,7 @@ class Car {
     private final float steeringLimit = HALF_PI/2;  // game steering limit (radians)
 
     public Car() {
-        sprite = loadImage("assets/car.png", "png");
+        sprite = loadImage("assets/scaled/car.png", "png");
     }
 
     void update() {
@@ -82,8 +82,7 @@ class Car {
         pushMatrix();
         translate(pos.x, pos.y);
         rotate(facing.heading() + HALF_PI);
-        scale(4, 4);
-        noSmooth();
+        // scale(4, 4);
 
 
         image(sprite, 0, 0);

@@ -6,7 +6,7 @@ class Camera {
     float bot;
 
     Camera() {
-        carLine = center.y * 1.5;
+        carLine = center.y * 1.7;
     }
 
     void update() {

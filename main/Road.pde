@@ -11,7 +11,7 @@ class Road {
     float bot;
 
     Road() {
-        tiles.add(new RoadTile("assets/Road.png"));
+        tiles.add(new RoadTile("assets/TestRoad.png"));
         drawIndexes.add(0);
         drawOffsets.add(0.0);
 
@@ -25,7 +25,7 @@ class Road {
             Integer next = nextTileIndex();
             RoadTile nextTile = tiles.get(next);
             drawIndexes.add(next);
-            drawOffsets.add(top);// + nextTile.img.height * 0.5);
+            drawOffsets.add(top - nextTile.img.height * 0.5);
             top -= nextTile.img.height * 1;
             // println("new top: " + drawOffsets);
         }
