@@ -21,13 +21,13 @@ class Road {
 
     void update() {
         // make sure all things are tiled
-        while (top > cam.top) {
+        while (top > cam.top - windowSize.y) {
             Integer next = nextTileIndex();
             RoadTile nextTile = tiles.get(next);
             drawIndexes.add(next);
             drawOffsets.add(top + nextTile.img.height * 0.5);
             top -= nextTile.img.height;
-            println("new top: " + drawOffsets);
+            // println("new top: " + drawOffsets);
         }
     }
 

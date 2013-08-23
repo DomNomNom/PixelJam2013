@@ -5,18 +5,18 @@ class Car {
     PVector pos = new PVector(600, 0);
     PVector vel = new PVector(0, 0);
     PVector facing = new PVector(0, -1);
-    float speed = 0, maxSpeed = 100;
+    float speed = 0, maxSpeed = 30;
     float steer = 0;
 
     PImage sprite;
 
-    private final float accel = 0.15;       // car acceleration rate
-    private final float turnFactor = 0.003; // car steering rate
-    private final float maxSteer = 0.075;   // car steering limit
-    private final float drag = 0.02;       // air friction
+    private final float accel = 0.4;       // car acceleration rate
+    private final float turnFactor = 0.005; // car steering rate
+    private final float turnLimit = 0.075;  // car steering limit
+    private final float drag = 0.02;        // air friction
     private final float turnFriction = 0.99;   // car steering limit
 
-    private final float steerReset = 0.9;   // car steering limit
+    private final float steerReset = 0.05;   // car steering limit
     private final float steeringLimit = HALF_PI/2;  // game steering limit (radians)
 
     public Car() {
@@ -25,18 +25,18 @@ class Car {
 
     void update() {
         if(Input.left){
-            steer -= turnFactor;
+            steer -= lerp(0, turnFactor, 1 - speed/(maxSpeed*1.2));
             if(steer < -turnLimit) steer = -turnLimit;
             speed *= turnFriction;
             facing.rotate(steer);
         } else if(Input.right){
-            steer += turnFactor;
+            steer += lerp(0, turnFactor, 1 - speed/(maxSpeed*1.2));
             if(steer > turnLimit) steer = turnLimit;
             speed *= turnFriction;
             facing.rotate(steer);
         } else { // steering auto-reset
-            steer = -(facing.heading()  + HALF_PI)*0.01;
-            steer = clamp(steer, -turnLimit, turnLimit)
+            steer = -(facing.heading()  + HALF_PI)*steerReset;
+            steer = constrain(steer, -turnLimit, turnLimit);
             facing.rotate(steer);
             /*
             if(facing.heading() < -HALF_PI){ // car is facing to the left
