@@ -1,14 +1,37 @@
 
+PVector center; // center of the screen
+PVector windowSize;
+
 Car car;
 
+Road road;
+
 void setup() {
-  size(1280, 720);
-  car = new Car();
+    ellipseMode(CENTER);
+    imageMode(CENTER);
+    rectMode(CENTER);
+
+    windowSize = new PVector(1280, 720);
+    center = PVector.mult(windowSize, 0.5);
+    size(
+        (int) windowSize.x,
+        (int) windowSize.y
+    );
+
+    car = new Car();
+    road = new Road();
+
 }
 
 void draw() {
-  // rect(10,0, 100, 100);
-  car.draw();
+    clear();
+    // rect(10,0, 100, 100);
+    // image(
+    //     road,
+    //     center.x, center.y,
+    //     windowSize.x, windowSize.y
+    // );
+    car.draw();
 }
 
 
