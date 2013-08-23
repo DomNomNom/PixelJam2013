@@ -11,7 +11,7 @@ class Road {
     float bot;
 
     Road() {
-        tiles.add(new RoadTile("assets/TestRoad.png"));
+        tiles.add(new RoadTile("assets/scaled/Road.png"));
         drawIndexes.add(0);
         drawOffsets.add(0.0);
 
