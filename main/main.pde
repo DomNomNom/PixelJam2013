@@ -25,12 +25,10 @@ void setup() {
 
 void draw() {
     clear();
-    // rect(10,0, 100, 100);
-    // image(
-    //     road,
-    //     center.x, center.y,
-    //     windowSize.x, windowSize.y
-    // );
+
+    // car.update();
+
+    road.draw();
     car.draw();
 }
 
