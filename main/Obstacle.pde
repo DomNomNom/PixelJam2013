@@ -20,8 +20,17 @@ class Obstacle {
             b.sub(s);
             PVector p = pt.get();
             p.sub(b);
-            
-            rect(p.x, p.y, 4, 4);
+
+            if (
+                p.x > 0 && p.x < img.width &&
+                p.y > 0 && p.y < img.height
+            ) {
+                println("???? ");
+                color c = img.get((int)p.x, (int)p.y);
+                if (alpha(c) > 1) {
+                    debugPoint = pt;
+                }
+            }
         }
         return false;
     }

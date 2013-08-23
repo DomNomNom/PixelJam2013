@@ -16,6 +16,8 @@ Camera cam;
 Road road;
 ArrayList<Obstacle> obstacles;
 
+PVector debugPoint = new PVector(-100, -100);
+
 void setup() {
     ellipseMode(CENTER);
     imageMode(CENTER);
@@ -54,6 +56,9 @@ void draw() {
         car.update();
         for (Obstacle o : obstacles) {
             o.update();
+            if (o.isColliding()) {
+                println("omg you ded son!");
+            }
         }
         cam.update();
         road.update();
@@ -66,6 +71,8 @@ void draw() {
         road.draw();
         for (Obstacle o : obstacles) o.draw();
         car.draw();
+        fill(color(255, 0, 0));
+        rect(debugPoint.x, debugPoint.y, 4, 4);
     popMatrix();
     pgl.endPGL();
 }
