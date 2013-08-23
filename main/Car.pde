@@ -16,29 +16,83 @@ class Car {
     private final float drag = 0.02;       // air friction
     private final float turnFriction = 0.99;   // car steering limit
 
+    private final float steerReset = 0.9;   // car steering limit
+    private final float steeringLimit = HALF_PI/2;  // game steering limit (radians)
+
     public Car() {
-        sprite = loadImage("assets/car.png");
+        sprite = loadImage("assets/car.png", "png");
     }
 
     void update() {
         if(Input.left){
             steer -= turnFactor;
-            if(steer < -maxSteer) steer = -maxSteer;
+            if(steer < -turnLimit) steer = -turnLimit;
             speed *= turnFriction;
+            facing.rotate(steer);
         } else if(Input.right){
             steer += turnFactor;
-            if(steer > maxSteer) steer = maxSteer;
+            if(steer > turnLimit) steer = turnLimit;
             speed *= turnFriction;
+            facing.rotate(steer);
         } else { // steering auto-reset
+            steer = -(facing.heading()  + HALF_PI)*0.01;
+            steer = clamp(steer, -turnLimit, turnLimit)
+            facing.rotate(steer);
+            /*
+            if(facing.heading() < -HALF_PI){ // car is facing to the left
+                if(steer < 0){
+                    steer += turnFactor;
+                    if(steer > turnLimit) steer = turnLimit;
+                } else if(steer < turnLimit/2) {
+                    steer -= turnFactor/2;
+                    if(steer < 0) steer = 0;
+                }
+                facing.rotate(steer);
+                if(facing.heading() > -HALF_PI){
+                    steer = 0;
+                    facing.set(0, -1);
+                }
+            } else {        // car is facing to the right
+                if(steer > 0){
+                    steer -= turnFactor;
+                    if(steer < -turnLimit) steer = -turnLimit;
+                } else if(steer > -turnLimit/2) {
+                    steer += turnFactor/2;
+                    if(steer > 0) steer = 0;
+                }
+                facing.rotate(steer);
+                if(facing.heading() < -HALF_PI){
+                    steer = 0;
+                    facing.set(0, -1);
+                }
+            }
+            */
+
+            /* Steering wheel reset- replaced with directional reset
             if(steer < 0){
                 steer += turnFactor*2.5;
                 if(steer > 0) steer = 0;
             } else {
                 steer -= turnFactor*2.5;
                 if(steer < 0) steer = 0;
+            } */
+        }
+
+        // steering limiter
+        if(facing.heading() < -HALF_PI){
+            if(facing.heading() < -HALF_PI - steeringLimit){
+                facing.set(0, -1);
+                facing.rotate(-steeringLimit);
+                steer = 0;
+            }
+        } else {
+            if(facing.heading() > -HALF_PI+steeringLimit){
+                facing.set(0, -1);
+                facing.rotate(steeringLimit);
+                steer = 0;
             }
         }
-        facing.rotate(steer);
+
         if(Input.up){
             speed += accel;
             if(speed > maxSpeed) speed = maxSpeed;
@@ -67,7 +121,11 @@ class Car {
         rotate(facing.heading() + HALF_PI);
         scale(4, 4);
         noSmooth();
+
+
         image(sprite, 0, 0);
+
+
         //rect(0, 0, size.x, size.y);
         popMatrix();
 
