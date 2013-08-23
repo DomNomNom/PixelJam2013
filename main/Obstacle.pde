@@ -15,7 +15,13 @@ class Obstacle {
 
     boolean isColliding() {
         for(PVector pt : car.collisionPts){
-            PVector f = pt.sub(pos.sub(img.width, img.height, 0));
+            PVector s = new PVector(img.width/2, img.height/2);
+            PVector b = pos.get();
+            b.sub(s);
+            PVector p = pt.get();
+            p.sub(b);
+            
+            rect(p.x, p.y, 4, 4);
         }
         return false;
     }
