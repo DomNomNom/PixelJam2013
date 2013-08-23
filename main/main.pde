@@ -26,7 +26,7 @@ void setup() {
 void draw() {
     clear();
 
-    // car.update();
+    car.update();
 
     road.draw();
     car.draw();
