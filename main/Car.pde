@@ -1,12 +1,12 @@
 
 
 class Car {
-    PVector size = new PVector(100, 50);
     PVector pos = new PVector(600, 0);
     PVector vel = new PVector(0, 0);
     PVector facing = new PVector(0, -1);
     float speed = 0, maxSpeed = 40;
     float steer = 0;
+    public PVector[] collisionPts;
 
     PImage sprite;
 
@@ -19,6 +19,7 @@ class Car {
 
     private final float steerReset = 0.1;   // car steering limit
     private final float steeringLimit = HALF_PI/2;  // game steering limit (radians)
+    private final int roadLimit = 200;
 
     public Car() {
         sprite = loadImage("assets/scaled/car.png", "png");
@@ -74,7 +75,9 @@ class Car {
         vel.set(facing.x, facing.y);
         vel.mult(speed);
         pos.add(vel);
-        pos.x = constrain(pos.x, -50, windowSize.x+50);
+        pos.x = constrain(pos.x, roadLimit, windowSize.x-roadLimit);
+        
+        collisionPts = getCollisionPts();
     }
 
     void draw() {
@@ -82,14 +85,30 @@ class Car {
         pushMatrix();
         translate(pos.x, pos.y);
         rotate(facing.heading() + HALF_PI);
-        // scale(4, 4);
-
 
         image(sprite, 0, 0);
-
-
-        //rect(0, 0, size.x, size.y);
         popMatrix();
 
+        //fill(220, 50, 0); stroke(220, 50, 0);
+        //for(PVector p : getCollisionPts()) rect(p.x, p.y, 4, 4); // collision bounds
+    }
+    
+    /**
+    /* returns the points of collision of this object- 
+    /* in this case, the corners of the car (clockwise)
+    /**/
+    public PVector[] getCollisionPts(){
+        float wid = sprite.width*0.9;
+        float hgt = sprite.height*0.9;
+        PVector[] pts = new PVector[4];
+        pts[0] = new PVector( wid/2, hgt/2);
+        pts[1] = new PVector( wid/2,-hgt/2);
+        pts[2] = new PVector(-wid/2,-hgt/2);
+        pts[3] = new PVector(-wid/2, hgt/2);
+        for(int i = 0; i < 4; i++){
+            pts[i].rotate(facing.heading() + HALF_PI);
+            pts[i].add(pos);
+        }
+        return pts;
     }
 };
