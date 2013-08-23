@@ -7,7 +7,6 @@ PGraphicsOpenGL pgl;
 PVector center; // center of the screen
 PVector windowSize;
 
-float carLine;
 
 
 Car car;
@@ -36,13 +35,15 @@ void setup() {
     cam = new Camera();
     road = new Road();
 
-    carLine = center.y * 1.5;
 }
 
 void draw() {
     clear();
 
     car.update();
+
+    cam.update();
+    road.update();
 
     pgl.beginPGL();
     pushMatrix();

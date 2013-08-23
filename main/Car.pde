@@ -2,14 +2,14 @@
 
 class Car {
     PVector size = new PVector(100, 50);
-    PVector pos = new PVector(600, 20);
+    PVector pos = new PVector(600, 0);
     PVector vel = new PVector(0, 0);
     PVector facing = new PVector(0, -1);
     float speed = 0, maxSpeed = 100;
     float steer = 0;
-    
+
     PImage sprite;
-    
+
     private final float accel = 0.15;       // car acceleration rate
     private final float turnFactor = 0.003; // car steering rate
     private final float maxSteer = 0.075;   // car steering limit
@@ -61,7 +61,7 @@ class Car {
     }
 
     void draw() {
-        
+
         pushMatrix();
         translate(pos.x, pos.y);
         rotate(facing.heading() + HALF_PI);
@@ -70,6 +70,6 @@ class Car {
         image(sprite, 0, 0);
         //rect(0, 0, size.x, size.y);
         popMatrix();
-        
+
     }
 };

@@ -3,20 +3,43 @@
 class Road {
     float baseLine;
 
-    ArrayList<PImage> images;
-    ArrayList<RoadTile> tiles;
+    ArrayList<RoadTile> tiles = new ArrayList<RoadTile>();
+    ArrayList<Integer> drawIndexes = new ArrayList<Integer>(); // indecies of tiles
+    ArrayList<Float>   drawOffsets = new ArrayList<Float>();
 
-    int top;
-    int bot;
+    float top;
+    float bot;
 
     Road() {
-        tiles = new ArrayList<RoadTile>();
         tiles.add(new RoadTile("assets/TestRoad.png"));
+        drawIndexes.add(0);
+        drawOffsets.add(0.0);
+
+        top = 0;
+        bot = tiles.get(0).img.height;
+    }
+
+    void update() {
+        // make sure all things are tiled
+        while (top > cam.top) {
+            Integer next = nextTileIndex();
+            RoadTile nextTile = tiles.get(next);
+            drawIndexes.add(next);
+            drawOffsets.add(top + nextTile.img.height * 0.5);
+            top -= nextTile.img.height;
+            println("new top: " + drawOffsets);
+        }
+    }
+
+    Integer nextTileIndex() {
+        return 0;
     }
 
     void draw() {
         pushMatrix();
-        tiles.get(0).draw();
+        for (int i=0; i<drawIndexes.size(); ++i) {
+            tiles.get(drawIndexes.get(i)).draw(drawOffsets.get(i));
+        }
         popMatrix();
     }
 };
@@ -29,10 +52,10 @@ class RoadTile {
         img = loadImage(fileName);
     }
 
-    void draw() {
+    void draw(float y) {
         image(
             img,
-            center.x, 0,
+            center.x, y,
             windowSize.x, windowSize.y
         );
 
