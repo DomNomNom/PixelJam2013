@@ -6,7 +6,7 @@ float carLine;
 
 
 Car car;
-
+Camera cam;
 Road road;
 
 void setup() {

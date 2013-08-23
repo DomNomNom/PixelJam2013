@@ -6,6 +6,9 @@ class Road {
     ArrayList<PImage> images;
     ArrayList<RoadTile> tiles;
 
+    int top;
+    int bot;
+
     Road() {
         tiles = new ArrayList<RoadTile>();
         tiles.add(new RoadTile("assets/TestRoad.png"));
