@@ -16,4 +16,17 @@ class Obstacle {
     boolean isColliding() {
         return false;
     }
+
+    void draw() {
+        pushMatrix();
+        translate(pos.x, pos.y);
+
+        image(
+            img,
+            pos.x, pos.y,
+            img.width, img.height
+        );
+
+        popMatrix();
+    }
 }

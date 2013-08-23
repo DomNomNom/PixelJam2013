@@ -14,6 +14,7 @@ int updateAccumulator = 0;
 Car car;
 Camera cam;
 Road road;
+ArrayList<Obstacle> obstacles;
 
 void setup() {
     ellipseMode(CENTER);
@@ -37,6 +38,8 @@ void setup() {
     car = new Car();
     cam = new Camera();
     road = new Road();
+    obstacles = new ArrayList<Obstacle>();
+    obstacles.add(new Obstacle("assets/scaled/barrier.png", new PVector(center.x*0.5, -1000)));
 
     prevMillis = millis();
 }
@@ -49,7 +52,9 @@ void draw() {
     prevMillis = millis;
     while (updateAccumulator > 0) {
         car.update();
-
+        for (Obstacle o : obstacles) {
+            o.update();
+        }
         cam.update();
         road.update();
         updateAccumulator -= updatePeriod;
@@ -59,6 +64,7 @@ void draw() {
     pushMatrix();
         cam.doTranslate();
         road.draw();
+        for (Obstacle o : obstacles) o.draw();
         car.draw();
     popMatrix();
     pgl.endPGL();
