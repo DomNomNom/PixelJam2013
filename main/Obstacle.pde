@@ -20,15 +20,13 @@ class Obstacle {
             b.sub(s);
             PVector p = pt.get();
             p.sub(b);
-
             if (
                 p.x > 0 && p.x < img.width &&
                 p.y > 0 && p.y < img.height
             ) {
-                println("???? ");
                 color c = img.get((int)p.x, (int)p.y);
                 if (alpha(c) > 1) {
-                    debugPoint = pt;
+                    return true;
                 }
             }
         }
@@ -37,7 +35,6 @@ class Obstacle {
 
     void draw() {
         pushMatrix();
-        translate(pos.x, pos.y);
 
         image(
             img,
