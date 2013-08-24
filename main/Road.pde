@@ -48,7 +48,6 @@ class Road {
         if (drawOffsets.get(0) - tiles.get(drawIndexes.get(0)).img.height > cam.bot) {
             drawOffsets.remove(0);
             drawIndexes.remove(0);
-            println("Culling");
         }
 
         // generate obstacles
@@ -84,6 +83,7 @@ class Road {
     }
 
     Obstacle generateObstacle() {
+        return new
         return new Obstacle("assets/scaled/barrier.png", new PVector(center.x, top));
     }
 

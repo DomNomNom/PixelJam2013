@@ -34,14 +34,32 @@ class Obstacle {
     }
 
     void draw() {
-        pushMatrix();
-
         image(
             img,
             pos.x, pos.y,
             img.width, img.height
         );
+    }
+};
+
+
+class EnemyCar extends Obstacle {
+    PVector vel;
+
+    EnemyCar(String fileName, PVector pos, PVector vel) {
+        super(fileName, pos);
+        this.vel = vel;
+    }
+
+    void update() {
+        pos.add(vel);
+    }
+
+    void draw() {
+        pushMatrix();
+
+        super.draw();
 
         popMatrix();
     }
-};
+}
