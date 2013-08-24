@@ -21,5 +21,6 @@ class Beer extends Powerup{
     
     void applyEffect(){
         drunk += 0.2;
+        score += 500;
     }
 }

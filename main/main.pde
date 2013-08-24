@@ -14,11 +14,13 @@ int updateAccumulator = 0;
 Car car;
 Camera cam;
 Road road;
+GUI gui;
 ArrayList<Obstacle> obstacles;
 
 PVector debugPoint = new PVector(-100, -100);
 float drunk = 0;
 int drinkStart;
+int score = 0;
 
 void setup() {
     ellipseMode(CENTER);
@@ -42,6 +44,7 @@ void setup() {
     car = new Car();
     cam = new Camera();
     road = new Road();
+    gui = new GUI();
     obstacles = new ArrayList<Obstacle>();
     obstacles.add(new Obstacle("assets/scaled/barrier.png", new PVector(center.x, -1000)));
     obstacles.add(new Obstacle("assets/scaled/barrier.png", new PVector(center.x, -3000)));
@@ -86,6 +89,7 @@ void draw() {
         fill(color(255, 0, 0));
     popMatrix();
     pgl.endPGL();
+    gui.draw();
 }
 
 void keyPressed()  { key(keyCode, true);  }
