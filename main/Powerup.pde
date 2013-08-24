@@ -16,13 +16,13 @@ class Boost extends Powerup{
         car.speed = car.boostSpeed;
         car.boosting = true;
         car.boostTime = millis();
+        boostSound.rewind();
+        boostSound.play();
     }
 };
 
 class Beer extends Powerup{
-    Beer(PVector pos) {
-        super("assets/powerups/beer.png", pos);
-    }
+    Beer(PVector pos) {super("assets/powerups/beer.png", pos);}
 
     void applyEffect(){
         drinkStart = millis();
@@ -40,7 +40,7 @@ Powerup randomPowerup(PVector pos) {
         case 1:
         return new Beer(pos);
         case 2:
-        return new Beer(pos);
+        return new Boost(pos);
         case 3:
         return new Boost(pos);
     }

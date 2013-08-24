@@ -8,7 +8,7 @@ PGraphicsOpenGL pgl;
 Minim minim;
 AudioPlayer bgm;
 
-AudioPlayer beerSound;
+AudioPlayer beerSound, boostSound;
 
 PVector center; // center of the screen
 PVector windowSize;
@@ -52,6 +52,7 @@ void setup() {
     bgm = minim.loadFile("assets/sounds/background.mp3");
     bgm.loop();
     beerSound = minim.loadFile("assets/sounds/beer.mp3");
+    boostSound = minim.loadFile("assets/sounds/boost.mp3");
     car = new Car();
     cam = new Camera();
     road = new Road();
@@ -119,6 +120,7 @@ void stop(){
     bgm.close();
     car.crash.close();
     beerSound.close();
+    boostSound.close();
     for(AudioPlayer a : car.engine.engSound){
         a.close();
     }

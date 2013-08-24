@@ -24,7 +24,7 @@ class Car {
     private final float turnFriction = 0.9999;   // car steering limit
 
     private final float steerReset = 0.075;   // car steering limit
-    private final float steeringLimit = HALF_PI*0.3;  // game steering limit (radians)
+    private final float steeringLimit = HALF_PI*0.5;  // game steering limit (radians)
     private final int roadLimit = 200;
 
     // things for tire marks
@@ -39,7 +39,7 @@ class Car {
     public Car() {
         sprite = loadImage("assets/scaled/car.png", "png");
         engine = new Engine();
-        crash = minim.loadFile("assets/sounds/Car Crash.mp3");
+        crash = minim.loadFile("assets/sounds/crash.mp3");
         for (int i=0; i<tireMarks.length; ++i)
             tireMarks[i] = new TireMark();
 
