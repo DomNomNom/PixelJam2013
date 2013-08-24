@@ -48,7 +48,6 @@ void setup() {
 
 void draw() {
     clear();
-    // println("mil " + );
     int millis = millis();
     updateAccumulator += millis - prevMillis;
     prevMillis = millis;

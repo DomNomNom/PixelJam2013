@@ -37,7 +37,6 @@ class Obstacle {
 
     void draw() {
         pushMatrix();
-        translate(pos.x, pos.y);
 
         image(
             img,
