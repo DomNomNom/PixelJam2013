@@ -4,7 +4,7 @@ class Car {
     PVector pos = new PVector(450, 0);
     PVector vel = new PVector(0, 0);
     PVector facing = new PVector(0, -1);
-    float speed = 0, maxSpeed = 20, boostSpeed = 33.34;
+    float speed = 0, maxSpeed = 18, boostSpeed = 30;
     float steer = 0;
     public PVector[] collisionPts;
     public boolean dead = false;

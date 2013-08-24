@@ -80,7 +80,7 @@ void draw() {
     pgl.beginPGL();
     pushMatrix();
         translate(center.x, center.y);
-        rotate(0.4*drunk*HALF_PI*sin(0.02*drunk*(millis()-drinkStart)));
+        rotate(0.4*drunk*HALF_PI*sin(0.01*drunk*(millis()-drinkStart)));
         translate(-center.x, -center.y);
         cam.doTranslate();
 
