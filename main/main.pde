@@ -70,7 +70,11 @@ void draw() {
 
     pgl.beginPGL();
     pushMatrix();
+        translate(center.x, center.y);
+        rotate(0.5*HALF_PI*sin(0.01*millis()));
+        translate(-center.x, -center.y);
         cam.doTranslate();
+
         road.draw();
         for (Obstacle o : obstacles) o.draw();
         car.draw();
