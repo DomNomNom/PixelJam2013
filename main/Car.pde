@@ -12,6 +12,7 @@ class Car {
     public boolean boosting;
 
     PImage sprite;
+    Engine engine;
 
     private final float accel = 0.1;       // car acceleration rate
     private final float brake = 0.8;       // car braking rate
@@ -26,6 +27,7 @@ class Car {
 
     public Car() {
         sprite = loadImage("assets/scaled/car.png", "png");
+        engine = new Engine();    // TODO: fix engine sounds
     }
 
     void update() {

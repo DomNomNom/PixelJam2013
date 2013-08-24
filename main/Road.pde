@@ -83,7 +83,6 @@ class Road {
     }
 
     Obstacle generateObstacle() {
-        return new
         return new Obstacle("assets/scaled/barrier.png", new PVector(center.x, top));
     }
 

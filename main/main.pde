@@ -46,14 +46,11 @@ void setup() {
     gl.glEnable(GL.GL_BLEND);
     gl.glBlendFunc (GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA);
 
+    minim = new Minim(this);
     car = new Car();
     cam = new Camera();
     road = new Road();
     gui = new GUI();
-    
-    minim = new Minim(this);
-    player = minim.loadFile("assets/sounds/Engine loop.mp3");
-    player.loop();
 
     prevMillis = millis();
 }
@@ -69,6 +66,7 @@ void draw() {
             car.update();
             cam.update();
             road.update();
+            car.engine.update();
             
             if(drunk > 0){
                 drunk -= 0.0002;
