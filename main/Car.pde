@@ -13,6 +13,7 @@ class Car {
 
     PImage sprite;
     Engine engine;
+    boolean useEngine = false;
 
     private final float accel = 0.1;       // car acceleration rate
     private final float brake = 0.8;       // car braking rate
@@ -40,7 +41,8 @@ class Car {
         for (int i=0; i<tireMarks.length; ++i)
             tireMarks[i] = new TireMark();
 
-        engine = new Engine();    // TODO: fix engine sounds
+        if (useEngine)
+            engine = new Engine();    // TODO: fix engine sounds
     }
 
     void update() {
@@ -123,7 +125,8 @@ class Car {
             nextTireMarkIndex = (nextTireMarkIndex+1) % tireMarks.length;
         }
 
-        engine.update();
+        if (useEngine)
+            engine.update();
     }
 
     void draw() {
