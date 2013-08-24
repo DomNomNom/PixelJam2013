@@ -119,6 +119,7 @@ private void key(int keyCode, boolean pressed){
 void stop(){
     bgm.close();
     car.crash.close();
+    car.tireScreech.close();
     beerSound.close();
     boostSound.close();
     for(AudioPlayer a : car.engine.engSound){
