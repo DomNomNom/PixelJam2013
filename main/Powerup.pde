@@ -10,6 +10,7 @@ class Powerup extends Obstacle{
 
 class Boost extends Powerup{
     Boost(PVector pos) {super("assets/powerup.png", pos);}
+    public final static int time = 2000;
 
     void applyEffect(){
         car.speed = car.boostSpeed;

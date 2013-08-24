@@ -73,10 +73,10 @@ class Car {
             if(speed > maxSpeed) speed = maxSpeed;
             if(boosting) {
                 float time = millis() - boostTime;
-                if(time < 1500){
+                if(time < Boost.time){
                     speed = boostSpeed;
-                } else if(time < 3000){
-                    speed = lerp(maxSpeed, boostSpeed, (1500 - (time-1500))/1500);
+                } else if(time < Boost.time*2){
+                    speed = lerp(maxSpeed, boostSpeed, (Boost.time - (time-Boost.time))/Boost.time);
                 } else boosting = false;
             }
         } else {
