@@ -8,7 +8,7 @@ class Road {
     ArrayList<Float>   drawOffsets = new ArrayList<Float>();
 
     ArrayList<Obstacle> obstacles;
-    int obstaclePeriod = 100; // every X ticks, spawn a obstacle
+    int obstaclePeriod = 10; // every X ticks, spawn a obstacle
     int obstacleTime = obstaclePeriod;
 
     float top;
@@ -45,6 +45,7 @@ class Road {
             top -= nextTile.img.height;
         }
 
+        // remove old tiles
         if (drawOffsets.get(0) - tiles.get(drawIndexes.get(0)).img.height > cam.bot) {
             drawOffsets.remove(0);
             drawIndexes.remove(0);
@@ -70,7 +71,7 @@ class Road {
                     car.collide();
                 }
             }
-            else if (o.pos.y > bot) { // remove if too far down
+            else if (o.pos.y > bot) { // remove old obstacles
                 obstacles.remove(i);
             }
         }

@@ -31,6 +31,12 @@ class EnemyCar extends Obstacle {
 
 static List<String> carImages = new ArrayList<String>(); static{
     carImages.add("assets/scaled/sedan_black.png");
+    carImages.add("assets/scaled/sedan_blue.png");
+    carImages.add("assets/scaled/sedan_green.png");
+    carImages.add("assets/scaled/sedan_red.png");
+    carImages.add("assets/scaled/sedan_white.png");
+    carImages.add("assets/scaled/van.png");
+    carImages.add("assets/scaled/train.png");
 }
 String randomCar() {
     return carImages.get(int(random(carImages.size())));

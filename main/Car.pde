@@ -46,6 +46,7 @@ class Car {
     }
 
     void update() {
+        marking = false;
         float tmpTurnLimit = lerp(0, turnLimit, constrain(speed/(maxSpeed*0.5), 0, 1));
         if(Input.left){
             if(steer > 0) steer = 0;
@@ -66,6 +67,9 @@ class Car {
             steer = constrain(steer, -tmpTurnLimit, tmpTurnLimit);
             facing.rotate(steer);
         }
+
+        if (abs(steer) > turnLimit-0.01)
+            marking = true;
 
         // steering limiter
         if(facing.heading() < -HALF_PI){
@@ -112,8 +116,11 @@ class Car {
 
         prevTire_r = nextTire_r;
         prevTire_l = nextTire_l;
-        nextTire_r = collisionPts[1];
-        nextTire_l = collisionPts[2];
+        nextTire_r = new PVector(sprite.width*0.37, sprite.height*-0.4);
+        nextTire_l = new PVector(sprite.width*-.37, sprite.height*-0.4);
+        local2global(nextTire_r);
+        local2global(nextTire_l);
+
 
         if (marking) {
             tireMarks[nextTireMarkIndex].from = prevTire_r;
@@ -165,11 +172,17 @@ class Car {
         pts[1] = new PVector( wid/2,-hgt/2);
         pts[2] = new PVector(-wid/2,-hgt/2);
         pts[3] = new PVector(-wid/2, hgt/2);
-        for(int i = 0; i < 4; i++){
-            pts[i].rotate(facing.heading() + HALF_PI);
-            pts[i].add(pos);
+        for(int i = 0; i <4; i++){
+            local2global(pts[i]);
+            // pts[i].rotate(facing.heading() + HALF_PI);
+            // pts[i].add(pos);
         }
         return pts;
+    }
+
+    private void local2global(PVector p) {
+        p.rotate(facing.heading() + HALF_PI);
+        p.add(pos);
     }
 };
 
