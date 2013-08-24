@@ -1,5 +1,6 @@
 
 class Powerup extends Obstacle{
+    protected AudioPlayer sound;
     Powerup(String fileName, PVector pos) {
         super(fileName, pos);
     }
@@ -20,10 +21,14 @@ class Boost extends Powerup{
 };
 
 class Beer extends Powerup{
-    Beer(PVector pos) {super("assets/powerups/beer.png", pos);}
+    Beer(PVector pos) {
+        super("assets/powerups/beer.png", pos);
+        sound = minim.loadFile("assets/sounds/beer.mp3");
+    }
 
     void applyEffect(){
-        drunk += 0.2;
+        drunk += 0.25;
         score += 500;
+        sound.play();
     }
 };

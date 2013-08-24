@@ -13,7 +13,8 @@ class Car {
 
     PImage sprite;
     Engine engine;
-    boolean useEngine = false;
+    AudioPlayer crash;
+    boolean useEngine = minim.getLineOut().hasControl(Controller.GAIN);
 
     private final float accel = 0.1;       // car acceleration rate
     private final float brake = 0.8;       // car braking rate
@@ -37,7 +38,8 @@ class Car {
 
     public Car() {
         sprite = loadImage("assets/scaled/car.png", "png");
-
+        engine = new Engine();
+        crash = minim.loadFile("assets/sounds/Car Crash.mp3");
         for (int i=0; i<tireMarks.length; ++i)
             tireMarks[i] = new TireMark();
 
@@ -158,6 +160,10 @@ class Car {
         speed = 0;
         steer = 0;
         println("u ded boi");
+        if(!crash.isPlaying()){
+            crash.rewind();
+            crash.play();
+        }
     }
 
     /**
