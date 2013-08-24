@@ -41,7 +41,9 @@ void setup() {
     cam = new Camera();
     road = new Road();
     obstacles = new ArrayList<Obstacle>();
-    obstacles.add(new Obstacle("assets/scaled/barrier.png", new PVector(center.x*0.5, -1000)));
+    obstacles.add(new Obstacle("assets/scaled/barrier.png", new PVector(center.x, -1000)));
+    obstacles.add(new Obstacle("assets/scaled/barrier.png", new PVector(center.x, -3000)));
+    obstacles.add(new Obstacle("assets/scaled/barrier.png", new PVector(center.x, -5000)));
 
     prevMillis = millis();
 }
@@ -52,15 +54,17 @@ void draw() {
     updateAccumulator += millis - prevMillis;
     prevMillis = millis;
     while (updateAccumulator > 0) {
-        car.update();
-        for (Obstacle o : obstacles) {
-            o.update();
-            if (o.isColliding()) {
-                println("omg you ded son!");
+        if(!car.dead){
+            car.update();
+            for (Obstacle o : obstacles) {
+                o.update();
+                if (o.isColliding()) {
+                    car.collide();
+                }
             }
+            cam.update();
+            road.update();
         }
-        cam.update();
-        road.update();
         updateAccumulator -= updatePeriod;
     }
 
@@ -71,7 +75,6 @@ void draw() {
         for (Obstacle o : obstacles) o.draw();
         car.draw();
         fill(color(255, 0, 0));
-        rect(debugPoint.x, debugPoint.y, 4, 4);
     popMatrix();
     pgl.endPGL();
 }
