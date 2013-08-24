@@ -1,3 +1,4 @@
+static PImage omgSign;
 class EnemyCar extends Obstacle {
 
 
@@ -6,6 +7,8 @@ class EnemyCar extends Obstacle {
     EnemyCar(String fileName, PVector pos, PVector vel) {
         super(fileName, pos);
         this.vel = vel;
+        if (omgSign == null)
+            omgSign = loadImage("assets/scaled/warning.png");
     }
 
     void update() {
@@ -18,17 +21,14 @@ class EnemyCar extends Obstacle {
 
         if (pos.y < cam.top) {
             translate(pos.x, cam.top);
+            image(omgSign, 0, 0);
         }
         else {
             translate(pos.x, pos.y);
             if (vel.y > 0)
                 rotate(PI);
 
-            image(
-                img,
-                0, 0,
-                img.width, img.height
-            );
+            image(img,0, 0);
         }
         popMatrix();
     }
