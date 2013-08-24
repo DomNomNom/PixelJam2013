@@ -101,6 +101,11 @@ class Road {
 
         EnemyCar e = new EnemyCar(randomCar(), startPos, vel);
         obstacles.add(e);
+        
+        if(random(5) < 1){
+            lane = topTile.lanes_all.get(int(random(topTile.lanes_all.size())));
+            obstacles.add(randomPowerup(new PVector(lane, cam.top - 400)));
+        }
 
         // return new Obstacle("assets/scaled/barrier.png", new PVector(center.x, top));
     }

@@ -69,7 +69,6 @@ void draw() {
             cam.update();
             road.update();
             
-            println(drunk);
             if(drunk > 0){
                 drunk -= 0.00025;
                 if(drunk < 0) drunk = 0;
@@ -81,7 +80,7 @@ void draw() {
     pgl.beginPGL();
     pushMatrix();
         translate(center.x, center.y);
-        rotate(0.4*drunk*HALF_PI*sin(0.03*drunk*(millis()-drinkStart)));
+        rotate(0.4*drunk*HALF_PI*sin(0.02*drunk*(millis()-drinkStart)));
         translate(-center.x, -center.y);
         cam.doTranslate();
 
