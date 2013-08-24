@@ -23,6 +23,7 @@ class Engine {
     void update(){ 
          int time = millis();
          int revs = (int)lerp(0, 10, car.speed/(car.boostSpeed+1));
+         if(revs < 0) revs = 0;
          if(revs != prevRev){
              engSound[revs].rewind();
              engSound[revs].setGain(-50); 

@@ -13,6 +13,7 @@ class Car {
 
     PImage sprite;
     Engine engine;
+    AudioPlayer crash;
 
     private final float accel = 0.1;       // car acceleration rate
     private final float brake = 0.8;       // car braking rate
@@ -27,7 +28,8 @@ class Car {
 
     public Car() {
         sprite = loadImage("assets/scaled/car.png", "png");
-        engine = new Engine();    // TODO: fix engine sounds
+        engine = new Engine();
+        crash = minim.loadFile("assets/sounds/Car Crash.mp3");
     }
 
     void update() {
@@ -115,6 +117,10 @@ class Car {
         speed = 0;
         steer = 0;
         println("u ded boi");
+        if(!crash.isPlaying()){
+            crash.rewind();
+            crash.play();
+        }
     }
     
     /**
