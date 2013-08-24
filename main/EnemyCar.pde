@@ -1,8 +1,12 @@
 static PImage omgSign;
 class EnemyCar extends Obstacle {
 
+    boolean passed = false; // whether the players car has passed this car
 
     PVector vel;
+
+    float value = 0;
+
 
     EnemyCar(String fileName, PVector pos, PVector vel) {
         super(fileName, pos);
@@ -13,6 +17,12 @@ class EnemyCar extends Obstacle {
 
     void update() {
         pos.add(vel);
+
+        if (!passed && pos.y >= car.pos.y) {
+            passed = true;
+            value = abs(pos.x - car.pos.x) * abs(vel.y - car.vel.y);
+            score += value;
+        }
     }
 
     void draw() {

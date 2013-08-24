@@ -136,7 +136,7 @@ class RoadTile {
         img = loadImage(fileName);
 
         lanes_slow.add(375.0);
-        lanes_slow.add(475.0);
+        lanes_slow.add(480.0);
         lanes_slow.add(585.0);
         lanes_fast.add(685.0);
         lanes_fast.add(795.0);
