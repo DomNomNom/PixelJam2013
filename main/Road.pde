@@ -8,7 +8,7 @@ class Road {
     ArrayList<Float>   drawOffsets = new ArrayList<Float>();
 
     ArrayList<Obstacle> obstacles;
-    int obstaclePeriod = 100; // every 100 ticks, spawn a obstacle
+    int obstaclePeriod = 100; // every X ticks, spawn a obstacle
     int obstacleTime = obstaclePeriod;
 
     float top;
@@ -40,12 +40,11 @@ class Road {
             drawIndexes.add(next);
             drawOffsets.add(top - nextTile.img.height);
             top -= nextTile.img.height;
-            // println("new top: " + drawOffsets);
         }
 
         // generate obstacles
         ++obstacleTime;
-        if (obstacleTime >= 0 ) {
+        if (obstacleTime >= obstaclePeriod) {
             obstacleTime = 0;
             obstacles.add(generateObstacle());
         }
@@ -58,6 +57,7 @@ class Road {
             if (o.isColliding()) {
                 if(o instanceof Powerup){
                     ((Powerup)o).applyEffect();
+                    obstacles.remove(i);
                 } else {
                     car.collide();
                 }
@@ -75,7 +75,7 @@ class Road {
     }
 
     Obstacle generateObstacle() {
-        return new Obstacle("assets/scaled/barrier.png", new PVector(top, center.x));
+        return new Obstacle("assets/scaled/barrier.png", new PVector(center.x, top));
     }
 
     void draw() {
@@ -95,8 +95,18 @@ class Road {
 class RoadTile {
     PImage img;
 
+    ArrayList<Float> lanes_slow = new ArrayList<Float>();
+    ArrayList<Float> lanes_fast = new ArrayList<Float>();
+
     RoadTile(String fileName) {
         img = loadImage(fileName);
+
+        lanes_slow.add(475.0);
+        lanes_slow.add(540.0);
+        lanes_slow.add(605.0);
+        lanes_fast.add(670.0);
+        lanes_fast.add(735.0);
+        lanes_fast.add(800.0);
     }
 
     void draw(float y) {
@@ -105,6 +115,5 @@ class RoadTile {
             center.x, y,
             img.width, img.height
         );
-
     }
 }

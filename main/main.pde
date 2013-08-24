@@ -41,14 +41,6 @@ void setup() {
     car = new Car();
     cam = new Camera();
     road = new Road();
-<<<<<<< HEAD
-=======
-    obstacles = new ArrayList<Obstacle>();
-    obstacles.add(new Obstacle("assets/scaled/barrier.png", new PVector(center.x, -1000)));
-    obstacles.add(new Obstacle("assets/scaled/barrier.png", new PVector(center.x, -3000)));
-    obstacles.add(new Obstacle("assets/scaled/barrier.png", new PVector(center.x, -5000)));
-    obstacles.add(new Beer(new PVector(center.x-200, -500)));
->>>>>>> 4248e29526997fa8ad3dd3ea254eebb6cfd19f6c
 
     prevMillis = millis();
 }
@@ -80,6 +72,8 @@ void draw() {
         fill(color(255, 0, 0));
     popMatrix();
     pgl.endPGL();
+
+    println("car " + car.pos.x);
 }
 
 void keyPressed()  { key(keyCode, true);  }
