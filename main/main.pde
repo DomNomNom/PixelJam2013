@@ -16,6 +16,8 @@ Camera cam;
 Road road;
 
 PVector debugPoint = new PVector(-100, -100);
+float drunk = 0;
+int drinkStart;
 
 void setup() {
     ellipseMode(CENTER);
@@ -39,6 +41,14 @@ void setup() {
     car = new Car();
     cam = new Camera();
     road = new Road();
+<<<<<<< HEAD
+=======
+    obstacles = new ArrayList<Obstacle>();
+    obstacles.add(new Obstacle("assets/scaled/barrier.png", new PVector(center.x, -1000)));
+    obstacles.add(new Obstacle("assets/scaled/barrier.png", new PVector(center.x, -3000)));
+    obstacles.add(new Obstacle("assets/scaled/barrier.png", new PVector(center.x, -5000)));
+    obstacles.add(new Beer(new PVector(center.x-200, -500)));
+>>>>>>> 4248e29526997fa8ad3dd3ea254eebb6cfd19f6c
 
     prevMillis = millis();
 }
@@ -61,7 +71,7 @@ void draw() {
     pgl.beginPGL();
     pushMatrix();
         translate(center.x, center.y);
-        rotate(0.5*HALF_PI*sin(0.01*millis()));
+        rotate(0.5*drunk*HALF_PI*sin(0.01*drunk*(millis()-drinkStart)));
         translate(-center.x, -center.y);
         cam.doTranslate();
 
@@ -75,6 +85,10 @@ void draw() {
 void keyPressed()  { key(keyCode, true);  }
 void keyReleased() { key(keyCode, false); }
 private void key(int keyCode, boolean pressed){
+    if(key == 'd' && pressed){
+        if(drunk == 0) drinkStart = millis();
+        drunk += 0.05;
+    }
     if (key == CODED) {
         switch (keyCode) {
             case LEFT:

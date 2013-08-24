@@ -54,9 +54,13 @@ class Road {
         for (int i=obstacles.size()-1; i>=0; --i) {
             Obstacle o = obstacles.get(i);
             o.update();
+
             if (o.isColliding()) {
-                car.collide();
-                // if (o instanceof )
+                if(o instanceof Powerup){
+                    ((Powerup)o).applyEffect();
+                } else {
+                    car.collide();
+                }
             }
             else if (o.pos.y > bot) { // remove if too far down
                 obstacles.remove(i);

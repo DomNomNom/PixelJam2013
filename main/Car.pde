@@ -4,22 +4,22 @@ class Car {
     PVector pos = new PVector(450, 0);
     PVector vel = new PVector(0, 0);
     PVector facing = new PVector(0, -1);
-    float speed = 0, maxSpeed = 40;
+    float speed = 0, maxSpeed = 30;
     float steer = 0;
     public PVector[] collisionPts;
     public boolean dead = false;
 
     PImage sprite;
 
-    private final float accel = 0.4;       // car acceleration rate
+    private final float accel = 0.2;       // car acceleration rate
     private final float brake = 0.8;       // car braking rate
-    private final float turnFactor = 0.03; // car steering rate
-    private final float turnLimit = 0.04;  // car steering limit
-    private final float drag = 0.12;        // air friction
+    private final float turnFactor = 0.028; // car steering rate
+    private final float turnLimit = 0.02;  // car steering limit
+    private final float drag = 0.12;       // air friction
     private final float turnFriction = 0.9999;   // car steering limit
 
-    private final float steerReset = 0.1;   // car steering limit
-    private final float steeringLimit = HALF_PI/2;  // game steering limit (radians)
+    private final float steerReset = 0.075;   // car steering limit
+    private final float steeringLimit = HALF_PI*0.3;  // game steering limit (radians)
     private final int roadLimit = 200;
 
     public Car() {
@@ -69,8 +69,8 @@ class Car {
             if(speed < 0) speed = 0;
         }
         if(Input.down){
-            speed -= brake;
-            if(speed < 0) speed = 0;
+            speed -= brake*5;
+            if(speed < -maxSpeed*0.6) speed = -maxSpeed*0.6;
         }
         facing.normalize();
         vel.set(facing.x, facing.y);
@@ -96,7 +96,9 @@ class Car {
     
     public void collide(){
         // explode!
-        dead = true;
+        //dead = true;
+        speed = 0;
+        steer = 0;
         println("u ded boi");
     }
     
