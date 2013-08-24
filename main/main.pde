@@ -53,6 +53,12 @@ void setup() {
     gui = new GUI();
 
     prevMillis = millis();
+    ArrayList<Float> w = new ArrayList<Float>();
+    w.add(1.0);
+    w.add(5.0);
+    for (int i=0; i<30; ++i) {
+        println("var: "+weightedChoice(w));
+    }
 }
 
 void draw() {
@@ -66,8 +72,7 @@ void draw() {
             car.update();
             cam.update();
             road.update();
-            car.engine.update();
-            
+
             if(drunk > 0){
                 drunk -= 0.0002;
                 if(drunk < 0) drunk = 0;

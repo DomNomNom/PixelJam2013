@@ -41,25 +41,3 @@ class Obstacle {
         );
     }
 };
-
-
-class EnemyCar extends Obstacle {
-    PVector vel;
-
-    EnemyCar(String fileName, PVector pos, PVector vel) {
-        super(fileName, pos);
-        this.vel = vel;
-    }
-
-    void update() {
-        pos.add(vel);
-    }
-
-    void draw() {
-        pushMatrix();
-
-        super.draw();
-
-        popMatrix();
-    }
-}
