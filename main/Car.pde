@@ -14,7 +14,7 @@ class Car {
     PImage sprite;
     Engine engine;
     AudioPlayer crash;
-    boolean useEngine = false;
+    boolean useEngine = minim.getLineOut().hasControl(Controller.GAIN);
 
     private final float accel = 0.1;       // car acceleration rate
     private final float brake = 0.8;       // car braking rate

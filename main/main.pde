@@ -6,7 +6,7 @@ GL2 gl;
 PGraphicsOpenGL pgl;
 
 Minim minim;
-AudioPlayer player;
+AudioPlayer bgm;
 
 PVector center; // center of the screen
 PVector windowSize;
@@ -47,6 +47,8 @@ void setup() {
     gl.glBlendFunc (GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA);
 
     minim = new Minim(this);
+    bgm = minim.loadFile("assets/sounds/background.mp3");
+    bgm.loop();
     car = new Car();
     cam = new Camera();
     road = new Road();
@@ -72,9 +74,10 @@ void draw() {
             car.update();
             cam.update();
             road.update();
-
+            
+            println(drunk);
             if(drunk > 0){
-                drunk -= 0.0002;
+                drunk -= 0.00025;
                 if(drunk < 0) drunk = 0;
             }
         }
@@ -84,7 +87,7 @@ void draw() {
     pgl.beginPGL();
     pushMatrix();
         translate(center.x, center.y);
-        rotate(0.5*drunk*HALF_PI*sin(0.01*drunk*(millis()-drinkStart)));
+        rotate(0.4*drunk*HALF_PI*sin(0.03*drunk*(millis()-drinkStart)));
         translate(-center.x, -center.y);
         cam.doTranslate();
 

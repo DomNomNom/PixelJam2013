@@ -28,13 +28,14 @@ class Engine {
              engSound[revs].rewind();
              engSound[revs].setGain(-50); 
              engSound[revs].play();
-             engSound[revs].shiftGain(-5, 0, 200);
-             engSound[prevRev].shiftGain(0, -25, 500);
+             engSound[revs].shiftGain(-5, -1, 200);
+             engSound[prevRev].shiftGain(-1, -25, 500);
              playedTime = time;
              prevRev = revs;
          }
          if(time - playedTime > 4000){
              engSound[prevRev].rewind();
+             engSound[revs].setGain(-1); 
              engSound[prevRev].play();
              playedTime = time;
          }
