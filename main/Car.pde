@@ -16,15 +16,15 @@ class Car {
     AudioPlayer crash, tireScreech;
     boolean useEngine = minim.getLineOut().hasControl(Controller.GAIN);
 
-    private final float accel = 0.1;       // car acceleration rate
-    private final float brake = 0.8;       // car braking rate
-    private final float turnFactor = 0.028; // car steering rate
-    private final float turnLimit = 0.02;  // car steering limit
-    private final float drag = 0.12;       // air friction
-    private final float turnFriction = 0.9999;   // car steering limit
+    private final float accel = 0.09;      // car acceleration rate    (0.1)
+    private final float brake = 0.8;       // car braking rate         (0.8)
+    private final float turnFactor = 0.04; // car steering rate        (0.04)
+    private final float turnLimit = 0.03;  // car steering limit       (0.03)
+    private final float drag = 0.12;       // air friction             (0.12)
+    private final float turnFriction = 0.987; // steering slowdown 
 
-    private final float steerReset = 0.075;   // car steering limit
-    private final float steeringLimit = HALF_PI*0.5;  // game steering limit (radians)
+    private final float steerReset = 0.1;    // car steering limit     (0.1)
+    private final float steeringLimit = HALF_PI*0.6;  // game steering limit, radians (HALF_PI*0.6)
     private final int roadLimit = 200;
 
     // things for tire marks
@@ -180,8 +180,8 @@ class Car {
     /* in this case, the corners of the car (clockwise)
     /**/
     public PVector[] getCollisionPts(){
-        float wid = sprite.width*0.9;
-        float hgt = sprite.height*0.9;
+        float wid = sprite.width*0.88;
+        float hgt = sprite.height*0.88;
         PVector[] pts = new PVector[4];
         pts[0] = new PVector( wid/2, hgt/2);
         pts[1] = new PVector( wid/2,-hgt/2);
