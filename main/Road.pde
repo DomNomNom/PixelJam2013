@@ -8,7 +8,7 @@ class Road {
     ArrayList<Float>   drawOffsets = new ArrayList<Float>();
 
     ArrayList<Obstacle> obstacles;
-    int obstaclePeriod = 10; // every X ticks, spawn a obstacle
+    int obstaclePeriod = 100; // every X ticks, spawn a obstacle
     int obstacleTime = obstaclePeriod;
 
     float top;
@@ -96,9 +96,8 @@ class Road {
         PVector vel = new PVector(0, 7);
         if (fast) vel.y *= -1;
 
-        PVector startPos = new PVector(lane, top);
+        PVector startPos = new PVector(lane, cam.top - 400);
         // if (fast) startPos.y += topTile.img.height;
-        startPos.y -= topTile.img.height/2;
 
         EnemyCar e = new EnemyCar(randomCar(), startPos, vel);
         obstacles.add(e);
