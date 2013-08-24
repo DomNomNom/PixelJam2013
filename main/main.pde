@@ -1,8 +1,12 @@
 import javax.media.opengl.*;
 import processing.opengl.*;
 import javax.media.opengl.GL2;
+import ddf.minim.*;
 GL2 gl;
 PGraphicsOpenGL pgl;
+
+Minim minim;
+AudioPlayer player;
 
 PVector center; // center of the screen
 PVector windowSize;
@@ -46,6 +50,10 @@ void setup() {
     cam = new Camera();
     road = new Road();
     gui = new GUI();
+    
+    minim = new Minim(this);
+    player = minim.loadFile("assets/sounds/Engine loop.mp3");
+    player.loop();
 
     prevMillis = millis();
 }
