@@ -7,6 +7,7 @@ class GUI {
     }
 
     void update() {
+        if(!bgm.isPlaying()) bgm.loop();
     }
 
     void draw() {
