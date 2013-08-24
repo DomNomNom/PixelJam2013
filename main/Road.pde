@@ -101,6 +101,7 @@ class Road {
 
         EnemyCar e = new EnemyCar(randomCar(), startPos, vel);
         obstacles.add(e);
+
         // return new Obstacle("assets/scaled/barrier.png", new PVector(center.x, top));
     }
 
@@ -163,6 +164,5 @@ int weightedChoice(ArrayList<Float> weights) {
     }
 
     return choice;
-}
-
+};
 

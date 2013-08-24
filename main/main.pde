@@ -1,8 +1,12 @@
 import javax.media.opengl.*;
 import processing.opengl.*;
 import javax.media.opengl.GL2;
+import ddf.minim.*;
 GL2 gl;
 PGraphicsOpenGL pgl;
+
+Minim minim;
+AudioPlayer player;
 
 PVector center; // center of the screen
 PVector windowSize;
@@ -42,6 +46,7 @@ void setup() {
     gl.glEnable(GL.GL_BLEND);
     gl.glBlendFunc (GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA);
 
+    minim = new Minim(this);
     car = new Car();
     cam = new Camera();
     road = new Road();
