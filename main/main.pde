@@ -47,8 +47,8 @@ void setup() {
     gl.glBlendFunc (GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA);
 
     minim = new Minim(this);
-    //bgm = minim.loadFile("assets/sounds/background.mp3");
-    //bgm.loop();
+    bgm = minim.loadFile("assets/sounds/background.mp3");
+    bgm.loop();
     car = new Car();
     cam = new Camera();
     road = new Road();

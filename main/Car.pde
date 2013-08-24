@@ -38,7 +38,6 @@ class Car {
 
     public Car() {
         sprite = loadImage("assets/scaled/car.png", "png");
-        engine = new Engine();
         crash = minim.loadFile("assets/sounds/Car Crash.mp3");
         for (int i=0; i<tireMarks.length; ++i)
             tireMarks[i] = new TireMark();
