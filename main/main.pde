@@ -50,7 +50,6 @@ void setup() {
 
     minim = new Minim(this);
     bgm = minim.loadFile("assets/sounds/background.mp3");
-    bgm.loop();
     beerSound = minim.loadFile("assets/sounds/beer.mp3");
     boostSound = minim.loadFile("assets/sounds/boost.mp3");
     car = new Car();
@@ -72,6 +71,7 @@ void draw() {
             car.update();
             cam.update();
             road.update();
+            gui.update();
 
             if(drunk > 0){
                 drunk -= 0.00025;
@@ -80,7 +80,7 @@ void draw() {
         }
         updateAccumulator -= updatePeriod;
     }
-
+    
     pgl.beginPGL();
     pushMatrix();
         translate(center.x, center.y);
@@ -123,6 +123,7 @@ void stop(){
     beerSound.close();
     boostSound.close();
     for(AudioPlayer a : car.engine.engSound){
+        a.pause();
         a.close();
     }
     minim.stop();

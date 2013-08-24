@@ -22,11 +22,11 @@ class Boost extends Powerup{
 };
 
 class Beer extends Powerup{
-    Beer(PVector pos) {super("assets/powerups/beer.png", pos);}
+    Beer(PVector pos) {super("assets/scaled/beer.png", pos);}
 
     void applyEffect(){
         drinkStart = millis();
-        drunk += 0.2;
+        drunk += 0.4;
         score += 500;
         beerSound.rewind();
         beerSound.play();

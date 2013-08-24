@@ -1,4 +1,6 @@
 import java.util.*;
+import java.io.FileNotFoundException;
+import java.lang.RuntimeException;
 
 class Road {
     float baseLine;
@@ -18,15 +20,9 @@ class Road {
 
     Road() {
         obstacles = new ArrayList<Obstacle>();
-        // obstacles.add(new Obstacle("assets/scaled/barrier.png", new PVector(center.x, -1000)));
-        // obstacles.add(new Obstacle("assets/scaled/barrier.png", new PVector(center.x, -3000)));
-        // obstacles.add(new Obstacle("assets/scaled/barrier.png", new PVector(center.x, -5000)));
-        // obstacles.add(new Beer(new PVector(center.x-50, -500)));
-        // obstacles.add(new Boost(new PVector(center.x-250, -1800)));
-        // obstacles.add(new Boost(new PVector(center.x+170, -3500)));
-
-        // tiles.add(new RoadTile("assets/TestRoad.png"));
-        tiles.add(new RoadTile("assets/scaled/Road.png"));
+        tiles.add(new RoadTile("assets/scaled/Road.png", "Road"));
+        tiles.add(new RoadTile("assets/scaled/Town.png", "Town"));
+        tiles.add(new RoadTile("assets/scaled/TrainTracks.png", "TrainTracks"));
         drawIndexes.add(0);
         drawOffsets.add(0.0);
 
@@ -37,7 +33,7 @@ class Road {
     void update() {
 
         // make sure all things are tiled
-        while (top > cam.top - windowSize.y) {
+        while (top > cam.top - 1000) {
             Integer next = nextTileIndex();
             RoadTile nextTile = tiles.get(next);
             drawIndexes.add(next);
@@ -75,18 +71,32 @@ class Road {
                 obstacles.remove(i);
             }
         }
-
-
     }
 
     Integer nextTileIndex() {
+        RoadTile last = lastTile();
+        float rand = random(last.probSum);
+        for(RoadTransition t : last.transitions){
+            rand -= t.prob;
+            if(rand <= 0){
+                for(int i = 0; i < tiles.size(); i++){
+                    if(tiles.get(i).name.equals(t.name)) return i;
+                }
+            }
+        }
+        
+        println("WARNING: Failed to generate a new tile? Returning default.");
         return 0;
+    }
+    
+    RoadTile lastTile() {
+        return(tiles.get(drawIndexes.get(drawIndexes.size()-1)));
     }
 
     void generateObstacle() {
-        RoadTile topTile = tiles.get(tiles.size()-1);
+        RoadTile topTile = lastTile();
         if (topTile.lanes_all.size() == 0) {
-            println("trying to generate obstacle for tile with no lanes");
+            //println("trying to generate obstacle for tile with no lanes");
             return;
         }
 
@@ -96,7 +106,7 @@ class Road {
         PVector vel = new PVector(0, -7);
         if (fast) vel.y *= -1;
 
-        PVector startPos = new PVector(lane, cam.top - (fast? 1000 : 300));
+        PVector startPos = new PVector(lane, cam.top - (fast? 1200 : 600));
         // if (fast) startPos.y += topTile.img.height;
 
         EnemyCar e = new EnemyCar(randomCar(), startPos, vel);
@@ -123,38 +133,6 @@ class Road {
     }
 };
 
-
-class RoadTile {
-    PImage img;
-
-    ArrayList<Float> lanes_slow = new ArrayList<Float>();
-    ArrayList<Float> lanes_fast = new ArrayList<Float>();
-    ArrayList<Float> lanes_all  = new ArrayList<Float>();
-
-
-    RoadTile(String fileName) {
-        img = loadImage(fileName);
-
-        lanes_slow.add(375.0);
-        lanes_slow.add(480.0);
-        lanes_slow.add(585.0);
-        lanes_fast.add(685.0);
-        lanes_fast.add(795.0);
-        lanes_fast.add(895.0);
-
-        for (Float lane : lanes_slow) lanes_all.add(lane);
-        for (Float lane : lanes_fast) lanes_all.add(lane);
-    }
-
-    void draw(float y) {
-        image(
-            img,
-            center.x, y,
-            img.width, img.height
-        );
-    }
-};
-
 int weightedChoice(ArrayList<Float> weights) {
     float sum = 0;
     for (Float f : weights)
@@ -170,4 +148,3 @@ int weightedChoice(ArrayList<Float> weights) {
 
     return choice;
 };
-

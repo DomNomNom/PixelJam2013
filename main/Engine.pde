@@ -17,7 +17,6 @@ class Engine {
         engSound[7] = minim.loadFile("assets/sounds/engine7.mp3");
         engSound[8] = minim.loadFile("assets/sounds/engine8.mp3");
         engSound[9] = minim.loadFile("assets/sounds/engine9.mp3");
-        
     }
    
     void update(){ 
