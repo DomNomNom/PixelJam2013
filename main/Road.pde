@@ -21,6 +21,9 @@ class Road {
         // obstacles.add(new Obstacle("assets/scaled/barrier.png", new PVector(center.x, -1000)));
         // obstacles.add(new Obstacle("assets/scaled/barrier.png", new PVector(center.x, -3000)));
         // obstacles.add(new Obstacle("assets/scaled/barrier.png", new PVector(center.x, -5000)));
+        obstacles.add(new Beer(new PVector(center.x-50, -500)));
+        obstacles.add(new Boost(new PVector(center.x-250, -1800)));
+        obstacles.add(new Boost(new PVector(center.x+170, -3500)));
 
         // tiles.add(new RoadTile("assets/TestRoad.png"));
         tiles.add(new RoadTile("assets/scaled/Road.png"));

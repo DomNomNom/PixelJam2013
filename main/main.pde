@@ -15,9 +15,13 @@ Car car;
 Camera cam;
 Road road;
 
+GUI gui;
+ArrayList<Obstacle> obstacles;
+
 PVector debugPoint = new PVector(-100, -100);
 float drunk = 0;
 int drinkStart;
+int score = 0;
 
 void setup() {
     ellipseMode(CENTER);
@@ -41,6 +45,7 @@ void setup() {
     car = new Car();
     cam = new Camera();
     road = new Road();
+    gui = new GUI();
 
     prevMillis = millis();
 }
@@ -73,7 +78,7 @@ void draw() {
     popMatrix();
     pgl.endPGL();
 
-    println("car " + car.pos.x);
+    gui.draw();
 }
 
 void keyPressed()  { key(keyCode, true);  }
