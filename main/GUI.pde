@@ -12,7 +12,7 @@ class GUI {
     void draw() {
         textFont(font);
         fill(240);
-        text("Score: " + score, 20, 20);
-        text("Speed: " + (int)(car.speed*4), 20, 60);
+        text("Score: " + score, 20, 40);
+        text("Speed: " + (int)(car.speed*3), 20, 80);
     }
 }

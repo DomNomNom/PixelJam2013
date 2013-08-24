@@ -61,6 +61,11 @@ void draw() {
             car.update();
             cam.update();
             road.update();
+            
+            if(drunk > 0){
+                drunk -= 0.0002;
+                if(drunk < 0) drunk = 0;
+            }
         }
         updateAccumulator -= updatePeriod;
     }
