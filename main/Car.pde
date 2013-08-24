@@ -24,8 +24,20 @@ class Car {
     private final float steeringLimit = HALF_PI*0.3;  // game steering limit (radians)
     private final int roadLimit = 200;
 
+    // things for tire marks
+    TireMark[] tireMarks = new TireMark[50];
+    int nextTireMarkIndex = 0;
+    PVector prevTire_l = new PVector(0,0);
+    PVector prevTire_r = new PVector(0,0);
+    PVector nextTire_l = new PVector(0,0);
+    PVector nextTire_r = new PVector(0,0);
+    boolean marking = true;
+
     public Car() {
         sprite = loadImage("assets/scaled/car.png", "png");
+
+        for (int i=0; i<tireMarks.length; ++i)
+            tireMarks[i] = new TireMark();
     }
 
     void update() {
@@ -90,13 +102,32 @@ class Car {
         vel.mult(speed);
         pos.add(vel);
         pos.x = constrain(pos.x, roadLimit, windowSize.x-roadLimit);
-        
+
         collisionPts = getCollisionPts();
+
+        prevTire_r = nextTire_r;
+        prevTire_l = nextTire_l;
+        nextTire_r = collisionPts[1];
+        nextTire_l = collisionPts[2];
+
+        if (marking) {
+            tireMarks[nextTireMarkIndex].from = prevTire_r;
+            tireMarks[nextTireMarkIndex].to   = nextTire_r;
+            nextTireMarkIndex = (nextTireMarkIndex+1) % tireMarks.length;
+
+            tireMarks[nextTireMarkIndex].from = prevTire_l;
+            tireMarks[nextTireMarkIndex].to   = nextTire_l;
+            nextTireMarkIndex = (nextTireMarkIndex+1) % tireMarks.length;
+        }
+
     }
 
     void draw() {
 
         pushMatrix();
+        for (TireMark t : tireMarks)
+            t.draw();
+
         translate(pos.x, pos.y);
         rotate(facing.heading() + HALF_PI);
 
@@ -106,7 +137,7 @@ class Car {
         //fill(220, 50, 0); stroke(220, 50, 0);
         //for(PVector p : getCollisionPts()) rect(p.x, p.y, 4, 4); // collision bounds
     }
-    
+
     public void collide(){
         // explode!
         //dead = true;
@@ -114,9 +145,9 @@ class Car {
         steer = 0;
         println("u ded boi");
     }
-    
+
     /**
-    /* returns the points of collision of this object- 
+    /* returns the points of collision of this object-
     /* in this case, the corners of the car (clockwise)
     /**/
     public PVector[] getCollisionPts(){
@@ -132,5 +163,20 @@ class Car {
             pts[i].add(pos);
         }
         return pts;
+    }
+};
+
+
+class TireMark {
+    PVector from = new PVector(-1000, 0);
+    PVector to   = new PVector(-1000, 0);
+
+    void draw() {
+        // strokeWidth(5);
+        stroke(color(0));
+        line(
+            from.x, from.y,
+            to.x,   to.y
+        );
     }
 };

@@ -1,4 +1,4 @@
-
+import java.util.*;
 
 class Road {
     float baseLine;
@@ -54,7 +54,7 @@ class Road {
         ++obstacleTime;
         if (obstacleTime >= obstaclePeriod) {
             obstacleTime = 0;
-            obstacles.add(generateObstacle());
+            generateObstacle();
         }
 
         // obstacle collision
@@ -82,9 +82,26 @@ class Road {
         return 0;
     }
 
-    Obstacle generateObstacle() {
-        return new
-        return new Obstacle("assets/scaled/barrier.png", new PVector(center.x, top));
+    void generateObstacle() {
+        RoadTile topTile = tiles.get(tiles.size()-1);
+        if (topTile.lanes_all.size() == 0) {
+            println("trying to generate obstacle for tile with no lanes");
+            return;
+        }
+
+        Float lane = topTile.lanes_all.get(int(random(topTile.lanes_all.size())));
+        boolean fast = topTile.lanes_fast.contains(lane);
+
+        PVector vel = new PVector(0, 7);
+        if (fast) vel.y *= -1;
+
+        PVector startPos = new PVector(lane, top);
+        // if (fast) startPos.y += topTile.img.height;
+        startPos.y -= topTile.img.height/2;
+
+        EnemyCar e = new EnemyCar(randomCar(), startPos, vel);
+        obstacles.add(e);
+        // return new Obstacle("assets/scaled/barrier.png", new PVector(center.x, top));
     }
 
     void draw() {
@@ -106,16 +123,21 @@ class RoadTile {
 
     ArrayList<Float> lanes_slow = new ArrayList<Float>();
     ArrayList<Float> lanes_fast = new ArrayList<Float>();
+    ArrayList<Float> lanes_all  = new ArrayList<Float>();
+
 
     RoadTile(String fileName) {
         img = loadImage(fileName);
 
+        lanes_slow.add(375.0);
         lanes_slow.add(475.0);
-        lanes_slow.add(540.0);
-        lanes_slow.add(605.0);
-        lanes_fast.add(670.0);
-        lanes_fast.add(735.0);
-        lanes_fast.add(800.0);
+        lanes_slow.add(585.0);
+        lanes_fast.add(685.0);
+        lanes_fast.add(795.0);
+        lanes_fast.add(895.0);
+
+        for (Float lane : lanes_slow) lanes_all.add(lane);
+        for (Float lane : lanes_fast) lanes_all.add(lane);
     }
 
     void draw(float y) {
@@ -125,4 +147,22 @@ class RoadTile {
             img.width, img.height
         );
     }
+};
+
+int weightedChoice(ArrayList<Float> weights) {
+    float sum = 0;
+    for (Float f : weights)
+        sum += f;
+
+    int choice;
+    float r = random(sum);
+    for (choice=0; choice<weights.size(); ++choice) {
+        r -= weights.get(choice);
+        if (r < 0)
+            break;
+    }
+
+    return choice;
 }
+
+
