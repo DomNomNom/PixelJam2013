@@ -14,7 +14,6 @@ int updateAccumulator = 0;
 Car car;
 Camera cam;
 Road road;
-ArrayList<Obstacle> obstacles;
 
 PVector debugPoint = new PVector(-100, -100);
 
@@ -40,10 +39,6 @@ void setup() {
     car = new Car();
     cam = new Camera();
     road = new Road();
-    obstacles = new ArrayList<Obstacle>();
-    obstacles.add(new Obstacle("assets/scaled/barrier.png", new PVector(center.x, -1000)));
-    obstacles.add(new Obstacle("assets/scaled/barrier.png", new PVector(center.x, -3000)));
-    obstacles.add(new Obstacle("assets/scaled/barrier.png", new PVector(center.x, -5000)));
 
     prevMillis = millis();
 }
@@ -53,15 +48,10 @@ void draw() {
     int millis = millis();
     updateAccumulator += millis - prevMillis;
     prevMillis = millis;
+    updateAccumulator = constrain(updateAccumulator, 0, 200);
     while (updateAccumulator > 0) {
         if(!car.dead){
             car.update();
-            for (Obstacle o : obstacles) {
-                o.update();
-                if (o.isColliding()) {
-                    car.collide();
-                }
-            }
             cam.update();
             road.update();
         }
@@ -76,7 +66,6 @@ void draw() {
         cam.doTranslate();
 
         road.draw();
-        for (Obstacle o : obstacles) o.draw();
         car.draw();
         fill(color(255, 0, 0));
     popMatrix();
