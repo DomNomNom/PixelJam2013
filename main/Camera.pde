@@ -10,7 +10,7 @@ class Camera {
 
     void update() {
         carLine = center.y * (
-            1.7// + car.vel.mag() / car.maxSpeed
+            1.6 // + car.vel.mag() / car.maxSpeed
         );
 
         top = -(carLine-car.pos.y);

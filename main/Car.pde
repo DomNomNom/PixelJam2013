@@ -21,7 +21,7 @@ class Car {
     private final float turnFactor = 0.04; // car steering rate        (0.04)
     private final float turnLimit = 0.03;  // car steering limit       (0.03)
     private final float drag = 0.12;       // air friction             (0.12)
-    private final float turnFriction = 0.987; // steering slowdown 
+    private final float turnFriction = 0.987; // steering slowdown
 
     private final float steerReset = 0.1;    // car steering limit     (0.1)
     private final float steeringLimit = HALF_PI*0.6;  // game steering limit, radians (HALF_PI*0.6)
@@ -36,6 +36,8 @@ class Car {
     PVector nextTire_r = new PVector(0,0);
     boolean marking = true;
 
+    public final PVector hitbox; // from center to bottom right corner
+
     public Car() {
         sprite = loadImage("assets/scaled/car.png", "png");
         crash = minim.loadFile("assets/sounds/crash.mp3");
@@ -45,6 +47,12 @@ class Car {
 
         if (useEngine)
             engine = new Engine();    // TODO: fix engine sounds
+
+        hitbox = new PVector(
+            0.88 * sprite.width,
+            0.88 * sprite.height
+        );
+        hitbox.mult(0.5); // half
     }
 
     void update() {
@@ -69,7 +77,7 @@ class Car {
             steer = constrain(steer, -tmpTurnLimit, tmpTurnLimit);
             facing.rotate(steer);
         }
-    
+
         // tire squeal
         marking = (abs(steer) > turnLimit-0.01);
 
@@ -87,7 +95,7 @@ class Car {
                 steer = 0;
             }
         }
-        
+
         // acceleration
         if(Input.up){
             speed += accel;
@@ -110,7 +118,7 @@ class Car {
             //if(speed < 0) speed = 0;                            // brake
             if(speed < -maxSpeed*0.6) speed = -maxSpeed*0.6;    // reverse
         }
-        
+
         facing.normalize();
         vel.set(facing.x, facing.y);
         vel.mult(speed);
@@ -180,13 +188,13 @@ class Car {
     /* in this case, the corners of the car (clockwise)
     /**/
     public PVector[] getCollisionPts(){
-        float wid = sprite.width*0.88;
-        float hgt = sprite.height*0.88;
+        // float wid = sprite.width*0.88;
+        // float hgt = sprite.height*0.88;
         PVector[] pts = new PVector[4];
-        pts[0] = new PVector( wid/2, hgt/2);
-        pts[1] = new PVector( wid/2,-hgt/2);
-        pts[2] = new PVector(-wid/2,-hgt/2);
-        pts[3] = new PVector(-wid/2, hgt/2);
+        pts[0] = new PVector( hitbox.x, hitbox.y);
+        pts[1] = new PVector( hitbox.x,-hitbox.y);
+        pts[2] = new PVector(-hitbox.x,-hitbox.y);
+        pts[3] = new PVector(-hitbox.x, hitbox.y);
         for(int i = 0; i <4; i++){
             local2global(pts[i]);
             // pts[i].rotate(facing.heading() + HALF_PI);

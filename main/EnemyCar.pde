@@ -1,11 +1,24 @@
+float dlerp(float low, float high, float t) {
+  return lerp(low, high, constrain(t, 0 , 1));
+}
+
+
 static PImage omgSign;
+
+
+PFont scoreFont = createFont("Courier New", 32);
 class EnemyCar extends Obstacle {
 
     boolean passed = false; // whether the players car has passed this car
 
     PVector vel;
 
-    float value = 0;
+    // scoring system
+    int value = 0;
+    float value_YOLO = 1000;
+    float value_nothing = 0;
+    float space_YOLO =5;
+    float space_nothing = 150;
 
 
     EnemyCar(String fileName, PVector pos, PVector vel) {
@@ -15,12 +28,27 @@ class EnemyCar extends Obstacle {
             omgSign = loadImage("assets/scaled/warning.png");
     }
 
+
     void update() {
         pos.add(vel);
 
+        // have we just passed the car?
         if (!passed && pos.y >= car.pos.y) {
             passed = true;
-            value = abs(pos.x - car.pos.x) * abs(vel.y - car.vel.y);
+
+            float space = abs(pos.x - car.pos.x) - img.width*.5 - car.hitbox.x; // space between the cars
+            println("space: "+space);
+
+            // calculte the score
+            value = int(
+                dlerp(
+                    value_YOLO,
+                    value_nothing,
+                    (space-space_YOLO) / (space_nothing - space_YOLO)
+                )
+                // * abs(vel.y - car.vel.y)
+            );
+
             score += value;
         }
     }
@@ -39,6 +67,11 @@ class EnemyCar extends Obstacle {
                 rotate(PI);
 
             image(img,0, 0);
+
+
+            textFont(scoreFont);
+            fill(240);
+            text("+" + value, 0, 0);
         }
         popMatrix();
     }
