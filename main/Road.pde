@@ -45,6 +45,12 @@ class Road {
             top -= nextTile.img.height;
         }
 
+        if (drawOffsets.get(0) - tiles.get(drawIndexes.get(0)).img.height > cam.bot) {
+            drawOffsets.remove(0);
+            drawIndexes.remove(0);
+            println("Culling");
+        }
+
         // generate obstacles
         ++obstacleTime;
         if (obstacleTime >= obstaclePeriod) {
