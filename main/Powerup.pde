@@ -9,10 +9,12 @@ class Powerup extends Obstacle{
 };
 
 class Boost extends Powerup{
-    Boost(PVector pos) {super("assets/boost.png", pos);}
+    Boost(PVector pos) {super("assets/powerup.png", pos);}
     
     void applyEffect(){
-        car.speed = car.maxSpeed;
+        car.speed = car.boostSpeed;
+        car.boosting = true;
+        car.boostTime = millis();
     }
 }
 

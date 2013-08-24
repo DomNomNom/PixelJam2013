@@ -4,14 +4,16 @@ class Car {
     PVector pos = new PVector(450, 0);
     PVector vel = new PVector(0, 0);
     PVector facing = new PVector(0, -1);
-    float speed = 0, maxSpeed = 30;
+    float speed = 0, maxSpeed = 15, boostSpeed = 30;
     float steer = 0;
     public PVector[] collisionPts;
     public boolean dead = false;
+    public int boostTime;
+    public boolean boosting;
 
     PImage sprite;
 
-    private final float accel = 0.2;       // car acceleration rate
+    private final float accel = 0.1;       // car acceleration rate
     private final float brake = 0.8;       // car braking rate
     private final float turnFactor = 0.028; // car steering rate
     private final float turnLimit = 0.02;  // car steering limit
@@ -30,13 +32,15 @@ class Car {
         float tmpTurnLimit = lerp(0, turnLimit, constrain(speed/(maxSpeed*0.5), 0, 1));
         if(Input.left){
             if(steer > 0) steer = 0;
-            steer -= lerp(0, turnFactor, 1 - speed/(maxSpeed*1.3));
+            if(boosting) steer -= lerp(0, turnFactor, 1 - speed/(boostSpeed*1.3));
+            else steer -= lerp(0, turnFactor, 1 - speed/(maxSpeed*1.3));
             steer = constrain(steer, -tmpTurnLimit, tmpTurnLimit);
             speed *= turnFriction;
             facing.rotate(steer);
         } else if(Input.right){
             if(steer < 0) steer = 0;
-            steer += lerp(0, turnFactor, 1 - speed/(maxSpeed*1.3));
+            if(boosting) steer += lerp(0, turnFactor, 1 - speed/(boostSpeed*1.3));
+            else steer += lerp(0, turnFactor, 1 - speed/(maxSpeed*1.3));
             steer = constrain(steer, -tmpTurnLimit, tmpTurnLimit);
             speed *= turnFriction;
             facing.rotate(steer);
@@ -63,7 +67,16 @@ class Car {
 
         if(Input.up){
             speed += accel;
+            speed += accel;
             if(speed > maxSpeed) speed = maxSpeed;
+            if(boosting) {
+                float time = millis() - boostTime;
+                if(time < 1500){
+                    speed = boostSpeed;
+                } else if(time < 3000){
+                    speed = lerp(maxSpeed, boostSpeed, (1500 - (time-1500))/1500);
+                } else boosting = false;
+            }
         } else {
             speed -= drag;
             if(speed < 0) speed = 0;
