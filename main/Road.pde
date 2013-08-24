@@ -93,15 +93,15 @@ class Road {
         Float lane = topTile.lanes_all.get(int(random(topTile.lanes_all.size())));
         boolean fast = topTile.lanes_fast.contains(lane);
 
-        PVector vel = new PVector(0, 7);
+        PVector vel = new PVector(0, -7);
         if (fast) vel.y *= -1;
 
-        PVector startPos = new PVector(lane, cam.top - 400);
+        PVector startPos = new PVector(lane, cam.top - (fast? 1000 : 300));
         // if (fast) startPos.y += topTile.img.height;
 
         EnemyCar e = new EnemyCar(randomCar(), startPos, vel);
         obstacles.add(e);
-        
+
         if(random(5) < 1){
             lane = topTile.lanes_all.get(int(random(topTile.lanes_all.size())));
             obstacles.add(randomPowerup(new PVector(lane, cam.top - 400)));

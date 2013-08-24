@@ -20,7 +20,7 @@ class EnemyCar extends Obstacle {
 
 
         if (pos.y < cam.top) {
-            translate(pos.x, cam.top);
+            translate(pos.x, car.pos.y + 70);
             image(omgSign, 0, 0);
         }
         else {
