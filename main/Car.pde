@@ -14,7 +14,7 @@ class Car {
     PImage sprite;
     Engine engine;
     AudioPlayer crash, tireScreech;
-    boolean useEngine = false;// minim.getLineOut().hasControl(Controller.GAIN);
+    boolean useEngine = minim.getLineOut().hasControl(Controller.GAIN);
     Animation rocket, rocketFire;
 
     private final float accel = 0.09;      // car acceleration rate    (0.1)
@@ -191,7 +191,7 @@ class Car {
     public void collide(){
         // explode!
         //dead = true;
-        speed = 0;
+        //speed = 0;
         //steer = 0;
         println("u ded boi");
         if(!crash.isPlaying()){
