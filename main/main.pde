@@ -30,6 +30,7 @@ SelfyOverlay selfyOverlay;
 PImage bridgeSides;
 Animation trainSign;
 boolean trainSignals;
+PImage hashtag;
 
 PVector debugPoint = new PVector(-100, -100);
 float drunk = 0;
@@ -68,6 +69,8 @@ void setup() {
     ts[0] = loadImage("assets/scaled/railwaysign.png");
     ts[1] = loadImage("assets/scaled/railwaysign2.png");
     trainSign = new Animation(ts, new PVector(center.x, 50), 25);
+    
+    hashtag = loadImage("assets/scaled/hashtag.png");
     
     car = new Car();
     cam = new Camera();

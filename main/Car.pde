@@ -241,15 +241,18 @@ class Car {
 };
 
 
-PImage tireTracks = loadImage("assets/scaled/tires.png", "png");
+PImage tireTracks = null;
 class TireMark {
     PVector from = new PVector(-1000, 0);
     PVector to   = new PVector(-1000, 0);
 
 
-    TireMark() {}
+    TireMark() {
+        if(tireTracks != null) tireTracks = loadImage("assets/scaled/tires.png", "png");
+    }
 
     void draw() {
+        if(tireTracks == null) return;
         // strokeWidth(5);
         stroke(color(0));
 

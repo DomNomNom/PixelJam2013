@@ -16,8 +16,6 @@ class Road {
     float top;
     float bot;
 
-
-
     Road() {
         obstacles = new ArrayList<Obstacle>();
         tiles.add(new RoadTile("assets/scaled/Road.png", "Road"));
@@ -59,7 +57,6 @@ class Road {
                 PVector pos = o.pos.get();
                 pos.y += top;
                 if(o.fileName.equals("bridgesides.png")){
-                    println("bridge sides added");
                     Obstacle ob = new Obstacle(bridgeSides, o.fileName, pos);
                     obstacles.add(ob);
                 } else {
@@ -140,10 +137,12 @@ class Road {
 
         EnemyCar e = new EnemyCar(randomCar(), startPos, vel);
         obstacles.add(e);
-
-        if (random(3) < 1) {
+        
+        
+        // generate powerups
+        if (random(5) < 1) {
             lane = topTile.lanes_all.get(int(random(topTile.lanes_all.size())));
-            obstacles.add(randomPowerup(new PVector(lane, cam.top - 400)));
+            obstacles.add(randomPowerup(new PVector(lane, cam.top - 750)));
         }
 
         // return new Obstacle("assets/scaled/barrier.png", new PVector(center.x, top));
