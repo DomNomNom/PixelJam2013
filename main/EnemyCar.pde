@@ -16,8 +16,8 @@ class EnemyCar extends Obstacle {
     int value = 0;
     float value_YOLO = 1000;
     float value_nothing = 0;
-    float space_YOLO = 7;
-    float space_nothing = 150;
+    float space_YOLO = 9;
+    float space_nothing = 120;
 
 
     EnemyCar(String fileName, PVector pos, PVector vel) {

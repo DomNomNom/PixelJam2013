@@ -119,6 +119,10 @@ private void key(int keyCode, boolean pressed){
         if(drunk == 0) drinkStart = millis();
         drunk += 0.05;
     }
+    else if (key == 's' && pressed) {
+        selfyOverlay.selfy();
+    }
+
     if (key == CODED) {
         switch (keyCode) {
             case LEFT:
