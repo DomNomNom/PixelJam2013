@@ -8,6 +8,7 @@ class SelfyOverlay {
     PImage phone;
     PImage glitchScreen;
 
+    int time_start  = 0;
     int time_up     = 0;
     int time_end    = 0;
     int time_flash  = 0;
@@ -33,10 +34,11 @@ class SelfyOverlay {
 
     void selfy() {
         int tim = millis();
+        time_start  = tim       +    0;
         time_up     = tim       + 1000;
         time_flash  = time_up   + 2000;
         time_down   = time_flash+ 2000;
-        time_end    = millis()  + 1000;
+        time_end    = time_down + 1000;
     }
 
     void update() { }
@@ -45,9 +47,11 @@ class SelfyOverlay {
         int tim = millis();
         if (tim < time_end) {
             pushMatrix();
-            // if      (tim < time_up  )   translate(center.x, lerp(center.y*3, center.y, );
-            // else if (tim < time_down)   translate(center.x, center.y);
-            // else                        translate(center.x, center.y);
+            translate(center.x, 0);
+
+            if      (tim < time_up  )   translate(0, lerp(center.y*3, center.y, (tim-time_start)/1000.0));
+            else if (tim < time_down)   translate(0, center.y);
+            else                        translate(0, lerp(center.y, center.y*3, (tim-time_down)/1000.0));
 
             rotate(HALF_PI*-.2);
             if (webcam!=null) {
@@ -70,4 +74,4 @@ class SelfyOverlay {
             popMatrix();
         }
     }
-}
+};
