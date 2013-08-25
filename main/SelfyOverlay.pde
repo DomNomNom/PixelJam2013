@@ -7,6 +7,7 @@ class SelfyOverlay {
 
     PImage phone;
     PImage glitchScreen;
+    PImage whiteScreen;
 
     int time_start  = 0;
     int time_up     = 0;
@@ -17,6 +18,7 @@ class SelfyOverlay {
     SelfyOverlay() {
         phone        = loadImage("assets/scaled/phone.png",        "png");
         glitchScreen = loadImage("assets/scaled/glitchscreen.png", "png");
+        whiteScreen  = loadImage("assets/scaled/whitescreen.png", "png");
         String[] cameras = Capture.list();
         if (cameras.length == 0) {
             println("There are no cameras available for capture.");
@@ -54,17 +56,22 @@ class SelfyOverlay {
             else                        translate(0, lerp(center.y, center.y*3, (tim-time_down)/1000.0));
 
             rotate(HALF_PI*-.2);
-            if (webcam!=null) {
-                if(tim < time_flash && webcam.available())
-                    webcam.read();
-                pushMatrix();
+            pushMatrix();
                 scale(0.8, 0.8);
-                image(webcam, 0, 0);
-                popMatrix();
-            }
-            else {
-                image(glitchScreen, 0, 0);
-            }
+                if (webcam!=null) {
+                    if(tim < time_flash && webcam.available())
+                        webcam.read();
+                    image(webcam, 0, 0);
+                }
+                else {
+                    image(glitchScreen, 0, 0);
+                }
+                if (tim > time_flash && tim < time_flash + 200) {
+                    // fill(255, dlerp(255,0, tim-time_flash));
+                    // rect(0,0, glitchScreen.width, glitchScreen.height);
+                    image(whiteScreen, 0,0);
+                }
+            popMatrix();
 
 
             rotate(HALF_PI);

@@ -34,14 +34,19 @@ class EnemyCar extends Obstacle {
             passed = true;
 
             float space = abs(pos.x - car.pos.x) - img.width*.5 - car.hitbox.x; // space between the cars
+            int distScore = int(dlerp(
+                value_YOLO,
+                value_nothing,
+                (space-space_YOLO) / (space_nothing - space_YOLO)
+            ));
+
+            if (distScore >= 1000) {
+                car.YOLO();
+            }
 
             // calculte the score
             value = int(
-                dlerp(
-                    value_YOLO,
-                    value_nothing,
-                    (space-space_YOLO) / (space_nothing - space_YOLO)
-                )
+                distScore
                 // * abs(vel.y - car.vel.y)
             );
             scoreNotify.notify(pos.x, value);

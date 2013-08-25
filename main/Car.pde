@@ -17,6 +17,9 @@ class Car {
     boolean useEngine = false;// minim.getLineOut().hasControl(Controller.GAIN);
     Animation rocket, rocketFire;
 
+    int YOLO_end = 0;
+    PImage yololo;
+
     private final float accel = 0.09;      // car acceleration rate    (0.1)
     private final float brake = 0.8;       // car braking rate         (0.8)
     private final float turnFactor = 0.04; // car steering rate        (0.04)
@@ -39,8 +42,10 @@ class Car {
 
     public final PVector hitbox; // from center to bottom right corner
 
+
     public Car() {
-        sprite = loadImage("assets/scaled/car.png", "png");
+        sprite      = loadImage("assets/scaled/car.png", "png");
+        yololo      = loadImage("assets/scaled/YOLOtext.png", "png");
         crash = minim.loadFile("assets/sounds/crash.mp3");
         tireScreech = minim.loadFile("assets/sounds/tireScreech.mp3");
         for (int i=0; i<tireMarks.length; ++i)
@@ -168,12 +173,16 @@ class Car {
         }
     }
 
+    public void YOLO() {
+        YOLO_end = millis() + 2000;
+    }
+
     void draw() {
 
         pushMatrix();
         for (TireMark t : tireMarks)
             t.draw();
-        
+
         translate(pos.x, pos.y);
         rotate(facing.heading() + HALF_PI);
 
@@ -182,6 +191,11 @@ class Car {
             rocket.draw();
             if(millis() - boostTime < Boost.time) rocketFire.draw();
         }
+
+        if (YOLO_end > millis()) {
+            image(yololo, 0, 0);
+        }
+
         popMatrix();
 
         //fill(220, 50, 0); stroke(220, 50, 0);
@@ -227,16 +241,29 @@ class Car {
 };
 
 
+PImage tireTracks = loadImage("assets/scaled/tires.png", "png");
 class TireMark {
     PVector from = new PVector(-1000, 0);
     PVector to   = new PVector(-1000, 0);
 
+
+    TireMark() {}
+
     void draw() {
         // strokeWidth(5);
         stroke(color(0));
-        line(
-            from.x, from.y,
-            to.x,   to.y
-        );
+
+        // line(
+        //     from.x, from.y,
+        //     to.x,   to.y
+        // );
+        pushMatrix();
+        translate(to.x, to.y);
+        PVector diff = PVector.sub(from, to);
+        rotate(diff.heading() + HALF_PI);
+
+        // for (int l=0; l<=diff.mag(); l+=tireTracks.height)
+        image(tireTracks, 0,0, tireTracks.width, diff.mag());
+        popMatrix();
     }
 };
