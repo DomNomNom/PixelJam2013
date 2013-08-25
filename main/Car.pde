@@ -204,7 +204,7 @@ class Car {
 
     public void collide(){
         // explode!
-        //dead = true;
+        dead = true;
         //speed = 0;
         //steer = 0;
         println("u ded boi");

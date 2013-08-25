@@ -37,6 +37,14 @@ int drinkStart;
 int score = 0;
 main globalSelfReference = this;
 
+int gameState = 0; // hello, zooom in, play, dead
+PImage gameState0;
+PImage gameState1;
+PImage gameState3;
+int gameState1_end=0;
+
+
+
 void setup() {
 
     // processing draw opions
@@ -62,20 +70,23 @@ void setup() {
     bgm = minim.loadFile("assets/sounds/background.mp3");
     beerSound = minim.loadFile("assets/sounds/beer.mp3");
     boostSound = minim.loadFile("assets/sounds/boost.mp3");
-    trainSound = minim.loadFile("assets/sounds/railwaycrossing.wav"); 
+    trainSound = minim.loadFile("assets/sounds/railwaycrossing.wav");
     bridgeSides = loadImage("assets/scaled/bridgesides.png");
     PImage[] ts = new PImage[2];
-    ts[0] = loadImage("assets/scaled/railwaysign.png");
+    ts[0] = loadImage("assets/scaled/railwaySign.png");
     ts[1] = loadImage("assets/scaled/railwaysign2.png");
     trainSign = new Animation(ts, new PVector(center.x, 50), 25);
-    
+    gameState0 = loadImage("assets/scaled/title.png");
+    gameState1 = loadImage("assets/scaled/title2.png");
+    gameState3 = loadImage("assets/scaled/ending.png");
+
     car = new Car();
     cam = new Camera();
     road = new Road();
     gui = new GUI();
     scoreNotify = new ScoreNotify();
     selfyOverlay = new SelfyOverlay();
-
+    gameState = 0;
 
     prevMillis = millis();
 }
@@ -87,7 +98,11 @@ void draw() {
     prevMillis = millis;
     updateAccumulator = constrain(updateAccumulator, 0, 200);
     while (updateAccumulator > 0) {
-        if(!car.dead){
+        if (gameState == 2 && car.dead) {
+            gameState = 3;
+        }
+
+        if(gameState == 2){
             car.update();
             cam.update();
             road.update();
@@ -115,6 +130,23 @@ void draw() {
         car.draw();
         scoreNotify.draw();
         // fill(color(255, 0, 0));
+
+        // gamestate overlays
+        int tim = millis();
+        if (gameState == 0) {
+            image(gameState0, center.x, center.y);
+        }
+        else if (gameState == 1) {
+            if (gameState1_end > tim) {
+                image(gameState1, center.x, center.y);
+            }
+            else {
+                gameState = 2;
+            }
+        }
+        else if (gameState == 3) {
+            image(gameState3, center.x, center.y);
+        }
     popMatrix();
     pgl.endPGL();
 
@@ -125,6 +157,15 @@ void draw() {
 void keyPressed()  { key(keyCode, true);  }
 void keyReleased() { key(keyCode, false); }
 private void key(int keyCode, boolean pressed){
+
+    if(key == 'q' && pressed){
+        println("qq: " + gameState);
+        if (gameState == 0 || gameState == 3) {
+            gameState = 1;
+            gameState1_end = millis() + 1000;
+        }
+
+    }
     if(key == 'd' && pressed){
         if(drunk == 0) drinkStart = millis();
         drunk += 0.05;

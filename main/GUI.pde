@@ -21,11 +21,11 @@ class GUI {
                 image(overlay, center.x, center.y);
             }
         }
-        fill(240);
+        fill(0);
         text("Score: " + score, 20, 40);
         text("Speed: " + (int)(car.speed*3), 20, 80);
     }
-    
+
     /**
     /* Overlay an image on the gui, underneath the gui elements.
     /* @param img The image to display
