@@ -1,2 +1,13 @@
 t 80 Road
 t 20 Town
+o -820 443 train.png
+o 2120 611 train.png
+o -720 781 train.png
+o 1900 971 train.png
+o 1930 1101 train.png
+o -600 1291 train.png
+o -580 1431 train.png
+o 1800 1621 train.png
+o -460 1905 train.png
+o 1740 2165 train.png
+o -360 2577 train.png

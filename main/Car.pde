@@ -14,7 +14,7 @@ class Car {
     PImage sprite;
     Engine engine;
     AudioPlayer crash, tireScreech;
-    boolean useEngine = minim.getLineOut().hasControl(Controller.GAIN);
+    boolean useEngine = false;// minim.getLineOut().hasControl(Controller.GAIN);
 
     private final float accel = 0.09;      // car acceleration rate    (0.1)
     private final float brake = 0.8;       // car braking rate         (0.8)
@@ -174,8 +174,8 @@ class Car {
     public void collide(){
         // explode!
         //dead = true;
-        speed = 0;
-        steer = 0;
+        //speed = 0;
+        //steer = 0;
         println("u ded boi");
         if(!crash.isPlaying()){
             crash.rewind();

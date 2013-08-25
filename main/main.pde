@@ -49,7 +49,7 @@ void setup() {
     gl.glBlendFunc (GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA);
 
     minim = new Minim(this);
-    bgm = minim.loadFile("assets/sounds/background.mp3");
+    //bgm = minim.loadFile("assets/sounds/background.mp3");
     beerSound = minim.loadFile("assets/sounds/beer.mp3");
     boostSound = minim.loadFile("assets/sounds/boost.mp3");
     car = new Car();
@@ -71,7 +71,7 @@ void draw() {
             car.update();
             cam.update();
             road.update();
-            gui.update();
+            //gui.update();
 
             if(drunk > 0){
                 drunk -= 0.00025;
@@ -128,4 +128,18 @@ void stop(){
     }
     minim.stop();
     super.stop();
+}
+
+int[] getTrainConfig(){
+    switch((int)random(8)){
+        default:
+        case 0: return new int[]{10, 7, 2};
+        case 1: return new int[]{9, 8, 5, 1};
+        case 2: return new int[]{9, 6, 3};
+        case 3: return new int[]{10, 8, 2};
+        case 4: return new int[]{7, 4, 0};
+        case 5: return new int[]{8, 6, 3, 1};
+        case 6: return new int[]{9, 4, 3, 1};
+        case 7: return new int[]{8, 4, 2};
+    }
 }
