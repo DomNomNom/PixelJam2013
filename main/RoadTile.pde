@@ -7,6 +7,7 @@ class RoadTile {
     ArrayList<Float> lanes_fast = new ArrayList<Float>();
     ArrayList<Float> lanes_all  = new ArrayList<Float>();
     ArrayList<RoadTransition> transitions = new ArrayList<RoadTransition>();
+    ArrayList<RoadTileObstacle> obstacles = new ArrayList<RoadTileObstacle>();
 
     RoadTile(String fileName, String n) {
         img = loadImage(fileName);
@@ -36,7 +37,7 @@ class RoadTile {
                     transitions.add(new RoadTransition(p, sc.next()));
                 break;
                 case 'o':
-                
+                    obstacles.add(new RoadTileObstacle(new PVector(sc.nextInt(), sc.nextInt()), sc.next()));
                 break;
                 default:
                 throw new RuntimeException("Expected token character (s, f, t, o); got "+t);
@@ -57,11 +58,18 @@ class RoadTile {
     }
 };
 
-
 class RoadTransition{
     int prob;
     String name;
     RoadTransition(int p, String n){
         prob = p; name = n;
+    }
+}
+
+class RoadTileObstacle{
+    PVector pos;
+    String fileName;
+    RoadTileObstacle(PVector p, String n){
+        pos = p; fileName = n;
     }
 }

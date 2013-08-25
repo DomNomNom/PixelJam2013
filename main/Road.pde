@@ -26,19 +26,40 @@ class Road {
         drawIndexes.add(0);
         drawOffsets.add(0.0);
 
-        top = 0;
-        bot = tiles.get(0).img.height;
+        top = tiles.get(0).img.height * -.5;
+        bot = tiles.get(0).img.height * 0.5;
     }
 
     void update() {
 
-        // make sure all things are tiled
+        // generate new tiles
         while (top > cam.top - 1000) {
             Integer next = nextTileIndex();
             RoadTile nextTile = tiles.get(next);
             drawIndexes.add(next);
-            drawOffsets.add(top - nextTile.img.height);
+            drawOffsets.add(top - nextTile.img.height/2);
             top -= nextTile.img.height;
+
+            // generate tile's obstacles
+            int[] trains = null;
+            if(nextTile.name.equals("TrainTracks")){
+                trains = getTrainConfig();
+            }
+            for (int i = 0; i < nextTile.obstacles.size(); i++){
+                if(trains != null && !arrayContains(trains, i)) continue;
+                
+                RoadTileObstacle o = nextTile.obstacles.get(i);
+                
+                PVector vel = new PVector(0, 0);
+                if (o.fileName.equals("train.png")) {    // Traaaaains...
+                    if (o.pos.x < center.x) vel = new PVector(4, 0);
+                    else vel = new PVector(-4, 0);
+                }
+                PVector pos = o.pos.get();
+                pos.y += top;
+                EnemyCar e = new EnemyCar("assets/scaled/"+o.fileName, pos, vel);
+                obstacles.add(e);
+            }
         }
 
         // remove old tiles
@@ -60,10 +81,11 @@ class Road {
             o.update();
 
             if (o.isColliding()) {
-                if(o instanceof Powerup){
+                if (o instanceof Powerup) {
                     ((Powerup)o).applyEffect();
                     obstacles.remove(i);
-                } else {
+                } 
+                else {
                     car.collide();
                 }
             }
@@ -76,19 +98,19 @@ class Road {
     Integer nextTileIndex() {
         RoadTile last = lastTile();
         float rand = random(last.probSum);
-        for(RoadTransition t : last.transitions){
+        for (RoadTransition t : last.transitions) {
             rand -= t.prob;
-            if(rand <= 0){
-                for(int i = 0; i < tiles.size(); i++){
-                    if(tiles.get(i).name.equals(t.name)) return i;
+            if (rand <= 0) {
+                for (int i = 0; i < tiles.size(); i++) {
+                    if (tiles.get(i).name.equals(t.name)) return i;
                 }
             }
         }
-        
+
         println("WARNING: Failed to generate a new tile? Returning default.");
         return 0;
     }
-    
+
     RoadTile lastTile() {
         return(tiles.get(drawIndexes.get(drawIndexes.size()-1)));
     }
@@ -112,7 +134,7 @@ class Road {
         EnemyCar e = new EnemyCar(randomCar(), startPos, vel);
         obstacles.add(e);
 
-        if(random(5) < 1){
+        if (random(5) < 1) {
             lane = topTile.lanes_all.get(int(random(topTile.lanes_all.size())));
             obstacles.add(randomPowerup(new PVector(lane, cam.top - 400)));
         }
@@ -148,3 +170,12 @@ int weightedChoice(ArrayList<Float> weights) {
 
     return choice;
 };
+
+boolean arrayContains(int[] ar, int n){
+    for(int a : ar){
+        if(n == a){
+            return true;
+        } 
+    }
+    return false;    
+}

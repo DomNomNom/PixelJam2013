@@ -36,7 +36,6 @@ class EnemyCar extends Obstacle {
             passed = true;
 
             float space = abs(pos.x - car.pos.x) - img.width*.5 - car.hitbox.x; // space between the cars
-            // println("space: "+space);
 
             // calculte the score
             value = int(
@@ -63,6 +62,9 @@ class EnemyCar extends Obstacle {
         else {
             translate(pos.x, pos.y);
             if (vel.y > 0)
+                rotate(PI);
+
+            if(vel.x > 0)
                 rotate(PI);
 
             image(img,0, 0);

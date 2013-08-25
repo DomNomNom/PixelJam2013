@@ -37,7 +37,7 @@ class RayBans extends Powerup{
     PImage overlayImg;
     RayBans(PVector pos) {
         super("assets/scaled/raybans.png", pos);
-        overlayImg = loadImage("assets/scaled/raybansOverlay.png");
+        overlayImg = loadImage("assets/raybansOverlay.png");
     }
 
     void applyEffect(){
