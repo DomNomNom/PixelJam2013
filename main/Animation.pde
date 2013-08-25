@@ -16,6 +16,11 @@ class Animation{
         image(getCurrentFrame(), pos.x, pos.y);
     }
     
+    void draw(float x, float y){
+        pos = new PVector(x, y);
+        draw();
+    }
+    
     void update(){
         ++tick;
         if(tick > frameSpeed){

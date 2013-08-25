@@ -3,7 +3,6 @@ class GUI {
     PFont font;
     PImage overlay;
     int overlayStart, overlayTimer;
-    
 
     GUI() {
         font = createFont("Courier New", 32);

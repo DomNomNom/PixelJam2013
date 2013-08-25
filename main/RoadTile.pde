@@ -50,14 +50,19 @@ class RoadTile {
     }
 
     void draw(float y) {
-        if(this.name.equals("TrainTracks") && y+(img.height*0.5) < cam.top){
-           image(trainSign, center.x, cam.top+50);
-        } else { 
-            image(
-                img,
-                center.x, y,
-                img.width, img.height
-            );
+        image(
+            img,
+            center.x, y,
+            img.width, img.height
+        );
+        if(this.name.equals("TrainTracks") && y < cam.top && !trainSignals){
+            trainSign.update();
+            trainSign.draw(center.x, cam.top+100);
+            if(!trainSound.isPlaying()){
+                trainSound.rewind();
+                trainSound.loop();
+            }
+            trainSignals = true;
         }
     }
 };

@@ -14,7 +14,7 @@ class Car {
     PImage sprite;
     Engine engine;
     AudioPlayer crash, tireScreech;
-    boolean useEngine = false;// minim.getLineOut().hasControl(Controller.GAIN);
+    boolean useEngine = minim.getLineOut().hasControl(Controller.GAIN);
     Animation rocket, rocketFire;
 
     int YOLO_end = 0;

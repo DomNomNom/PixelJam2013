@@ -1,5 +1,6 @@
 t 80 Road
 t 20 Town
+t 5 Bridge
 o -820 443 train.png
 o 2120 611 train.png
 o -720 781 train.png

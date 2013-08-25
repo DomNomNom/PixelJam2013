@@ -2,14 +2,20 @@
 class Obstacle {
 
     PVector pos;
-
+    String fileName;
     PImage img;
 
-    Obstacle(String fileName, PVector pos) {
+    Obstacle(String fn, PVector pos) {
         this.pos = pos;
-        img = loadImage(fileName);
+        img = loadImage(fn);
+        fileName = fn;
     }
-
+    
+    Obstacle(PImage i, String fn, PVector pos) {
+        this.pos = pos;
+        img = i;
+        fileName = fn;
+    }
 
     void update() { }
 

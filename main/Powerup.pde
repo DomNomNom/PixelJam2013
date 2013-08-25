@@ -9,7 +9,7 @@ class Powerup extends Obstacle{
 };
 
 class Boost extends Powerup{
-    Boost(PVector pos) {super("assets/powerup.png", pos);}
+    Boost(PVector pos) {super("assets/scaled/boost.png", pos);}
     public final static int time = 2000;
 
     void applyEffect(){
@@ -56,17 +56,11 @@ class Selfy extends Powerup {
 };
 
 Powerup randomPowerup(PVector pos) {
-    switch((int)random(10)) {
+    switch((int)random(4)) {
         case 0:  return new Beer(pos);
         case 1:  return new Selfy(pos);
         case 2:  return new RayBans(pos);
-        case 3:
-        case 4:
-        case 5:
-        case 6:
-        case 7:
-        case 8:
-        case 9: return new Boost(pos);
+        case 3: return new Boost(pos);
     }
     return null;
 }

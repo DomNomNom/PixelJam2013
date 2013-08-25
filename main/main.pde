@@ -9,7 +9,7 @@ PGraphicsOpenGL pgl;
 Minim minim;
 AudioPlayer bgm;
 
-AudioPlayer beerSound, boostSound;
+AudioPlayer beerSound, boostSound, trainSound;
 
 PVector center; // center of the screen
 PVector windowSize;
@@ -25,9 +25,11 @@ ScoreNotify scoreNotify;
 
 GUI gui;
 ArrayList<Obstacle> obstacles;
-static PImage trainSign;
 
 SelfyOverlay selfyOverlay;
+PImage bridgeSides;
+Animation trainSign;
+boolean trainSignals;
 
 PVector debugPoint = new PVector(-100, -100);
 float drunk = 0;
@@ -57,10 +59,16 @@ void setup() {
 
     // game entities
     minim = new Minim(this);
-    //bgm = minim.loadFile("assets/sounds/background.mp3");
+    bgm = minim.loadFile("assets/sounds/background.mp3");
     beerSound = minim.loadFile("assets/sounds/beer.mp3");
     boostSound = minim.loadFile("assets/sounds/boost.mp3");
-    trainSign = loadImage("assets/trainWarning.png");
+    trainSound = minim.loadFile("assets/sounds/railwaycrossing.wav"); 
+    bridgeSides = loadImage("assets/scaled/bridgesides.png");
+    PImage[] ts = new PImage[2];
+    ts[0] = loadImage("assets/scaled/railwaysign.png");
+    ts[1] = loadImage("assets/scaled/railwaysign2.png");
+    trainSign = new Animation(ts, new PVector(center.x, 50), 25);
+    
     car = new Car();
     cam = new Camera();
     road = new Road();
@@ -86,7 +94,7 @@ void draw() {
 
             scoreNotify.update();
             selfyOverlay.update();
-            //gui.update();
+            gui.update();
 
             if(drunk > 0){
                 drunk -= 0.00025;
@@ -143,6 +151,7 @@ void stop(){
     car.tireScreech.close();
     beerSound.close();
     boostSound.close();
+    trainSound.close();
     for(AudioPlayer a : car.engine.engSound){
         a.pause();
         a.close();
