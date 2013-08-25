@@ -9,7 +9,7 @@ class Powerup extends Obstacle{
 };
 
 class Boost extends Powerup{
-    Boost(PVector pos) {super("assets/powerup.png", pos);}
+    Boost(PVector pos) {super("assets/scaled/boost.png", pos);}
     public final static int time = 2000;
 
     void applyEffect(){

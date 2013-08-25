@@ -23,6 +23,7 @@ class Road {
         tiles.add(new RoadTile("assets/scaled/Road.png", "Road"));
         tiles.add(new RoadTile("assets/scaled/Town.png", "Town"));
         tiles.add(new RoadTile("assets/scaled/TrainTracks.png", "TrainTracks"));
+        tiles.add(new RoadTile("assets/scaled/Bridge.png", "Bridge"));
         drawIndexes.add(0);
         drawOffsets.add(0.0);
 
@@ -57,8 +58,14 @@ class Road {
                 }
                 PVector pos = o.pos.get();
                 pos.y += top;
-                EnemyCar e = new EnemyCar("assets/scaled/"+o.fileName, pos, vel);
-                obstacles.add(e);
+                if(o.fileName.equals("bridgesides.png")){
+                    println("bridge sides added");
+                    Obstacle ob = new Obstacle(bridgeSides, o.fileName, pos);
+                    obstacles.add(ob);
+                } else {
+                    EnemyCar e = new EnemyCar("assets/scaled/"+o.fileName, pos, vel);
+                    obstacles.add(e);
+                }
             }
         }
 
@@ -148,8 +155,11 @@ class Road {
             tiles.get(drawIndexes.get(i)).draw(drawOffsets.get(i));
         }
 
-        for (Obstacle o : obstacles)
-            o.draw();
+        for (Obstacle o : obstacles){
+            if(!o.fileName.equals("bridgesides.png")){
+                o.draw();
+            }
+        }
 
         popMatrix();
     }

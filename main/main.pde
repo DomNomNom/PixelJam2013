@@ -28,6 +28,7 @@ ArrayList<Obstacle> obstacles;
 static PImage trainSign;
 
 SelfyOverlay selfyOverlay;
+PImage bridgeSides;
 
 PVector debugPoint = new PVector(-100, -100);
 float drunk = 0;
@@ -61,6 +62,7 @@ void setup() {
     beerSound = minim.loadFile("assets/sounds/beer.mp3");
     boostSound = minim.loadFile("assets/sounds/boost.mp3");
     trainSign = loadImage("assets/trainWarning.png");
+    bridgeSides = loadImage("assets/scaled/bridgesides.png");
     car = new Car();
     cam = new Camera();
     road = new Road();
