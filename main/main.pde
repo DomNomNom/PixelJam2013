@@ -25,6 +25,7 @@ ScoreNotify scoreNotify;
 
 GUI gui;
 ArrayList<Obstacle> obstacles;
+static PImage trainSign;
 
 SelfyOverlay selfyOverlay;
 
@@ -59,6 +60,7 @@ void setup() {
     //bgm = minim.loadFile("assets/sounds/background.mp3");
     beerSound = minim.loadFile("assets/sounds/beer.mp3");
     boostSound = minim.loadFile("assets/sounds/boost.mp3");
+    trainSign = loadImage("assets/trainWarning.png");
     car = new Car();
     cam = new Camera();
     road = new Road();

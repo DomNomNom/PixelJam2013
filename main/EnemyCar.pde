@@ -2,9 +2,7 @@ float dlerp(float low, float high, float t) {
   return lerp(low, high, constrain(t, 0 , 1));
 }
 
-
 static PImage omgSign;
-
 
 class EnemyCar extends Obstacle {
 

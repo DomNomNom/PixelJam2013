@@ -50,11 +50,15 @@ class RoadTile {
     }
 
     void draw(float y) {
-        image(
-            img,
-            center.x, y,
-            img.width, img.height
-        );
+        if(this.name.equals("TrainTracks") && y+(img.height*0.5) < cam.top){
+           image(trainSign, center.x, cam.top+50);
+        } else { 
+            image(
+                img,
+                center.x, y,
+                img.width, img.height
+            );
+        }
     }
 };
 
