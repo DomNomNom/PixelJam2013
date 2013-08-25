@@ -1,6 +1,6 @@
 s 375 480
 f 790 895
-t 50 Bridge
+t 5 Bridge
 t 30 Town
 t 50 Road
 t 15 TrainTracks

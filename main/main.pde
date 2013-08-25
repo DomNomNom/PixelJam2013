@@ -43,7 +43,7 @@ PImage gameState0;
 PImage gameState1;
 PImage gameState3;
 int gameState1_end=0;
-
+int restart = 0;
 
 
 void setup() {
@@ -102,8 +102,14 @@ void draw() {
     prevMillis = millis;
     updateAccumulator = constrain(updateAccumulator, 0, 200);
     while (updateAccumulator > 0) {
-        if (gameState == 2 && car.dead) {
-            gameState = 3;
+        if (millis()  > restart + 2000) {
+            if (gameState == 2 && car.dead) {
+                gameState = 3;
+            }
+        }
+        else {
+            score = 0;
+            car.dead = false;
         }
 
         if(gameState == 2){
@@ -139,18 +145,6 @@ void draw() {
         // fill(color(255, 0, 0));
 
         // gamestate overlays
-        int tim = millis();
-        if (gameState == 0) {
-            image(gameState0, center.x, center.y);
-        }
-        else if (gameState == 1) {
-            if (gameState1_end > tim) {
-                image(gameState1, center.x, center.y);
-            }
-            else {
-                gameState = 2;
-            }
-        }
         // else if (gameState == 3) {
         //     image(gameState3, center.x, center.y);
         // }
@@ -159,6 +153,21 @@ void draw() {
 
     selfyOverlay.draw();
     gui.draw();
+    int tim = millis();
+    if (gameState == 0) {
+        image(gameState1, center.x, center.y);
+    }
+    else if (gameState == 1) {
+        if (gameState1_end > tim) {
+            image(gameState1, center.x, center.y);
+        }
+        else {
+            gameState = 2;
+        }
+    }
+    else if (gameState == 3) {
+        image(gameState3, center.x, center.y);
+    }
 }
 
 void keyPressed()  { key(keyCode, true);  }
@@ -168,8 +177,12 @@ private void key(int keyCode, boolean pressed){
     if(key == 'q' && pressed){
         println("qq: " + gameState);
         if (gameState == 0 || gameState == 3) {
-            gameState = 1;
+
+            gameState = 2;
             gameState1_end = millis() + 1000;
+            car.dead = false;
+            score = 0;
+            restart = millis();
         }
 
     }

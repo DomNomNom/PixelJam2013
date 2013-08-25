@@ -205,8 +205,8 @@ class Car {
     public void collide(){
         // explode!
         dead = true;
-        //speed = 0;
-        //steer = 0;
+        speed = 0;
+        steer = 0;
         println("u ded boi");
         if(!crash.isPlaying()){
             crash.rewind();
