@@ -33,16 +33,27 @@ class Beer extends Powerup{
     }
 };
 
+class RayBans extends Powerup{
+    PImage overlayImg;
+    RayBans(PVector pos) {
+        super("assets/scaled/raybans.png", pos);
+        overlayImg = loadImage("assets/scaled/raybansOverlay.png");
+    }
+
+    void applyEffect(){
+        gui.applyOverlay(overlayImg, 8000);
+        score += 500;
+    }
+};
+
 Powerup randomPowerup(PVector pos) {
-    switch((int)random(4)) {
+    switch((int)random(3)) {
         case 0:
         return new Beer(pos);
         case 1:
-        return new Beer(pos);
+        return new Boost(pos);
         case 2:
-        return new Boost(pos);
-        case 3:
-        return new Boost(pos);
+        return new RayBans(pos);
     }
     return null;
 }
