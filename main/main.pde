@@ -120,6 +120,9 @@ void draw() {
                 if(drunk < 0) drunk = 0;
             }
         }
+        else {
+            cam.update();
+        }
         updateAccumulator -= updatePeriod;
     }
 
@@ -148,9 +151,9 @@ void draw() {
                 gameState = 2;
             }
         }
-        else if (gameState == 3) {
-            image(gameState3, center.x, center.y);
-        }
+        // else if (gameState == 3) {
+        //     image(gameState3, center.x, center.y);
+        // }
     popMatrix();
     pgl.endPGL();
 
