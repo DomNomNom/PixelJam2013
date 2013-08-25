@@ -33,12 +33,40 @@ class Beer extends Powerup{
     }
 };
 
+class RayBans extends Powerup{
+    PImage overlayImg;
+    RayBans(PVector pos) {
+        super("assets/scaled/raybans.png", pos);
+        overlayImg = loadImage("assets/scaled/raybansOverlay.png");
+    }
+
+    void applyEffect(){
+        gui.applyOverlay(overlayImg, 8000);
+        score += 500;
+    }
+};
+
+class Selfy extends Powerup {
+    Selfy(PVector pos) {super("assets/scaled/insta.png", pos);}
+
+    void applyEffect(){
+        selfyOverlay.selfy();
+        score += 10000;
+    }
+};
+
 Powerup randomPowerup(PVector pos) {
-    switch((int)random(4)) {
+    switch((int)random(10)) {
         case 0:  return new Beer(pos);
-        case 1:  return new Beer(pos);
-        case 2:  return new Boost(pos);
-        case 3:  return new Boost(pos);
+        case 1:  return new Boost(pos);
+        case 2:  return new RayBans(pos);
+        case 3:
+        case 4:
+        case 5:
+        case 6:
+        case 7:
+        case 8:
+        case 9: return new Selfy(pos);
     }
     return null;
 }

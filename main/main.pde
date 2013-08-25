@@ -1,3 +1,4 @@
+import processing.video.*;
 import javax.media.opengl.*;
 import processing.opengl.*;
 import javax.media.opengl.GL2;
@@ -25,17 +26,22 @@ ScoreNotify scoreNotify;
 GUI gui;
 ArrayList<Obstacle> obstacles;
 
+SelfyOverlay selfyOverlay;
+
 PVector debugPoint = new PVector(-100, -100);
 float drunk = 0;
 int drinkStart;
 int score = 0;
+main globalSelfReference = this;
 
 void setup() {
+
+    // processing draw opions
     ellipseMode(CENTER);
     imageMode(CENTER);
     rectMode(CENTER);
     noSmooth();
-
+    // window
     windowSize = new PVector(1280, 720);
     center = PVector.mult(windowSize, 0.5);
     size(
@@ -45,10 +51,10 @@ void setup() {
     );
     pgl = (PGraphicsOpenGL) g;  // g may change
     gl = pgl.beginPGL().gl.getGL2();
-
     gl.glEnable(GL.GL_BLEND);
     gl.glBlendFunc (GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA);
 
+    // game entities
     minim = new Minim(this);
     bgm = minim.loadFile("assets/sounds/background.mp3");
     beerSound = minim.loadFile("assets/sounds/beer.mp3");
@@ -58,6 +64,8 @@ void setup() {
     road = new Road();
     gui = new GUI();
     scoreNotify = new ScoreNotify();
+    selfyOverlay = new SelfyOverlay();
+
 
     prevMillis = millis();
 }
@@ -74,6 +82,7 @@ void draw() {
             cam.update();
             road.update();
             scoreNotify.update();
+            selfyOverlay.update();
             gui.update();
 
             if(drunk > 0){
@@ -98,6 +107,7 @@ void draw() {
     popMatrix();
     pgl.endPGL();
 
+    selfyOverlay.draw();
     gui.draw();
 }
 
