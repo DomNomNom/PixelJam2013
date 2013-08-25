@@ -35,14 +35,10 @@ class Beer extends Powerup{
 
 Powerup randomPowerup(PVector pos) {
     switch((int)random(4)) {
-        case 0:
-        return new Beer(pos);
-        case 1:
-        return new Beer(pos);
-        case 2:
-        return new Boost(pos);
-        case 3:
-        return new Boost(pos);
+        case 0:  return new Beer(pos);
+        case 1:  return new Beer(pos);
+        case 2:  return new Boost(pos);
+        case 3:  return new Boost(pos);
     }
     return null;
 }

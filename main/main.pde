@@ -20,6 +20,7 @@ int updateAccumulator = 0;
 Car car;
 Camera cam;
 Road road;
+ScoreNotify scoreNotify;
 
 GUI gui;
 ArrayList<Obstacle> obstacles;
@@ -56,6 +57,7 @@ void setup() {
     cam = new Camera();
     road = new Road();
     gui = new GUI();
+    scoreNotify = new ScoreNotify();
 
     prevMillis = millis();
 }
@@ -71,6 +73,7 @@ void draw() {
             car.update();
             cam.update();
             road.update();
+            scoreNotify.update();
             gui.update();
 
             if(drunk > 0){
@@ -80,7 +83,7 @@ void draw() {
         }
         updateAccumulator -= updatePeriod;
     }
-    
+
     pgl.beginPGL();
     pushMatrix();
         translate(center.x, center.y);
@@ -90,7 +93,8 @@ void draw() {
 
         road.draw();
         car.draw();
-        fill(color(255, 0, 0));
+        scoreNotify.draw();
+        // fill(color(255, 0, 0));
     popMatrix();
     pgl.endPGL();
 

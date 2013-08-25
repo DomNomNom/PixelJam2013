@@ -6,7 +6,6 @@ float dlerp(float low, float high, float t) {
 static PImage omgSign;
 
 
-PFont scoreFont = createFont("Courier New", 32);
 class EnemyCar extends Obstacle {
 
     boolean passed = false; // whether the players car has passed this car
@@ -17,7 +16,7 @@ class EnemyCar extends Obstacle {
     int value = 0;
     float value_YOLO = 1000;
     float value_nothing = 0;
-    float space_YOLO =5;
+    float space_YOLO = 7;
     float space_nothing = 150;
 
 
@@ -37,7 +36,7 @@ class EnemyCar extends Obstacle {
             passed = true;
 
             float space = abs(pos.x - car.pos.x) - img.width*.5 - car.hitbox.x; // space between the cars
-            println("space: "+space);
+            // println("space: "+space);
 
             // calculte the score
             value = int(
@@ -48,7 +47,7 @@ class EnemyCar extends Obstacle {
                 )
                 // * abs(vel.y - car.vel.y)
             );
-
+            scoreNotify.notify(pos.x, value);
             score += value;
         }
     }
@@ -58,7 +57,7 @@ class EnemyCar extends Obstacle {
 
 
         if (pos.y < cam.top) {
-            translate(pos.x, car.pos.y + 70);
+            translate(pos.x, car.pos.y + 80);
             image(omgSign, 0, 0);
         }
         else {
@@ -68,10 +67,6 @@ class EnemyCar extends Obstacle {
 
             image(img,0, 0);
 
-
-            textFont(scoreFont);
-            fill(240);
-            text("+" + value, 0, 0);
         }
         popMatrix();
     }
