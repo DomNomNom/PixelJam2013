@@ -58,7 +58,7 @@ class Selfy extends Powerup {
 Powerup randomPowerup(PVector pos) {
     switch((int)random(10)) {
         case 0:  return new Beer(pos);
-        case 1:  return new Boost(pos);
+        case 1:  return new Selfy(pos);
         case 2:  return new RayBans(pos);
         case 3:
         case 4:
@@ -66,7 +66,7 @@ Powerup randomPowerup(PVector pos) {
         case 6:
         case 7:
         case 8:
-        case 9: return new Selfy(pos);
+        case 9: return new Boost(pos);
     }
     return null;
 }

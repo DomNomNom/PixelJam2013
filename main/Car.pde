@@ -15,6 +15,7 @@ class Car {
     Engine engine;
     AudioPlayer crash, tireScreech;
     boolean useEngine = false;// minim.getLineOut().hasControl(Controller.GAIN);
+    Animation rocket, rocketFire;
 
     private final float accel = 0.09;      // car acceleration rate    (0.1)
     private final float brake = 0.8;       // car braking rate         (0.8)
@@ -47,6 +48,14 @@ class Car {
 
         if (useEngine)
             engine = new Engine();    // TODO: fix engine sounds
+        PImage[] rkt = new PImage[2];
+        rkt[0] = loadImage("assets/scaled/rocket1.png");
+        rkt[1] = loadImage("assets/scaled/rocket2.png");
+        rocket = new Animation(rkt, new PVector(0,0), 10);
+        rkt = new PImage[2];
+        rkt[0] = loadImage("assets/scaled/flame1.png");
+        rkt[1] = loadImage("assets/scaled/flame2.png");
+        rocketFire = new Animation(rkt, new PVector(0, 62), 10);
 
         hitbox = new PVector(
             0.88 * sprite.width,
@@ -153,6 +162,10 @@ class Car {
 
         if (useEngine)
             engine.update();
+        if(boosting){
+            if(millis() - boostTime < Boost.time) rocketFire.update();
+            rocket.update();
+        }
     }
 
     void draw() {
@@ -160,11 +173,15 @@ class Car {
         pushMatrix();
         for (TireMark t : tireMarks)
             t.draw();
-
+        
         translate(pos.x, pos.y);
         rotate(facing.heading() + HALF_PI);
 
         image(sprite, 0, 0);
+        if(boosting){
+            rocket.draw();
+            if(millis() - boostTime < Boost.time) rocketFire.draw();
+        }
         popMatrix();
 
         //fill(220, 50, 0); stroke(220, 50, 0);
