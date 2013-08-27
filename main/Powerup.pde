@@ -36,7 +36,7 @@ class Beer extends Powerup{
 
     void applyEffect(){
         drinkStart = millis();
-        drunk += 0.4;
+        drunk += 0.35;
         score += 500;
         beerSound.rewind();
         beerSound.play();

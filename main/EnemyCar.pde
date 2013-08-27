@@ -49,6 +49,11 @@ class EnemyCar extends Obstacle {
                 distScore
                 // * abs(vel.y - car.vel.y)
             );
+            
+            // score modifiers
+            if(drunk > 0) value *= (drunk+1);
+            if(vel.y > 0) value *= 1.5;
+            
             scoreNotify.notify(pos.x, value);
             score += value;
         }

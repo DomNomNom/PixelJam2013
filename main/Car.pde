@@ -198,13 +198,16 @@ class Car {
 
         translate(pos.x, pos.y);
         rotate(facing.heading() + HALF_PI);
-
-        image(sprite, 0, 0);
-        if(boosting){
-            rocket.draw();
-            if(millis() - boostTime < Boost.time) rocketFire.draw();
+        
+        if(explosion.ready()) explosion.draw();
+        if(!car.dead){
+            image(sprite, 0, 0);
+            if(boosting){
+                rocket.draw();
+                if(millis() - boostTime < Boost.time) rocketFire.draw();
+            }
         }
-        explosion.draw();
+        
 
         if (YOLO_end > millis()) {
             image(yololo, 0, 0);
