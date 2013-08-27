@@ -64,6 +64,9 @@ class RoadTile {
             }
             trainSignals = true;
         }
+        if(this.name.equals("Bridge") && y+(img.height*0.5) < cam.top){
+            image(bridgeSign, center.x, cam.top+100);
+        }
     }
 };
 

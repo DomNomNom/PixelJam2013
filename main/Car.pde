@@ -15,7 +15,7 @@ class Car {
     Engine engine;
     AudioPlayer crash, tireScreech;
     boolean useEngine = minim.getLineOut().hasControl(Controller.GAIN);
-    Animation rocket, rocketFire;
+    Animation rocket, rocketFire, explosion;
 
     int YOLO_end = 0;
     PImage yololo;
@@ -41,7 +41,14 @@ class Car {
     boolean marking = true;
 
     public final PVector hitbox; // from center to bottom right corner
-
+    
+    public void reset(){
+        pos = new PVector(450, 0);
+        vel = new PVector(0, 0);
+        facing = new PVector(0, -1);
+        YOLO_end = millis()-1;
+        boosting = false;
+    }
 
     public Car() {
         sprite      = loadImage("assets/scaled/car.png", "png");
@@ -61,6 +68,10 @@ class Car {
         rkt[0] = loadImage("assets/scaled/flame1.png");
         rkt[1] = loadImage("assets/scaled/flame2.png");
         rocketFire = new Animation(rkt, new PVector(0, 62), 10);
+        rkt = new PImage[8];
+        for(int i = 0; i < 8; i++) rkt[i] = loadImage("assets/scaled/"+i+".png");
+        explosion = new Animation(rkt, new PVector(0,0), 4, false);
+        explosion.index = -1;
 
         hitbox = new PVector(
             0.88 * sprite.width,
@@ -71,74 +82,75 @@ class Car {
 
     void update() {
         // steering
-        float tmpTurnLimit = lerp(0, turnLimit, constrain(speed/(maxSpeed*0.5), 0, 1));
-        if(Input.left){
-            if(steer > 0) steer = 0;
-            if(boosting) steer -= lerp(0, turnFactor, 1 - speed/(boostSpeed*1.3));
-            else steer -= lerp(0, turnFactor, 1 - speed/(maxSpeed*1.3));
-            steer = constrain(steer, -tmpTurnLimit, tmpTurnLimit);
-            speed *= turnFriction;
-            facing.rotate(steer);
-        } else if(Input.right){
-            if(steer < 0) steer = 0;
-            if(boosting) steer += lerp(0, turnFactor, 1 - speed/(boostSpeed*1.3));
-            else steer += lerp(0, turnFactor, 1 - speed/(maxSpeed*1.3));
-            steer = constrain(steer, -tmpTurnLimit, tmpTurnLimit);
-            speed *= turnFriction;
-            facing.rotate(steer);
-        } else { // steering auto-reset
-            steer = -(facing.heading()  + HALF_PI)*steerReset;
-            steer = constrain(steer, -tmpTurnLimit, tmpTurnLimit);
-            facing.rotate(steer);
-        }
-
-        // tire squeal
-        marking = (abs(steer) > turnLimit-0.01);
-
-        // steering limiter
-        if(facing.heading() < -HALF_PI){
-            if(facing.heading() < -HALF_PI - steeringLimit){
-                facing.set(0, -1);
-                facing.rotate(-steeringLimit);
-                steer = 0;
+        if(!car.dead) {
+            float tmpTurnLimit = lerp(0, turnLimit, constrain(speed/(maxSpeed*0.5), 0, 1));
+            if(Input.left){
+                if(steer > 0) steer = 0;
+                if(boosting) steer -= lerp(0, turnFactor, 1 - speed/(boostSpeed*1.3));
+                else steer -= lerp(0, turnFactor, 1 - speed/(maxSpeed*1.3));
+                steer = constrain(steer, -tmpTurnLimit, tmpTurnLimit);
+                speed *= turnFriction;
+                facing.rotate(steer);
+            } else if(Input.right){
+                if(steer < 0) steer = 0;
+                if(boosting) steer += lerp(0, turnFactor, 1 - speed/(boostSpeed*1.3));
+                else steer += lerp(0, turnFactor, 1 - speed/(maxSpeed*1.3));
+                steer = constrain(steer, -tmpTurnLimit, tmpTurnLimit);
+                speed *= turnFriction;
+                facing.rotate(steer);
+            } else { // steering auto-reset
+                steer = -(facing.heading()  + HALF_PI)*steerReset;
+                steer = constrain(steer, -tmpTurnLimit, tmpTurnLimit);
+                facing.rotate(steer);
             }
-        } else {
-            if(facing.heading() > -HALF_PI+steeringLimit){
-                facing.set(0, -1);
-                facing.rotate(steeringLimit);
-                steer = 0;
+    
+            // tire squeal
+            marking = (abs(steer) > turnLimit-0.01);
+    
+            // steering limiter
+            if(facing.heading() < -HALF_PI){
+                if(facing.heading() < -HALF_PI - steeringLimit){
+                    facing.set(0, -1);
+                    facing.rotate(-steeringLimit);
+                    steer = 0;
+                }
+            } else {
+                if(facing.heading() > -HALF_PI+steeringLimit){
+                    facing.set(0, -1);
+                    facing.rotate(steeringLimit);
+                    steer = 0;
+                }
             }
-        }
-
-        // acceleration
-        if(Input.up){
-            speed += accel;
-            speed += accel;
-            if(speed > maxSpeed) speed = maxSpeed;
-            if(boosting) {
-                float time = millis() - boostTime;
-                if(time < Boost.time){
-                    speed = boostSpeed;
-                } else if(time < Boost.time*2){
-                    speed = lerp(maxSpeed, boostSpeed, (Boost.time - (time-Boost.time))/Boost.time);
-                } else boosting = false;
+    
+            // acceleration
+            if(Input.up){
+                speed += accel;
+                speed += accel;
+                if(speed > maxSpeed) speed = maxSpeed;
+                if(boosting) {
+                    float time = millis() - boostTime;
+                    if(time < Boost.time){
+                        speed = boostSpeed;
+                    } else if(time < Boost.time*2){
+                        speed = lerp(maxSpeed, boostSpeed, (Boost.time - (time-Boost.time))/Boost.time);
+                    } else boosting = false;
+                }
+            } else {
+                speed -= drag;
+                if(speed < 0) speed = 0;
             }
-        } else {
-            speed -= drag;
-            if(speed < 0) speed = 0;
+            if(Input.down){    // braking
+                speed -= brake;
+                if(speed < 0) speed = 0;                            // brake
+                //if(speed < -maxSpeed*0.6) speed = -maxSpeed*0.6;    // reverse
+            }
+    
+            facing.normalize();
+            vel.set(facing.x, facing.y);
+            vel.mult(speed);
+            pos.add(vel);
+            pos.x = constrain(pos.x, roadLimit, windowSize.x-roadLimit);
         }
-        if(Input.down){    // braking
-            speed -= brake*5;
-            //if(speed < 0) speed = 0;                            // brake
-            if(speed < -maxSpeed*0.6) speed = -maxSpeed*0.6;    // reverse
-        }
-
-        facing.normalize();
-        vel.set(facing.x, facing.y);
-        vel.mult(speed);
-        pos.add(vel);
-        pos.x = constrain(pos.x, roadLimit, windowSize.x-roadLimit);
-
         collisionPts = getCollisionPts();
 
         prevTire_r = nextTire_r;
@@ -171,6 +183,7 @@ class Car {
             if(millis() - boostTime < Boost.time) rocketFire.update();
             rocket.update();
         }
+        if(explosion.ready()) explosion.update();
     }
 
     public void YOLO() {
@@ -191,6 +204,7 @@ class Car {
             rocket.draw();
             if(millis() - boostTime < Boost.time) rocketFire.draw();
         }
+        explosion.draw();
 
         if (YOLO_end > millis()) {
             image(yololo, 0, 0);
@@ -203,14 +217,16 @@ class Car {
     }
 
     public void collide(){
-        // explode!
-        dead = true;
-        speed = 0;
-        steer = 0;
-        println("u ded boi");
-        if(!crash.isPlaying()){
-            crash.rewind();
-            crash.play();
+        if(!dead){
+            // explode!
+            dead = true;
+            explosion.rewind();
+            speed = 0;
+            steer = 0;
+            if(!crash.isPlaying()){
+                crash.rewind();
+                crash.play();
+            }
         }
     }
 

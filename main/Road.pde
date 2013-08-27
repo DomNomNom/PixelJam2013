@@ -15,7 +15,17 @@ class Road {
 
     float top;
     float bot;
-
+    
+    public void reset(){
+        drawIndexes = new ArrayList<Integer>(); // indecies of tiles
+        drawOffsets = new ArrayList<Float>();
+        obstacles = new ArrayList<Obstacle>();
+        drawIndexes.add(0);
+        drawOffsets.add(0.0);
+        top = tiles.get(0).img.height * -.5;
+        bot = tiles.get(0).img.height * 0.5;
+    }
+    
     Road() {
         obstacles = new ArrayList<Obstacle>();
         tiles.add(new RoadTile("assets/scaled/Road.png", "Road"));

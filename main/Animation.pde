@@ -5,6 +5,7 @@ class Animation{
     int frameSpeed;
     int tick = 0;
     PVector pos;
+    boolean looping = true;
     
     Animation(PImage[] img, PVector p, int fs){
         frames = img;
@@ -12,7 +13,15 @@ class Animation{
         frameSpeed = fs;
     }
     
+    Animation(PImage[] img, PVector p, int fs, boolean loop){
+        frames = img;
+        pos = p;
+        frameSpeed = fs;
+        looping = loop;
+    }
+    
     void draw(){
+        if(!looping && index < 0) return; 
         image(getCurrentFrame(), pos.x, pos.y);
     }
     
@@ -26,10 +35,20 @@ class Animation{
         if(tick > frameSpeed){
             ++index;
             if(index >= frames.length){
-                index = 0;
+                if(looping) index = 0;
+                else index = -1;
             }
             tick = 0;
         }
+    }
+    
+    void rewind(){
+        tick = 0;
+        index = 0;
+    }
+    
+    boolean ready(){
+        return (index >= 0);  
     }
     
     PImage getCurrentFrame(){

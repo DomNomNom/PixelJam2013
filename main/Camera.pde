@@ -15,10 +15,13 @@ class Camera {
 
         top = -(carLine-car.pos.y);
         bot = top + windowSize.y;
-        // println("cam top: "+top);
     }
 
     void doTranslate() {
-        translate(0, carLine-car.pos.y);
+        if(gameState == 2){
+            translate(0, carLine-car.pos.y);
+        } else {
+            translate(center.x-car.pos.x, center.y-car.pos.y);
+        }
     }
 }

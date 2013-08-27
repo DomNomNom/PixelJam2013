@@ -2,4 +2,4 @@ s 585
 f 685
 t 60 Road
 t 40 TrainTracks
-t 20 Bridge
+t 10 Bridge
