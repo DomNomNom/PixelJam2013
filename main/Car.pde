@@ -248,11 +248,11 @@ class TireMark {
 
 
     TireMark() {
-        if(tireTracks != null) tireTracks = loadImage("assets/scaled/tires.png", "png");
+        if(tireTracks == null) tireTracks = loadImage("assets/scaled/tires.png", "png");
     }
 
     void draw() {
-        if(tireTracks == null) return;
+        // if(tireTracks == null) return;
         // strokeWidth(5);
         stroke(color(0));
 
