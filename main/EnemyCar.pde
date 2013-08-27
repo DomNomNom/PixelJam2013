@@ -30,7 +30,7 @@ class EnemyCar extends Obstacle {
         pos.add(vel);
 
         // have we just passed the car?
-        if (!passed && pos.y >= car.pos.y) {
+        if (!passed && pos.y >= car.pos.y && !car.dead) {
             passed = true;
 
             float space = abs(pos.x - car.pos.x) - img.width*.5 - car.hitbox.x; // space between the cars

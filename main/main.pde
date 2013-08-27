@@ -38,7 +38,7 @@ PImage hashtag;
 PVector debugPoint = new PVector(-100, -100);
 float drunk = 0;
 int drinkStart;
-int score = 0;
+int score = 0, hiscore = 0;
 main globalSelfReference = this;
 
 int gameState = 0; // hello, zooom in, play, dead
@@ -169,6 +169,9 @@ void draw() {
     }
     else if (gameState == 3) {
         image(gameState3, center.x, center.y);
+        fill(0);
+        text("Score: " + score, center.x-240, windowSize.y - 120);
+        text("Hi-Score: " + hiscore, center.x-240, windowSize.y - 60);
     }
 }
 

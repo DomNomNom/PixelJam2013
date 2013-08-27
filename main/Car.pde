@@ -226,6 +226,7 @@ class Car {
             explosion.rewind();
             speed = 0;
             steer = 0;
+            if(score > hiscore) hiscore = score;
             if(!crash.isPlaying()){
                 crash.rewind();
                 crash.play();
