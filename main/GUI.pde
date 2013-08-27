@@ -4,7 +4,11 @@ class GUI {
     PImage overlay;
     int overlayStart, overlayTimer;
     PImage scoreSpeed;
-
+    
+    public void reset(){
+        overlay = null;
+    }
+    
     GUI() {
         font = createFont("Courier New", 32);
         scoreSpeed = loadImage("assets/scaled/scorespeed.png");
@@ -18,7 +22,7 @@ class GUI {
         textFont(font);
         if(overlay != null){
             if(millis() - overlayStart > overlayTimer){
-                overlay = null;
+                if(gameState == 2) overlay = null;
             } else {
                 image(overlay, center.x, center.y);
             }

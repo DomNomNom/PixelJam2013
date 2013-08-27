@@ -14,6 +14,8 @@ AudioPlayer beerSound, boostSound, trainSound;
 PVector center; // center of the screen
 PVector windowSize;
 
+int debugX = 0, debugY = 0;
+
 int prevMillis = 0;
 int updatePeriod = 17;
 int updateAccumulator = 0;
@@ -28,6 +30,7 @@ ArrayList<Obstacle> obstacles;
 
 SelfyOverlay selfyOverlay;
 PImage bridgeSides;
+PImage bridgeSign;
 Animation trainSign;
 boolean trainSignals;
 PImage hashtag;
@@ -65,7 +68,10 @@ void setup() {
     gl = pgl.beginPGL().gl.getGL2();
     gl.glEnable(GL.GL_BLEND);
     gl.glBlendFunc (GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA);
-
+    
+    gameState0 = loadImage("assets/scaled/title.png");
+    image(gameState0, center.x, center.y);
+    
     // game entities
     minim = new Minim(this);
     bgm = minim.loadFile("assets/sounds/background.mp3");
@@ -74,11 +80,11 @@ void setup() {
     trainSound = minim.loadFile("assets/sounds/railwaycrossing.wav");
     bridgeSides = loadImage("assets/scaled/bridgesides.png");
     PImage[] ts = new PImage[2];
-    ts[0] = loadImage("assets/scaled/railwaySign.png");
+    ts[0] = loadImage("assets/scaled/railwaysign.png");
     ts[1] = loadImage("assets/scaled/railwaysign2.png");
     trainSign = new Animation(ts, new PVector(center.x, 50), 25);
+    bridgeSign = loadImage("assets/bridgewarning.png");
 
-    gameState0 = loadImage("assets/scaled/title.png");
     gameState1 = loadImage("assets/scaled/title2.png");
     gameState3 = loadImage("assets/scaled/ending.png");
 
@@ -96,6 +102,10 @@ void setup() {
 }
 
 void draw() {
+    if (gameState == 0) {
+        image(gameState0, center.x, center.y);
+        return;
+    }
     clear();
     int millis = millis();
     updateAccumulator += millis - prevMillis;
@@ -103,7 +113,7 @@ void draw() {
     updateAccumulator = constrain(updateAccumulator, 0, 200);
     while (updateAccumulator > 0) {
         if (millis()  > restart + 2000) {
-            if (gameState == 2 && car.dead) {
+            if (gameState == 2 && car.dead && !car.explosion.ready()) {
                 gameState = 3;
             }
         }
@@ -154,37 +164,44 @@ void draw() {
     selfyOverlay.draw();
     gui.draw();
     int tim = millis();
-    if (gameState == 0) {
+    if (gameState == 1) {
         image(gameState1, center.x, center.y);
-    }
-    else if (gameState == 1) {
-        if (gameState1_end > tim) {
-            image(gameState1, center.x, center.y);
-        }
-        else {
-            gameState = 2;
-        }
     }
     else if (gameState == 3) {
         image(gameState3, center.x, center.y);
     }
 }
 
-void keyPressed()  { key(keyCode, true);  }
+void restart(){
+    //println("qq: " + gameState);
+    if (gameState == 0) {
+        gameState = 1;
+    } else if (gameState == 1 || gameState == 3) {
+        gameState = 2;
+        gameState1_end = millis() + 1000;
+        car.dead = false;
+        drunk = 0;
+        car.reset();
+        road.reset();
+        gui.reset();
+        score = 0;
+        restart = millis();
+    }
+}
+
+void keyPressed()  {
+    if(key == ENTER || key == ' ') restart();
+    if(key == 'n') debugX--;
+    if(key == 'm') debugX++;
+    if(key == 'j') debugY--;
+    if(key == 'k') debugY++;
+    key(keyCode, true);
+}
 void keyReleased() { key(keyCode, false); }
 private void key(int keyCode, boolean pressed){
 
     if(key == 'q' && pressed){
-        println("qq: " + gameState);
-        if (gameState == 0 || gameState == 3) {
-
-            gameState = 2;
-            gameState1_end = millis() + 1000;
-            car.dead = false;
-            score = 0;
-            restart = millis();
-        }
-
+        restart();
     }
     if(key == 'd' && pressed){
         if(drunk == 0) drinkStart = millis();
