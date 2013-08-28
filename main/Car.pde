@@ -15,7 +15,7 @@ class Car {
     PImage sprite_dead;
     Engine engine;
     AudioPlayer crash, tireScreech;
-    boolean useEngine = minim.getLineOut().hasControl(Controller.GAIN);
+    boolean useEngine;
     Animation rocket, rocketFire, explosion;
 
     int YOLO_end = 0;
@@ -53,9 +53,10 @@ class Car {
     }
 
     public Car() {
-        sprite      = loadImage("assets/scaled/car.png",        "png");
-        sprite_dead = loadImage("assets/scaled/car_dead.png",   "png");
-        yololo      = loadImage("assets/scaled/YOLOtext.png",   "png");
+        useEngine = (!javascript) && minim.getLineOut().hasControl(Controller.GAIN);
+        sprite      = loadImage("assets/scaled/car.png");
+        sprite_dead = loadImage("assets/scaled/car_dead.png");
+        yololo      = loadImage("assets/scaled/YOLOtext.png");
         crash = sound("crash");
         tireScreech = sound("tireScreech");
         for (int i=0; i<tireMarks.length; ++i)
@@ -275,7 +276,7 @@ class TireMark {
 
 
     TireMark() {
-        if(tireTracks == null) tireTracks = loadImage("assets/scaled/tires.png", "png");
+        if(tireTracks == null) tireTracks = loadImage("assets/scaled/tires.png");
     }
 
     void draw() {

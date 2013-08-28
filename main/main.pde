@@ -102,8 +102,8 @@ void setup() {
 
     hashtag = loadImage("assets/scaled/hashtag.png");
 
-    // car = new Car();
-    // cam = new Camera();
+    car = new Car();
+    cam = new Camera();
     // road = new Road();
     // gui = new GUI();
     // scoreNotify = new ScoreNotify();
