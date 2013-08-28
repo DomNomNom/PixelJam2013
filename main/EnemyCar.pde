@@ -2,6 +2,7 @@ float dlerp(float low, float high, float t) {
   return lerp(low, high, constrain(t, 0 , 1));
 }
 
+/*
 static PImage omgSign;
 
 class EnemyCar extends Obstacle {
@@ -49,11 +50,11 @@ class EnemyCar extends Obstacle {
                 distScore
                 // * abs(vel.y - car.vel.y)
             );
-            
+
             // score modifiers
             if(drunk > 0) value *= (drunk+1);
             if(vel.y > 0) value *= 1.5;
-            
+
             scoreNotify.notify(pos.x, value);
             score += value;
         }
@@ -95,3 +96,4 @@ static List<String> carImages = new ArrayList<String>(); static{
 String randomCar() {
     return carImages.get(int(random(carImages.size())));
 }
+*/

@@ -1,8 +1,10 @@
+/*
+
 class RoadTile {
     PImage img;
     String name;
     int probSum;
-    
+
     ArrayList<Float> lanes_slow = new ArrayList<Float>();
     ArrayList<Float> lanes_fast = new ArrayList<Float>();
     ArrayList<Float> lanes_all  = new ArrayList<Float>();
@@ -12,12 +14,12 @@ class RoadTile {
     RoadTile(String fileName, String n) {
         img = loadImage(fileName);
         name = n;
-        
+
         // parse settings file
         String[] ln = loadStrings("assets/roadSettings/"+n+".txt");
         Scanner sc;
         for(String s : ln){
-            if(s.length() <= 1) continue; 
+            if(s.length() <= 1) continue;
             sc = new Scanner(s);
             String t = sc.next().toLowerCase();
             if(t.length() != 1){
@@ -85,3 +87,6 @@ class RoadTileObstacle{
         pos = p; fileName = n;
     }
 }
+
+
+*/

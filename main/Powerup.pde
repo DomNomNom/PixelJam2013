@@ -1,4 +1,4 @@
-
+/*
 class Powerup extends Obstacle{
     Powerup(String fileName, PVector pos) {
         super(fileName, pos);
@@ -6,11 +6,11 @@ class Powerup extends Obstacle{
 
     //has effect behaviour
     void applyEffect(){}
-    
+
     void draw(){
         super.draw();
         if (pos.y < cam.top) {
-            pushMatrix(); 
+            pushMatrix();
             translate(pos.x, car.pos.y + 125);
             image(hashtag, 0, 0);
             popMatrix();
@@ -74,3 +74,5 @@ Powerup randomPowerup(PVector pos) {
     }
     return null;
 }
+
+*/

@@ -11,13 +11,13 @@ handlers:
 #   script: main.py
 #   #login: required
 
-# - url: /(.*\.(gif|png|jpg))
-#   static_files: \1
-#   upload: images/(.*\.(gif|png|jpg))
+- url: /(.*\.(gif|png|jpg))
+  static_files: main/\1
+  upload: main/(.*\.(gif|png|jpg))
 
 - url: /
   static_files: index.html
-  upload:       index.html
+  # upload:       index.html
 
 
 - url: /favicon.ico
@@ -29,5 +29,5 @@ handlers:
   upload: js/(.*\.(js))
 
 - url: /(.*\.(pde))
-  static_files: \1
+  static_files: main/\1
   upload: main/(.*\.(pde))

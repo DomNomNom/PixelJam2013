@@ -1,3 +1,5 @@
+/*
+
 import java.util.*;
 import java.io.FileNotFoundException;
 import java.lang.RuntimeException;
@@ -15,7 +17,7 @@ class Road {
 
     float top;
     float bot;
-    
+
     public void reset(){
         drawIndexes = new ArrayList<Integer>(); // indecies of tiles
         drawOffsets = new ArrayList<Float>();
@@ -25,7 +27,7 @@ class Road {
         top = tiles.get(0).img.height * -.5;
         bot = tiles.get(0).img.height * 0.5;
     }
-    
+
     Road() {
         obstacles = new ArrayList<Obstacle>();
         tiles.add(new RoadTile("assets/scaled/Road.png", "Road"));
@@ -56,9 +58,9 @@ class Road {
             }
             for (int i = 0; i < nextTile.obstacles.size(); i++){
                 if(trains != null && !arrayContains(trains, i)) continue;
-                
+
                 RoadTileObstacle o = nextTile.obstacles.get(i);
-                
+
                 PVector vel = new PVector(0, 0);
                 if (o.fileName.equals("train.png")) {    // Traaaaains...
                     if (o.pos.x < center.x) vel = new PVector(4, 0);
@@ -98,7 +100,7 @@ class Road {
                 if (o instanceof Powerup) {
                     ((Powerup)o).applyEffect();
                     obstacles.remove(i);
-                } 
+                }
                 else {
                     car.collide();
                 }
@@ -147,8 +149,8 @@ class Road {
 
         EnemyCar e = new EnemyCar(randomCar(), startPos, vel);
         obstacles.add(e);
-        
-        
+
+
         // generate powerups
         if (random(5) < 1) {
             lane = topTile.lanes_all.get(int(random(topTile.lanes_all.size())));
@@ -164,7 +166,7 @@ class Road {
         for (int i=0; i<drawIndexes.size(); ++i) {
             tiles.get(drawIndexes.get(i)).draw(drawOffsets.get(i));
         }
-        if(!trainSignals && trainSound.isPlaying()) trainSound.pause(); 
+        if(!trainSignals && trainSound.isPlaying()) trainSound.pause();
 
         for (Obstacle o : obstacles){
             if(!o.fileName.equals("bridgesides.png")){
@@ -196,7 +198,10 @@ boolean arrayContains(int[] ar, int n){
     for(int a : ar){
         if(n == a){
             return true;
-        } 
+        }
     }
-    return false;    
+    return false;
 }
+
+
+*/

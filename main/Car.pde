@@ -43,7 +43,8 @@ class Car {
 
     public final PVector hitbox; // from center to bottom right corner
 
-    public void reset(){
+    public void reset() {
+        car.dead = false;
         pos = new PVector(450, 0);
         vel = new PVector(0, 0);
         facing = new PVector(0, -1);
@@ -131,11 +132,11 @@ class Car {
                 if(speed > maxSpeed) speed = maxSpeed;
                 if(boosting) {
                     float time = millis() - boostTime;
-                    if(time < Boost.time){
-                        speed = boostSpeed;
-                    } else if(time < Boost.time*2){
-                        speed = lerp(maxSpeed, boostSpeed, (Boost.time - (time-Boost.time))/Boost.time);
-                    } else boosting = false;
+                    // if (time < Boost.time){  // PORT
+                    //     speed = boostSpeed;
+                    // } else if(time < Boost.time*2){
+                    //     speed = lerp(maxSpeed, boostSpeed, (Boost.time - (time-Boost.time))/Boost.time);
+                    // } else boosting = false;
                 }
             } else {
                 speed -= drag;
@@ -182,8 +183,9 @@ class Car {
         if (useEngine)
             engine.update();
         if(boosting){
-            if(millis() - boostTime < Boost.time) rocketFire.update();
-            rocket.update();
+            // PORT
+            // if(millis() - boostTime < Boost.time) rocketFire.update();
+            // rocket.update();
         }
         if(explosion.ready()) explosion.update();
     }
@@ -209,8 +211,9 @@ class Car {
         else {
             image(sprite, 0, 0);
             if(boosting){
-                rocket.draw();
-                if(millis() - boostTime < Boost.time) rocketFire.draw();
+                // PORT
+                // rocket.draw();
+                // if(millis() - boostTime < Boost.time) rocketFire.draw();
             }
         }
 
@@ -232,8 +235,8 @@ class Car {
             explosion.rewind();
             speed = 0;
             steer = 0;
-            if(score > hiscore) hiscore = score;
-            if(!crash.isPlaying()){
+            if (score > hiscore) hiscore = score;
+            if (!crash.isPlaying()){
                 crash.rewind();
                 crash.play();
             }
@@ -254,8 +257,6 @@ class Car {
         pts[3] = new PVector(-hitbox.x, hitbox.y);
         for(int i = 0; i <4; i++){
             local2global(pts[i]);
-            // pts[i].rotate(facing.heading() + HALF_PI);
-            // pts[i].add(pos);
         }
         return pts;
     }

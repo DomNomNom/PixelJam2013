@@ -10125,11 +10125,14 @@
         code[index] = block;
         ++loaded;
         if (error) errors.push(filename + " ==> " + error);
-        if (loaded === sourcesCount) if (errors.length === 0) try {
+        if (loaded === sourcesCount) if (errors.length === 0)
+        //   try {  // # YOLO
           return new Processing(canvas, code.join("\n"))
-        } catch(e) {
-          throw "Processing.js: Unable to execute pjs sketch: " + e;
-        } else throw "Processing.js: Unable to load pjs sketch files: " + errors.join("\n");
+        // }
+        // catch(e) {
+        //   throw "Processing.js: Unable to execute pjs sketch: " + e;
+        // }
+        else throw "Processing.js: Unable to load pjs sketch files: " + errors.join("\n");
       }
       if (filename.charAt(0) === "#") {
         var scriptElement = document.getElementById(filename.substring(1));
