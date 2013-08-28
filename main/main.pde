@@ -68,16 +68,16 @@ void setup() {
     gl = pgl.beginPGL().gl.getGL2();
     gl.glEnable(GL.GL_BLEND);
     gl.glBlendFunc (GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA);
-    
+
     gameState0 = loadImage("assets/scaled/title.png");
     image(gameState0, center.x, center.y);
-    
+
     // game entities
     minim = new Minim(this);
-    bgm = minim.loadFile("assets/sounds/background.mp3");
-    beerSound = minim.loadFile("assets/sounds/beer.mp3");
-    boostSound = minim.loadFile("assets/sounds/boost.mp3");
-    trainSound = minim.loadFile("assets/sounds/railwaycrossing.wav");
+    bgm = sound("background");
+    beerSound = sound("beer");
+    boostSound = sound("boost");
+    trainSound = sound("railwaycrossing"); // was .wav
     bridgeSides = loadImage("assets/scaled/bridgesides.png");
     PImage[] ts = new PImage[2];
     ts[0] = loadImage("assets/scaled/railwaysign.png");
