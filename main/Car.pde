@@ -41,7 +41,7 @@ class Car {
     boolean marking = true;
 
     public final PVector hitbox; // from center to bottom right corner
-    
+
     public void reset(){
         pos = new PVector(450, 0);
         vel = new PVector(0, 0);
@@ -53,8 +53,8 @@ class Car {
     public Car() {
         sprite      = loadImage("assets/scaled/car.png", "png");
         yololo      = loadImage("assets/scaled/YOLOtext.png", "png");
-        crash = minim.loadFile("assets/sounds/crash.mp3");
-        tireScreech = minim.loadFile("assets/sounds/tireScreech.mp3");
+        crash = sound("crash");
+        tireScreech = sound("tireScreech");
         for (int i=0; i<tireMarks.length; ++i)
             tireMarks[i] = new TireMark();
 
@@ -103,10 +103,10 @@ class Car {
                 steer = constrain(steer, -tmpTurnLimit, tmpTurnLimit);
                 facing.rotate(steer);
             }
-    
+
             // tire squeal
             marking = (abs(steer) > turnLimit-0.01);
-    
+
             // steering limiter
             if(facing.heading() < -HALF_PI){
                 if(facing.heading() < -HALF_PI - steeringLimit){
@@ -121,7 +121,7 @@ class Car {
                     steer = 0;
                 }
             }
-    
+
             // acceleration
             if(Input.up){
                 speed += accel;
@@ -144,7 +144,7 @@ class Car {
                 if(speed < 0) speed = 0;                            // brake
                 //if(speed < -maxSpeed*0.6) speed = -maxSpeed*0.6;    // reverse
             }
-    
+
             facing.normalize();
             vel.set(facing.x, facing.y);
             vel.mult(speed);
@@ -234,10 +234,10 @@ class Car {
         }
     }
 
-    /**
-    /* returns the points of collision of this object-
-    /* in this case, the corners of the car (clockwise)
-    /**/
+    /*
+    / returns the points of collision of this object-
+    / in this case, the corners of the car (clockwise)
+    */
     public PVector[] getCollisionPts(){
         // float wid = sprite.width*0.88;
         // float hgt = sprite.height*0.88;
