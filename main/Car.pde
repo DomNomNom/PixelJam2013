@@ -12,6 +12,7 @@ class Car {
     public boolean boosting;
 
     PImage sprite;
+    PImage sprite_dead;
     Engine engine;
     AudioPlayer crash, tireScreech;
     boolean useEngine = minim.getLineOut().hasControl(Controller.GAIN);
@@ -51,8 +52,9 @@ class Car {
     }
 
     public Car() {
-        sprite      = loadImage("assets/scaled/car.png", "png");
-        yololo      = loadImage("assets/scaled/YOLOtext.png", "png");
+        sprite      = loadImage("assets/scaled/car.png",        "png");
+        sprite_dead = loadImage("assets/scaled/car_dead.png",   "png");
+        yololo      = loadImage("assets/scaled/YOLOtext.png",   "png");
         crash = sound("crash");
         tireScreech = sound("tireScreech");
         for (int i=0; i<tireMarks.length; ++i)
@@ -198,16 +200,20 @@ class Car {
 
         translate(pos.x, pos.y);
         rotate(facing.heading() + HALF_PI);
-        
-        if(explosion.ready()) explosion.draw();
-        if(!car.dead){
+
+
+        if (dead) {
+            image(sprite_dead, 0, 0);
+            if (explosion.ready())  explosion.draw();
+        }
+        else {
             image(sprite, 0, 0);
             if(boosting){
                 rocket.draw();
                 if(millis() - boostTime < Boost.time) rocketFire.draw();
             }
         }
-        
+
 
         if (YOLO_end > millis()) {
             image(yololo, 0, 0);
