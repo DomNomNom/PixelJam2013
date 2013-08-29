@@ -688,7 +688,12 @@
     function PVector(x, y, z) {
       this.x = x || 0;
       this.y = y || 0;
-      this.z = z || 0
+      this.z = z || 0;
+    }
+    function PVector(x, y) {
+      this.x = x || 0;
+      this.y = y || 0;
+      this.z = 0;
     }
     PVector.dist = function(v1, v2) {
       return v1.dist(v2)

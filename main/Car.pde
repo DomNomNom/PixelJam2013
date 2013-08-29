@@ -109,7 +109,10 @@ class Car {
             }
 
             // tire squeal
+            boolean marking_prev = marking;
             marking = (abs(steer) > turnLimit-0.01);
+            if (marking && !marking_prev) tireScreech.loop();
+            if (marking_prev && !marking) tireScreech.pause();
 
             // steering limiter
             if(facing.heading() < -HALF_PI){
@@ -164,21 +167,22 @@ class Car {
         local2global(nextTire_r);
         local2global(nextTire_l);
 
-
+        // visual TireMarks
         if (marking) {
-            tireMarks[nextTireMarkIndex].from = prevTire_r;
-            tireMarks[nextTireMarkIndex].to   = nextTire_r;
+            tireMarks[nextTireMarkIndex].from.set(prevTire_r);
+            tireMarks[nextTireMarkIndex].to.set(  nextTire_r);
             nextTireMarkIndex = (nextTireMarkIndex+1) % tireMarks.length;
 
-            tireMarks[nextTireMarkIndex].from = prevTire_l;
-            tireMarks[nextTireMarkIndex].to   = nextTire_l;
+            tireMarks[nextTireMarkIndex].from.set(prevTire_l);
+            tireMarks[nextTireMarkIndex].to.set(  nextTire_l);
             nextTireMarkIndex = (nextTireMarkIndex+1) % tireMarks.length;
-            if(!tireScreech.isPlaying()){
-                tireScreech.rewind();
-                tireScreech.play();
-            }
+
+            // if(!tireScreech.isPlaying()){
+            //     tireScreech.rewind();
+            //     tireScreech.play();
+            // }
         } else {
-            tireScreech.pause();
+            // tireScreech.pause();
         }
 
         if (useEngine)
@@ -276,7 +280,7 @@ class TireMark {
 
 
     TireMark() {
-        if(tireTracks == null) tireTracks = loadImage("assets/scaled/tires.png");
+        if (tireTracks == null) tireTracks = loadImage("assets/scaled/tires.png");
     }
 
     void draw() {
@@ -289,12 +293,10 @@ class TireMark {
         //     to.x,   to.y
         // );
         pushMatrix();
-        translate(to.x, to.y);
-        PVector diff = PVector.sub(from, to);
-        rotate(diff.heading() + HALF_PI);
-
-        // for (int l=0; l<=diff.mag(); l+=tireTracks.height)
-        image(tireTracks, 0,0, tireTracks.width, diff.mag());
+            translate(to.x, to.y);
+            PVector diff = PVector.sub(from, to);
+            rotate(diff.heading() + HALF_PI);
+            image(tireTracks, 0,0, tireTracks.width, diff.mag());
         popMatrix();
     }
 };

@@ -51,15 +51,11 @@ function AudioPlayer(str) {
     audio.play();
   };
   this.pause = function () {
-    if (!loaded) {
-      return;
-    }
+    if (!loaded) return;
     audio.pause();
   };
   this.rewind = function () {
-    if (!loaded) {
-      return;
-    }
+    if (!loaded) return;
     // rewind the sound to start
     if(audio.currentTime) {
       audio.currentTime = 0;
@@ -69,15 +65,13 @@ function AudioPlayer(str) {
     if (!loaded) {
       return -1;
     }
-    if(audio.currentTime) {
+    if (audio.currentTime) {
       return audio.currentTime * 1000;
     }
     return -1;
   };
   this.cue = function(position) {
-    if (!loaded) {
-      return;
-    }
+    if (!loaded) return;
     if(audio.currentTime) {
       audio.currentTime = position / 1000;
     }
