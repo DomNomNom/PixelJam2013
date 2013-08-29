@@ -14,6 +14,7 @@ function Minim() {
 function AudioPlayer(str) {
   var loaded = false;
   var looping = false;
+  var playing = false;
 
   if (!!document.createElement('audio').canPlayType) {
     var audio = document.createElement('audio');
@@ -40,6 +41,7 @@ function AudioPlayer(str) {
       setTimeout(function() { local.play(); }, 50);
       return;
     }
+    this.playing = true;
     audio.play();
   };
   this.loop = function () {
@@ -50,10 +52,12 @@ function AudioPlayer(str) {
     }
     //audio.loop = 'loop';
     looping = true;
+    this.playing = true;
     audio.play();
   };
   this.pause = function () {
     if (!loaded) return;
+    this.playing = false;
     audio.pause();
   };
   this.rewind = function () {
@@ -83,6 +87,9 @@ function AudioPlayer(str) {
   };
   this.unmute = function() {
     audio.volume = 1.0;
+  };
+  this.isPlaying = function() {
+    return this.playing;
   };
 }
 

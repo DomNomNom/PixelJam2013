@@ -162,11 +162,11 @@ class Road {
 
     void draw() {
         pushMatrix();
-        // trainSignals = false;
+        trainSignals = false;
         for (int i=0; i<drawIndexes.size(); ++i) {
             tiles.get(drawIndexes.get(i)).draw(drawOffsets.get(i));
         }
-        // if(!trainSignals && trainSound.isPlaying()) trainSound.pause();
+        if (!trainSignals && trainSound.isPlaying()) trainSound.pause();
 
         // for (Obstacle o : obstacles){
         //     o.draw();

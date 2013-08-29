@@ -43,36 +43,6 @@ class RoadTile {
                 println("OMG WTF, FILE IS WRONG! why you have to be mad?");
             }
         }
-        // String[] ln = loadStrings("assets/roadSettings/"+n+".txt");
-        // Scanner sc;
-        // for(String s : ln) {
-        //     if(s.length() <= 1) continue;
-        //     sc = new Scanner(s);
-        //     String t = sc.next().toLowerCase();
-        //     if(t.length() != 1){
-        //         throw new RuntimeException("Expected token character of size 1; got "+t);
-        //     }
-        //     char token = t.charAt(0);
-        //     switch(token){
-        //         case 's':
-        //         while(sc.hasNext()) lanes_slow.add((float)sc.nextInt());
-        //         break;
-        //         case 'f':
-        //         while(sc.hasNext()) lanes_fast.add((float)sc.nextInt());
-        //         break;
-        //         case 't':
-        //             int p = sc.nextInt();
-        //             probSum += p;
-        //             transitions.add(new RoadTransition(p, sc.next()));
-        //         break;
-        //         case 'o':
-        //             obstacles.add(new RoadTileObstacle(new PVector(sc.nextInt(), sc.nextInt()), sc.next()));
-        //         break;
-        //         default:
-        //         throw new RuntimeException("Expected token character (s, f, t, o); got "+t);
-        //     }
-        //     sc.close();
-        // }
 
         // build lanes_all from both slow and fast
         for (Float lane : lanes_slow) lanes_all.add(lane);
@@ -85,15 +55,15 @@ class RoadTile {
             center.x, y,
             img.width, img.height
         );
-        // if(this.name.equals("TrainTracks") && y < cam.top && !trainSignals){
-        //     trainSign.update();
-        //     trainSign.draw(center.x, cam.top+100);
-        //     if(!trainSound.isPlaying()){
-        //         trainSound.rewind();
-        //         trainSound.loop();
-        //     }
-        //     trainSignals = true;
-        // }
+        if(this.name.equals("TrainTracks") && y < cam.top && !trainSignals){
+            trainSign.update();
+            trainSign.draw(center.x, cam.top+100);
+            if(!trainSound.isPlaying()){
+                trainSound.rewind();
+                trainSound.loop();
+            }
+            trainSignals = true;
+        }
         if(this.name.equals("Bridge") && y+(img.height*0.5) < cam.top){
             image(bridgeSign, center.x, cam.top+100);
         }

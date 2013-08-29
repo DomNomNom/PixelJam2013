@@ -33,9 +33,11 @@ Road road;
 // SelfyOverlay selfyOverlay;
 PImage bridgeSides;
 PImage bridgeSign;
-// Animation trainSign;
-// boolean trainSignals;
 PImage hashtag;
+
+// Train related stuff
+Animation trainSign;
+boolean trainSignals;
 
 // PVector debugPoint = new PVector(-100, -100);
 float drunk = 0;
@@ -101,10 +103,10 @@ void setup() {
     trainSound = sound("railwaycrossing"); // was .wav
     bridgeSides = loadImage("assets/scaled/bridgesides.png");
     bridgeSign  = loadImage("assets/bridgewarning.png");
-    // PImage[] ts = new PImage[2];
-    // ts[0] = loadImage("assets/scaled/railwaysign.png");
-    // ts[1] = loadImage("assets/scaled/railwaysign2.png");
-    // trainSign = new Animation(ts, new PVector(center.x, 50), 25);
+    PImage[] ts = new PImage[2];
+    ts[0] = loadImage("assets/scaled/railwaysign.png");
+    ts[1] = loadImage("assets/scaled/railwaysign2.png");
+    trainSign = new Animation(ts, new PVector(center.x, 50), 25);
 
     hashtag = loadImage("assets/scaled/hashtag.png");
 

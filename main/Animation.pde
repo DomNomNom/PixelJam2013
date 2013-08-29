@@ -21,7 +21,7 @@ class Animation{
     }
 
     void draw(){
-        if(!looping && index < 0) return;
+        if (!looping && index < 0) return;
         image(getCurrentFrame(), pos.x, pos.y);
     }
 
@@ -54,4 +54,4 @@ class Animation{
     PImage getCurrentFrame(){
         return frames[index];
     }
-}
+};
