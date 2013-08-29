@@ -15,9 +15,14 @@ handlers:
   static_files: main/\1
   upload: main/(.*\.(gif|png|jpg))
 
+
+- url: /(.*\.(mp3|ogg))
+  static_files: main/\1
+  upload: main/(.*\.(mp3|ogg))
+
 - url: /
   static_files: index.html
-  # upload:       index.html
+  upload:       index.html
 
 
 - url: /favicon.ico

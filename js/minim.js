@@ -2,6 +2,7 @@
  * Minim-emulation code by Daniel Hodgin
  */
 
+
 // wrap the P5 Minim sound library classes
 function Minim() {
   this.loadFile = function (str) {
@@ -18,6 +19,7 @@ function AudioPlayer(str) {
     var audio = document.createElement('audio');
     audio.addEventListener('ended', function () {
       if (looping) {
+        // console.log("trying to loop: " + str)
         this.currentTime = 0;
         this.play();
       }

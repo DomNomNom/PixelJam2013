@@ -4,25 +4,25 @@ class GUI {
     PImage overlay;
     int overlayStart, overlayTimer;
     PImage scoreSpeed;
-    
+
     public void reset(){
         overlay = null;
     }
-    
+
     GUI() {
         font = createFont("Courier New", 32);
         scoreSpeed = loadImage("assets/scaled/scorespeed.png");
     }
 
     void update() {
-        if(!bgm.isPlaying()) bgm.loop();
+        // if (!bgm.isPlaying()) bgm.loop();
     }
 
     void draw() {
         textFont(font);
-        if(overlay != null){
-            if(millis() - overlayStart > overlayTimer){
-                if(gameState == 2) overlay = null;
+        if (overlay != null){
+            if (millis() - overlayStart > overlayTimer){
+                if (gameState == 2) overlay = null;
             } else {
                 image(overlay, center.x, center.y);
             }
@@ -38,7 +38,7 @@ class GUI {
         float x = scoreSpeed.width*0.5 + 10;
         float y = scoreSpeed.height*0.5 + 10;
         rect(x, y, scoreSpeed.width*0.9, scoreSpeed.height*0.5);
-        if(car.boosting){
+        if (car.boosting){
             color from = color(46, 153, 244);
             color to = color(250, 10, 20);
             fill(lerpColor(from, to, (car.speed-car.maxSpeed)/(car.boostSpeed-car.maxSpeed)));

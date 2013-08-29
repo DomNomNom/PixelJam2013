@@ -64,7 +64,6 @@ void setup() {
     } catch (Exception e) {
         javascript = true;
     }
-    // println("javascript: " + javascript);
 
     // processing draw opions
     ellipseMode(CENTER);
@@ -94,6 +93,7 @@ void setup() {
     // game entities
     minim = new Minim(this);
     bgm = sound("background");
+    bgm.loop();
     beerSound = sound("beer");
     boostSound = sound("boost");
     trainSound = sound("railwaycrossing"); // was .wav
@@ -228,15 +228,20 @@ void keyPressed()  {
 void keyReleased() { handleKey(keyCode, false); }
 
 private void handleKey(int keyCode, boolean pressed){
-    if(key == 'q' && pressed){
-        doRestart();
-    }
-    if(key == 'd' && pressed){
-        if (drunk == 0) drinkStart = millis();
-        drunk += 0.05;
-    }
-    else if (key == 's' && pressed) {
-        // selfyOverlay.selfy();
+    if (pressed) {
+        if(key == 'q'){
+            doRestart();
+        }
+        if(key == 'd'){
+            if (drunk == 0) drinkStart = millis();
+            drunk += 0.05;
+        }
+        else if (key == 's') {
+            // selfyOverlay.selfy();
+        }
+        else if (key == 'p') {
+            toggleMute();
+        }
     }
 
     if (key == CODED) {
@@ -250,6 +255,27 @@ private void handleKey(int keyCode, boolean pressed){
         }
     }
 };
+
+boolean audioMute = false;
+void toggleMute() {
+    if (audioMute) {
+        bgm.unmute();
+        car.crash.unmute();
+        car.tireScreech.unmute();
+        beerSound.unmute();
+        boostSound.unmute();
+        trainSound.unmute();
+    }
+    else {
+        bgm.mute();
+        car.crash.mute();
+        car.tireScreech.mute();
+        beerSound.mute();
+        boostSound.mute();
+        trainSound.mute();
+    }
+    audioMute = !audioMute;
+}
 
 void stop(){
     bgm.close();

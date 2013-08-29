@@ -58,7 +58,7 @@ class Car {
         sprite_dead = loadImage("assets/scaled/car_dead.png");
         yololo      = loadImage("assets/scaled/YOLOtext.png");
         crash = sound("crash");
-        tireScreech = sound("tireScreech");
+        tireScreech = sound("tireScreech2");
         for (int i=0; i<tireMarks.length; ++i)
             tireMarks[i] = new TireMark();
 
