@@ -33,8 +33,9 @@ class Car {
     private final int roadLimit = 200;
 
     // things for tire marks
-    TireMark[] tireMarks = new TireMark[50];
+    int numTireMarks = 50;
     int nextTireMarkIndex = 0;
+    ArrayList<TireMark> tireMarks = new ArrayList<TireMark>();
     PVector prevTire_l = new PVector(0,0);
     PVector prevTire_r = new PVector(0,0);
     PVector nextTire_l = new PVector(0,0);
@@ -59,8 +60,8 @@ class Car {
         yololo      = loadImage("assets/scaled/YOLOtext.png");
         crash = sound("crash");
         tireScreech = sound("tireScreech2");
-        for (int i=0; i<tireMarks.length; ++i)
-            tireMarks[i] = new TireMark();
+        for (int i=0; i<numTireMarks; ++i)
+            tireMarks.add(new TireMark());
 
         if (useEngine)
             engine = new Engine();    // TODO: fix engine sounds
@@ -169,13 +170,15 @@ class Car {
 
         // visual TireMarks
         if (marking) {
-            tireMarks[nextTireMarkIndex].from.set(prevTire_r);
-            tireMarks[nextTireMarkIndex].to.set(  nextTire_r);
-            nextTireMarkIndex = (nextTireMarkIndex+1) % tireMarks.length;
+            // right
+            tireMarks.get(nextTireMarkIndex).from.set(prevTire_r);
+            tireMarks.get(nextTireMarkIndex).to.set(  nextTire_r);
+            nextTireMarkIndex = (nextTireMarkIndex+1) % tireMarks.size();
 
-            tireMarks[nextTireMarkIndex].from.set(prevTire_l);
-            tireMarks[nextTireMarkIndex].to.set(  nextTire_l);
-            nextTireMarkIndex = (nextTireMarkIndex+1) % tireMarks.length;
+            // left
+            tireMarks.get(nextTireMarkIndex).from.set(prevTire_l);
+            tireMarks.get(nextTireMarkIndex).to.set(  nextTire_l);
+            nextTireMarkIndex = (nextTireMarkIndex+1) % tireMarks.size();
 
             // if(!tireScreech.isPlaying()){
             //     tireScreech.rewind();

@@ -116,6 +116,21 @@ void setup() {
     gameState = 0;
 
     prevMillis = millis();
+
+
+    // String names[] = {"Alexis", "Thomas", "Antoine"};
+    // // for (String name : names) {
+    // for (int i=0; i<names.length; ++i)
+    //     alert(names[i]);
+    // }
+
+    // ArrayList<String> names = new ArrayList<String>();
+    // names.add("Alexis");
+    // for (String name : names) {
+    // // for (int i=0; i<names.length; ++i)
+    //     alert(name);
+    // }
+
 }
 
 void draw() {
@@ -211,6 +226,7 @@ void doRestart(){
         car.reset();
         drunk = 0;
         score = 0;
+
         // road.reset();
         // gui.reset();
     }
@@ -230,6 +246,7 @@ void keyReleased() { handleKey(keyCode, false); }
 private void handleKey(int keyCode, boolean pressed){
     if (pressed) {
         if(key == 'q'){
+            // console.log("AAA");
             doRestart();
         }
         if(key == 'd'){
