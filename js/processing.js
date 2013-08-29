@@ -790,8 +790,14 @@
           this.mult(high)
         }
       },
-      heading2D: function() {
+      heading: function() {
         return -Math.atan2(-this.y, this.x)
+      },
+      rotate: function(theta) {
+        var X = this.x;
+        // Might need to check for rounding errors like with angleBetween function?
+        this.x = X*Math.cos(theta) - this.y*Math.sin(theta);
+        this.y = X*Math.sin(theta) + this.y*Math.cos(theta);
       },
       toString: function() {
         return "[" + this.x + ", " + this.y + ", " + this.z + "]"

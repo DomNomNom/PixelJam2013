@@ -53,16 +53,18 @@ int restart = 0;
 
 int  nameClash = 0;
 void nameClash() { }
-boolean javascript;// = nameClash() == 0;
+boolean javascript;
 
 void setup() {
+    // a hacky way of telling whether we are in javascript or not
+    // compatible with processing.
     try {
         nameClash();
         javascript = false;
     } catch (Exception e) {
         javascript = true;
     }
-    println("javascript: " + javascript);
+    // println("javascript: " + javascript);
 
     // processing draw opions
     ellipseMode(CENTER);
@@ -77,10 +79,12 @@ void setup() {
         (int) windowSize.y,
         OPENGL
     );
-    // pgl = (PGraphicsOpenGL) g;  // g may change
-    // gl = pgl.beginPGL().gl.getGL2();
-    // gl.glEnable(GL.GL_BLEND);
-    // gl.glBlendFunc (GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA);
+    if (!javascript) {
+        pgl = (PGraphicsOpenGL) g;  // g may change
+        gl = pgl.beginPGL().gl.getGL2();
+        gl.glEnable(GL.GL_BLEND);
+        gl.glBlendFunc (GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA);
+    }
 
     gameState0 = loadImage("assets/scaled/title.png");
     gameState1 = loadImage("assets/scaled/title2.png");
@@ -115,11 +119,16 @@ void setup() {
 }
 
 void draw() {
+    if (!javascript) {
+        pgl.beginPGL();
+        clear();
+    }
+
+    image(gameState0, center.x, center.y);
     if (gameState == 0) {
         image(gameState0, center.x, center.y);
         return;
     }
-    // clear();
     int mills = millis();
     updateAccumulator += mills - prevMillis;
     prevMillis = mills;
@@ -130,62 +139,65 @@ void draw() {
                 gameState = 3;
             }
         }
-        else {
-            // score = 0;
-            // car.dead = false;
+        else { // invunerability frames for the car
+            score = 0;
+            car.dead = false;
         }
 
-        // if(gameState == 2){
-        //     car.update();
-        //     cam.update();
-        //     road.update();
+        if (gameState == 2){
+            car.update();
+            cam.update();
+            // road.update();
 
-        //     scoreNotify.update();
-        //     selfyOverlay.update();
-        //     gui.update();
+            // scoreNotify.update();
+            // selfyOverlay.update();
+            // gui.update();
 
-        //     if(drunk > 0){
-        //         drunk -= 0.00025;
-        //         if(drunk < 0) drunk = 0;
-        //     }
-        // }
-        // else {
-        //     cam.update();
-        // }
+            if(drunk > 0){
+                drunk -= 0.00025;
+                if(drunk < 0) drunk = 0;
+            }
+        }
+        else {
+            cam.update();
+        }
         updateAccumulator -= updatePeriod;
     }
 
-    // pgl.beginPGL();
-    // pushMatrix();
-    //     translate(center.x, center.y);
-    //     rotate(0.4*drunk*HALF_PI*sin(0.01*drunk*(millis()-drinkStart)));
-    //     translate(-center.x, -center.y);
-    //     cam.doTranslate();
+    pushMatrix();
+        // drunkness
+        translate(center.x, center.y);
+        rotate(0.4*drunk*HALF_PI*sin(0.01*drunk*(millis()-drinkStart)));
+        translate(-center.x, -center.y);
 
-    //     road.draw();
-    //     car.draw();
-    //     scoreNotify.draw();
-    //     // fill(color(255, 0, 0));
+        cam.doTranslate();
 
-    //     // gamestate overlays
-    //     // else if (gameState == 3) {
-    //     //     image(gameState3, center.x, center.y);
-    //     // }
-    // popMatrix();
-    // pgl.endPGL();
+        // road.draw();
+        car.draw();
+        // scoreNotify.draw();
+
+        // gamestate overlays
+        // fill(color(255, 0, 0));
+        // else if (gameState == 3) {
+        //     image(gameState3, center.x, center.y);
+        // }
+    popMatrix();
 
     // selfyOverlay.draw();
     // gui.draw();
-    // int tim = millis();
-    // if (gameState == 1) {
-    //     image(gameState1, center.x, center.y);
-    // }
-    // else if (gameState == 3) {
-    //     image(gameState3, center.x, center.y);
-    //     fill(0);
-    //     text("Score: " + score, center.x-240, windowSize.y - 120);
-    //     text("Hi-Score: " + hiscore, center.x-240, windowSize.y - 60);
-    // }
+
+    if (gameState == 1) {
+        image(gameState1, center.x, center.y);
+    }
+    else if (gameState == 3) {
+        image(gameState3, center.x, center.y);
+        fill(0);
+        text("Score: " + score, center.x-240, windowSize.y - 120);
+        text("Hi-Score: " + hiscore, center.x-240, windowSize.y - 60);
+    }
+
+
+    if (!javascript) pgl.endPGL();
 }
 
 void doRestart(){
