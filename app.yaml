@@ -16,9 +16,10 @@ handlers:
   upload: main/(.*\.(gif|png|jpg))
 
 
-- url: /(.*\.(mp3|ogg))
+# media files
+- url: /(.*\.(mp3|ogg|txt))
   static_files: main/\1
-  upload: main/(.*\.(mp3|ogg))
+  upload: main/(.*\.(mp3|ogg|txt))
 
 - url: /
   static_files: index.html

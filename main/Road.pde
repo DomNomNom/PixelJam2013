@@ -1,8 +1,8 @@
-/*
+// import java.util.*;
+// import java.io.FileNotFoundException;
+// import java.lang.RuntimeException;
 
-import java.util.*;
-import java.io.FileNotFoundException;
-import java.lang.RuntimeException;
+
 
 class Road {
     float baseLine;
@@ -72,8 +72,8 @@ class Road {
                     Obstacle ob = new Obstacle(bridgeSides, o.fileName, pos);
                     obstacles.add(ob);
                 } else {
-                    EnemyCar e = new EnemyCar("assets/scaled/"+o.fileName, pos, vel);
-                    obstacles.add(e);
+                    // EnemyCar e = new EnemyCar("assets/scaled/"+o.fileName, pos, vel);
+                    // obstacles.add(e);
                 }
             }
         }
@@ -96,25 +96,27 @@ class Road {
             Obstacle o = obstacles.get(i);
             o.update();
 
-            if (o.isColliding()) {
-                if (o instanceof Powerup) {
-                    ((Powerup)o).applyEffect();
-                    obstacles.remove(i);
-                }
-                else {
-                    car.collide();
-                }
-            }
-            else if (o.pos.y > bot) { // remove old obstacles
-                obstacles.remove(i);
-            }
+            // PORT hint: boolean isPowerup = false; // since in JS we can't do instanceof
+            // if (o.isColliding()) {
+            //     if (o instanceof Powerup) {
+            //         ((Powerup)o).applyEffect();
+            //         obstacles.remove(i);
+            //     }
+            //     else {
+            //         car.collide();
+            //     }
+            // }
+            // else if (o.pos.y > bot) { // remove old obstacles
+            //     obstacles.remove(i);
+            // }
         }
     }
 
     Integer nextTileIndex() {
         RoadTile last = lastTile();
         float rand = random(last.probSum);
-        for (RoadTransition t : last.transitions) {
+        for (int r=0; r<last.transitions.size(); ++r) { // for (RoadTransition t : last.transitions) {
+            RoadTransition t = last.transitions.get(r);
             rand -= t.prob;
             if (rand <= 0) {
                 for (int i = 0; i < tiles.size(); i++) {
@@ -132,76 +134,71 @@ class Road {
     }
 
     void generateObstacle() {
-        RoadTile topTile = lastTile();
-        if (topTile.lanes_all.size() == 0) {
-            //println("trying to generate obstacle for tile with no lanes");
-            return;
-        }
+        // RoadTile topTile = lastTile();
+        // if (topTile.lanes_all.size() == 0) {
+        //     //println("trying to generate obstacle for tile with no lanes");
+        //     return;
+        // }
 
-        Float lane = topTile.lanes_all.get(int(random(topTile.lanes_all.size())));
-        boolean fast = topTile.lanes_fast.contains(lane);
+        // Float lane = topTile.lanes_all.get(int(random(topTile.lanes_all.size())));
+        // boolean fast = topTile.lanes_fast.contains(lane);
 
-        PVector vel = new PVector(0, -7);
-        if (fast) vel.y *= -1;
+        // PVector vel = new PVector(0, -7);
+        // if (fast) vel.y *= -1;
 
-        PVector startPos = new PVector(lane, cam.top - (fast? 1200 : 600));
-        // if (fast) startPos.y += topTile.img.height;
+        // PVector startPos = new PVector(lane, cam.top - (fast? 1200 : 600));
+        // // if (fast) startPos.y += topTile.img.height;
 
-        EnemyCar e = new EnemyCar(randomCar(), startPos, vel);
-        obstacles.add(e);
+        // EnemyCar e = new EnemyCar(randomCar(), startPos, vel);
+        // obstacles.add(e);
 
 
-        // generate powerups
-        if (random(5) < 1) {
-            lane = topTile.lanes_all.get(int(random(topTile.lanes_all.size())));
-            obstacles.add(randomPowerup(new PVector(lane, cam.top - 750)));
-        }
-
-        // return new Obstacle("assets/scaled/barrier.png", new PVector(center.x, top));
+        // // generate powerups
+        // if (random(5) < 1) {
+        //     lane = topTile.lanes_all.get(int(random(topTile.lanes_all.size())));
+        //     obstacles.add(randomPowerup(new PVector(lane, cam.top - 750)));
+        // }
     }
 
     void draw() {
         pushMatrix();
-        trainSignals = false;
+        // trainSignals = false;
         for (int i=0; i<drawIndexes.size(); ++i) {
             tiles.get(drawIndexes.get(i)).draw(drawOffsets.get(i));
         }
-        if(!trainSignals && trainSound.isPlaying()) trainSound.pause();
+        // if(!trainSignals && trainSound.isPlaying()) trainSound.pause();
 
-        for (Obstacle o : obstacles){
-            if(!o.fileName.equals("bridgesides.png")){
-                o.draw();
-            }
-        }
+        // for (Obstacle o : obstacles){
+        //     o.draw();
+        // }
 
         popMatrix();
     }
 };
 
-int weightedChoice(ArrayList<Float> weights) {
-    float sum = 0;
-    for (Float f : weights)
-        sum += f;
+// unused
+// int weightedChoice(ArrayList<Float> weights) {
+//     float sum = 0;
+//     for (Float f : weights)
+//         sum += f;
 
-    int choice;
-    float r = random(sum);
-    for (choice=0; choice<weights.size(); ++choice) {
-        r -= weights.get(choice);
-        if (r < 0)
-            break;
-    }
+//     int choice;
+//     float r = random(sum);
+//     for (choice=0; choice<weights.size(); ++choice) {
+//         r -= weights.get(choice);
+//         if (r < 0)
+//             break;
+//     }
 
-    return choice;
-};
+//     return choice;
+// };
 
-boolean arrayContains(int[] ar, int n){
-    for(int a : ar){
-        if(n == a){
+boolean arrayContains(int[] ar, int n) {
+    for (int i=0; i<ar.length; ++i){
+        if (n == ar[i]) {
             return true;
         }
     }
     return false;
 }
 
-
-*/

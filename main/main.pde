@@ -24,15 +24,15 @@ int updateAccumulator = 0;
 
 Car car;
 Camera cam;
-// Road road;
+Road road;
 // ScoreNotify scoreNotify;
 
 // GUI gui;
 // ArrayList<Obstacle> obstacles;
 
 // SelfyOverlay selfyOverlay;
-// PImage bridgeSides;
-// PImage bridgeSign;
+PImage bridgeSides;
+PImage bridgeSign;
 // Animation trainSign;
 // boolean trainSignals;
 PImage hashtag;
@@ -70,6 +70,7 @@ void setup() {
     imageMode(CENTER);
     rectMode(CENTER);
     noSmooth();
+
     // window
     windowSize = new PVector(1280, 720);
     center = PVector.mult(windowSize, 0.5);
@@ -79,10 +80,11 @@ void setup() {
         OPENGL
     );
     if (!javascript) {
+        // OPENGL graphics options (allow transparency)
         pgl = (PGraphicsOpenGL) g;  // g may change
         gl = pgl.beginPGL().gl.getGL2();
         gl.glEnable(GL.GL_BLEND);
-        gl.glBlendFunc (GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA);
+        gl.glBlendFunc(GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA);
     }
 
     gameState0 = loadImage("assets/scaled/title.png");
@@ -97,18 +99,18 @@ void setup() {
     beerSound = sound("beer");
     boostSound = sound("boost");
     trainSound = sound("railwaycrossing"); // was .wav
-    // bridgeSides = loadImage("assets/scaled/bridgesides.png");
+    bridgeSides = loadImage("assets/scaled/bridgesides.png");
+    bridgeSign  = loadImage("assets/bridgewarning.png");
     // PImage[] ts = new PImage[2];
     // ts[0] = loadImage("assets/scaled/railwaysign.png");
     // ts[1] = loadImage("assets/scaled/railwaysign2.png");
     // trainSign = new Animation(ts, new PVector(center.x, 50), 25);
-    // bridgeSign = loadImage("assets/bridgewarning.png");
 
     hashtag = loadImage("assets/scaled/hashtag.png");
 
     car = new Car();
     cam = new Camera();
-    // road = new Road();
+    road = new Road();
     // gui = new GUI();
     // scoreNotify = new ScoreNotify();
     // selfyOverlay = new SelfyOverlay();
@@ -116,20 +118,6 @@ void setup() {
     gameState = 0;
 
     prevMillis = millis();
-
-
-    // String names[] = {"Alexis", "Thomas", "Antoine"};
-    // // for (String name : names) {
-    // for (int i=0; i<names.length; ++i)
-    //     alert(names[i]);
-    // }
-
-    // ArrayList<String> names = new ArrayList<String>();
-    // names.add("Alexis");
-    // for (String name : names) {
-    // // for (int i=0; i<names.length; ++i)
-    //     alert(name);
-    // }
 
 }
 
@@ -162,7 +150,7 @@ void draw() {
         if (gameState == 2){
             car.update();
             cam.update();
-            // road.update();
+            road.update();
 
             // scoreNotify.update();
             // selfyOverlay.update();
@@ -187,7 +175,7 @@ void draw() {
 
         cam.doTranslate();
 
-        // road.draw();
+        road.draw();
         car.draw();
         // scoreNotify.draw();
 
@@ -216,7 +204,6 @@ void draw() {
 }
 
 void doRestart(){
-    //println("qq: " + gameState);
     if (gameState == 0) {
         gameState = 1;
     } else if (gameState == 1 || gameState == 3) {
@@ -227,7 +214,7 @@ void doRestart(){
         drunk = 0;
         score = 0;
 
-        // road.reset();
+        road.reset();
         // gui.reset();
     }
 }
@@ -246,7 +233,6 @@ void keyReleased() { handleKey(keyCode, false); }
 private void handleKey(int keyCode, boolean pressed){
     if (pressed) {
         if(key == 'q'){
-            // console.log("AAA");
             doRestart();
         }
         if(key == 'd'){
