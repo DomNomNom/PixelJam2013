@@ -51,7 +51,7 @@ class RayBans extends Powerup{
     }
 
     void applyEffect(){
-        // gui.applyOverlay(overlayImg, 6000);
+        gui.applyOverlay(overlayImg, 6000);
         score += 5000;
     }
 };

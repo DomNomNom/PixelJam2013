@@ -27,8 +27,7 @@ Camera cam;
 Road road;
 // ScoreNotify scoreNotify;
 
-// GUI gui;
-// ArrayList<Obstacle> obstacles;
+GUI gui;
 
 // SelfyOverlay selfyOverlay;
 PImage bridgeSides;
@@ -113,7 +112,7 @@ void setup() {
     car = new Car();
     cam = new Camera();
     road = new Road();
-    // gui = new GUI();
+    gui = new GUI();
     // scoreNotify = new ScoreNotify();
     // selfyOverlay = new SelfyOverlay();
 
@@ -156,7 +155,7 @@ void draw() {
 
             // scoreNotify.update();
             // selfyOverlay.update();
-            // gui.update();
+            gui.update();
 
             if(drunk > 0){
                 drunk -= 0.00025;
@@ -189,7 +188,7 @@ void draw() {
     popMatrix();
 
     // selfyOverlay.draw();
-    // gui.draw();
+    gui.draw();
 
     if (gameState == 1) {
         image(gameState1, center.x, center.y);

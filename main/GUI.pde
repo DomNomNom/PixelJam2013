@@ -14,9 +14,7 @@ class GUI {
         scoreSpeed = loadImage("assets/scaled/scorespeed.png");
     }
 
-    void update() {
-        // if (!bgm.isPlaying()) bgm.loop();
-    }
+    void update() { }
 
     void draw() {
         textFont(font);
