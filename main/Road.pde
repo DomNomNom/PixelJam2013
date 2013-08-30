@@ -61,6 +61,7 @@ class Road {
 
                 RoadTileObstacle o = nextTile.obstacles.get(i);
 
+                // make a new instance of the template RoadTileObstacle o
                 PVector vel = new PVector(0, 0);
                 if (o.fileName.equals("train.png")) {    // Traaaaains...
                     if (o.pos.x < center.x) vel = new PVector(4, 0);
@@ -72,8 +73,8 @@ class Road {
                     Obstacle ob = new Obstacle(bridgeSides, o.fileName, pos);
                     obstacles.add(ob);
                 } else {
-                    // EnemyCar e = new EnemyCar("assets/scaled/"+o.fileName, pos, vel);
-                    // obstacles.add(e);
+                    EnemyCar e = new EnemyCar("assets/scaled/"+o.fileName, pos, vel);
+                    obstacles.add(e);
                 }
             }
         }
@@ -139,22 +140,22 @@ class Road {
             return;
         }
 
-        // Float lane = topTile.lanes_all.get(int(random(topTile.lanes_all.size())));
-        // boolean fast = topTile.lanes_fast.contains(lane);
+        Float lane = topTile.lanes_all.get(int(random(topTile.lanes_all.size())));
+        boolean fast = topTile.lanes_fast.contains(lane);
 
-        // PVector vel = new PVector(0, -7);
-        // if (fast) vel.y *= -1;
+        PVector vel = new PVector(0, -7);
+        if (fast) vel.y *= -1;
 
-        // PVector startPos = new PVector(lane, cam.top - (fast? 1200 : 600));
-        // // if (fast) startPos.y += topTile.img.height;
+        PVector startPos = new PVector(lane, cam.top - (fast? 1200 : 600));
+        // if (fast) startPos.y += topTile.img.height;
 
-        // EnemyCar e = new EnemyCar(randomCar(), startPos, vel);
-        // obstacles.add(e);
+        EnemyCar e = new EnemyCar(randomCar(), startPos, vel);
+        obstacles.add(e);
 
 
         // generate powerups
-        if (random(1) < 1) { // one in X chance
-            float lane = topTile.lanes_all.get(int(random(topTile.lanes_all.size())));
+        if (1 < random(5)) { // one in X chance
+            lane = topTile.lanes_all.get(int(random(topTile.lanes_all.size()))); // pick a new lane
             obstacles.add(randomPowerup(new PVector(lane, cam.top - 750)));
         }
     }

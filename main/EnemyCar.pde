@@ -2,7 +2,7 @@ float dlerp(float low, float high, float t) {
   return lerp(low, high, constrain(t, 0 , 1));
 }
 
-/*
+
 static PImage omgSign;
 
 class EnemyCar extends Obstacle {
@@ -12,7 +12,7 @@ class EnemyCar extends Obstacle {
     PVector vel;
 
     // scoring system
-    int value = 0;
+    float value = 0; // score gained
     float value_YOLO = 1000;
     float value_nothing = 0;
     float space_YOLO = 9;
@@ -34,7 +34,7 @@ class EnemyCar extends Obstacle {
         if (!passed && pos.y >= car.pos.y && !car.dead) {
             passed = true;
 
-            float space = abs(pos.x - car.pos.x) - img.width*.5 - car.hitbox.x; // space between the cars
+            float space = abs(pos.x - car.pos.x) - img.width*0.5 - car.hitbox.x; // space between the cars
             int distScore = int(dlerp(
                 value_YOLO,
                 value_nothing,
@@ -52,11 +52,12 @@ class EnemyCar extends Obstacle {
             );
 
             // score modifiers
-            if(drunk > 0) value *= (drunk+1);
-            if(vel.y > 0) value *= 1.5;
+            if (drunk > 0) value *= (drunk+1);
+            if (vel.y > 0) value *= 1.5;
+            // value = (float)(Math.floor(value));
 
-            scoreNotify.notify(pos.x, value);
-            score += value;
+            scoreNotify.notify(pos.x, (int)(value));
+            score += int(value);
         }
     }
 
@@ -84,16 +85,6 @@ class EnemyCar extends Obstacle {
 };
 
 
-static List<String> carImages = new ArrayList<String>(); static{
-    carImages.add("assets/scaled/sedan_black.png");
-    carImages.add("assets/scaled/sedan_blue.png");
-    carImages.add("assets/scaled/sedan_green.png");
-    carImages.add("assets/scaled/sedan_red.png");
-    carImages.add("assets/scaled/sedan_white.png");
-    carImages.add("assets/scaled/van.png");
-    // carImages.add("assets/scaled/train.png");
-}
 String randomCar() {
     return carImages.get(int(random(carImages.size())));
 }
-*/

@@ -78,11 +78,12 @@ class Car {
         explosion = new Animation(rkt, new PVector(0,0), 4, false);
         explosion.index = -1;
 
-        hitbox = new PVector(
-            0.88 * sprite.width,
-            0.88 * sprite.height
-        );
-        hitbox.mult(0.5); // half
+        // hitbox = new PVector(
+        //     0.88 * sprite.width,
+        //     0.88 * sprite.height
+        // );
+        // hitbox.mult(0.5); // half
+        hitbox = new PVector(20, 40);
     }
 
     void update() {
@@ -230,8 +231,11 @@ class Car {
 
         popMatrix();
 
-        //fill(220, 50, 0); stroke(220, 50, 0);
-        //for(PVector p : getCollisionPts()) rect(p.x, p.y, 4, 4); // collision bounds
+        // // show collision bounds
+        // noFill();
+        // stroke(220, 50, 0);
+        // for (PVector p : getCollisionPts()) rect(p.x, p.y, 4, 4);
+        // rect(pos.x, pos.y, hitbox.x*2, hitbox.y*2);
     }
 
     public void collide(){

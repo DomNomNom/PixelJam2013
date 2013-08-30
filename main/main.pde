@@ -25,7 +25,7 @@ int updateAccumulator = 0;
 Car car;
 Camera cam;
 Road road;
-// ScoreNotify scoreNotify;
+ScoreNotify scoreNotify;
 
 GUI gui;
 
@@ -52,12 +52,16 @@ PImage gameState3;
 int gameState1_end=0;
 int restart = 0;
 
+ArrayList<String> carImages = new ArrayList<String>();
+
 int  nameClash = 0;
 void nameClash() { }
 boolean javascript; // whether we are in JS or not
 
+
+
 void setup() {
-    // a hacky way of telling whether we are in javascript or not
+    // detect whether we are in javascript or not (slightly hacky)
     // compatible with processing.
     try {
         nameClash();
@@ -88,12 +92,22 @@ void setup() {
         gl.glBlendFunc(GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA);
     }
 
+    //Load assets from here on
     gameState0 = loadImage("assets/scaled/title.png");
+    image(gameState0, center.x, center.y); // display something as fast as we can.
     gameState1 = loadImage("assets/scaled/title2.png");
     gameState3 = loadImage("assets/scaled/ending.png");
-    image(gameState0, center.x, center.y);
 
-    // game entities
+    // cars
+    carImages.add("assets/scaled/sedan_black.png");
+    carImages.add("assets/scaled/sedan_blue.png");
+    carImages.add("assets/scaled/sedan_green.png");
+    carImages.add("assets/scaled/sedan_red.png");
+    carImages.add("assets/scaled/sedan_white.png");
+    carImages.add("assets/scaled/van.png");
+    // carImages.add("assets/scaled/train.png");  // Enable for super fun mode :p
+
+    // misc assets
     minim = new Minim(this);
     bgm = sound("background");
     bgm.loop();
@@ -106,20 +120,19 @@ void setup() {
     ts[0] = loadImage("assets/scaled/railwaysign.png");
     ts[1] = loadImage("assets/scaled/railwaysign2.png");
     trainSign = new Animation(ts, new PVector(center.x, 50), 25);
-
     hashtag = loadImage("assets/scaled/hashtag.png");
 
+    // game entities
     car = new Car();
     cam = new Camera();
     road = new Road();
     gui = new GUI();
-    // scoreNotify = new ScoreNotify();
+    scoreNotify = new ScoreNotify();
     // selfyOverlay = new SelfyOverlay();
 
+    // game.go()!
     gameState = 0;
-
     prevMillis = millis();
-
 }
 
 void draw() {
@@ -128,7 +141,7 @@ void draw() {
         clear();
     }
 
-    image(gameState0, center.x, center.y);
+    // image(gameState0, center.x, center.y);
     if (gameState == 0) {
         image(gameState0, center.x, center.y);
         return;
@@ -153,7 +166,7 @@ void draw() {
             cam.update();
             road.update();
 
-            // scoreNotify.update();
+            scoreNotify.update();
             // selfyOverlay.update();
             gui.update();
 
@@ -178,7 +191,7 @@ void draw() {
 
         road.draw();
         car.draw();
-        // scoreNotify.draw();
+        scoreNotify.draw();
 
         // gamestate overlays
         // fill(color(255, 0, 0));
@@ -216,7 +229,7 @@ void doRestart(){
         score = 0;
 
         road.reset();
-        // gui.reset();
+        gui.reset();
     }
 }
 
