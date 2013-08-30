@@ -1,6 +1,8 @@
-import java.util.*;
-import java.io.FileNotFoundException;
-import java.lang.RuntimeException;
+// import java.util.*;
+// import java.io.FileNotFoundException;
+// import java.lang.RuntimeException;
+
+
 
 class Road {
     float baseLine;
@@ -15,7 +17,7 @@ class Road {
 
     float top;
     float bot;
-    
+
     public void reset(){
         drawIndexes = new ArrayList<Integer>(); // indecies of tiles
         drawOffsets = new ArrayList<Float>();
@@ -25,7 +27,7 @@ class Road {
         top = tiles.get(0).img.height * -.5;
         bot = tiles.get(0).img.height * 0.5;
     }
-    
+
     Road() {
         obstacles = new ArrayList<Obstacle>();
         tiles.add(new RoadTile("assets/scaled/Road.png", "Road"));
@@ -56,9 +58,10 @@ class Road {
             }
             for (int i = 0; i < nextTile.obstacles.size(); i++){
                 if(trains != null && !arrayContains(trains, i)) continue;
-                
+
                 RoadTileObstacle o = nextTile.obstacles.get(i);
-                
+
+                // make a new instance of the template RoadTileObstacle o
                 PVector vel = new PVector(0, 0);
                 if (o.fileName.equals("train.png")) {    // Traaaaains...
                     if (o.pos.x < center.x) vel = new PVector(4, 0);
@@ -98,7 +101,7 @@ class Road {
                 if (o instanceof Powerup) {
                     ((Powerup)o).applyEffect();
                     obstacles.remove(i);
-                } 
+                }
                 else {
                     car.collide();
                 }
@@ -112,7 +115,8 @@ class Road {
     Integer nextTileIndex() {
         RoadTile last = lastTile();
         float rand = random(last.probSum);
-        for (RoadTransition t : last.transitions) {
+        for (int r=0; r<last.transitions.size(); ++r) { // for (RoadTransition t : last.transitions) {
+            RoadTransition t = last.transitions.get(r);
             rand -= t.prob;
             if (rand <= 0) {
                 for (int i = 0; i < tiles.size(); i++) {
@@ -147,15 +151,13 @@ class Road {
 
         EnemyCar e = new EnemyCar(randomCar(), startPos, vel);
         obstacles.add(e);
-        
-        
+
+
         // generate powerups
-        if (random(5) < 1) {
-            lane = topTile.lanes_all.get(int(random(topTile.lanes_all.size())));
+        if (1 < random(5)) { // one in X chance
+            lane = topTile.lanes_all.get(int(random(topTile.lanes_all.size()))); // pick a new lane
             obstacles.add(randomPowerup(new PVector(lane, cam.top - 750)));
         }
-
-        // return new Obstacle("assets/scaled/barrier.png", new PVector(center.x, top));
     }
 
     void draw() {
@@ -164,39 +166,39 @@ class Road {
         for (int i=0; i<drawIndexes.size(); ++i) {
             tiles.get(drawIndexes.get(i)).draw(drawOffsets.get(i));
         }
-        if(!trainSignals && trainSound.isPlaying()) trainSound.pause(); 
+        if (!trainSignals && trainSound.isPlaying()) trainSound.pause();
 
         for (Obstacle o : obstacles){
-            if(!o.fileName.equals("bridgesides.png")){
-                o.draw();
-            }
+            o.draw();
         }
 
         popMatrix();
     }
 };
 
-int weightedChoice(ArrayList<Float> weights) {
-    float sum = 0;
-    for (Float f : weights)
-        sum += f;
+// unused
+// int weightedChoice(ArrayList<Float> weights) {
+//     float sum = 0;
+//     for (Float f : weights)
+//         sum += f;
 
-    int choice;
-    float r = random(sum);
-    for (choice=0; choice<weights.size(); ++choice) {
-        r -= weights.get(choice);
-        if (r < 0)
-            break;
-    }
+//     int choice;
+//     float r = random(sum);
+//     for (choice=0; choice<weights.size(); ++choice) {
+//         r -= weights.get(choice);
+//         if (r < 0)
+//             break;
+//     }
 
-    return choice;
-};
+//     return choice;
+// };
 
-boolean arrayContains(int[] ar, int n){
-    for(int a : ar){
-        if(n == a){
+boolean arrayContains(int[] ar, int n) {
+    for (int i=0; i<ar.length; ++i){
+        if (n == ar[i]) {
             return true;
-        } 
+        }
     }
-    return false;    
+    return false;
 }
+

@@ -6,11 +6,11 @@ class Powerup extends Obstacle{
 
     //has effect behaviour
     void applyEffect(){}
-    
+
     void draw(){
         super.draw();
         if (pos.y < cam.top) {
-            pushMatrix(); 
+            pushMatrix();
             translate(pos.x, car.pos.y + 125);
             image(hashtag, 0, 0);
             popMatrix();
@@ -66,7 +66,7 @@ class Selfy extends Powerup {
 };
 
 Powerup randomPowerup(PVector pos) {
-    switch((int)random(4)) {
+    switch ((int)random(4)) {
         case 0: return new Beer(pos);
         case 1: return new Selfy(pos);
         case 2: return new RayBans(pos);
@@ -74,3 +74,4 @@ Powerup randomPowerup(PVector pos) {
     }
     return null;
 }
+

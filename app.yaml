@@ -1,0 +1,39 @@
+application: yolo-roadtrip
+version: 1
+runtime: python27
+api_version: 1
+threadsafe: no # ?
+
+
+handlers:
+
+# - url: .*
+#   script: main.py
+#   #login: required
+
+- url: /(.*\.(gif|png|jpg))
+  static_files: main/\1
+  upload: main/(.*\.(gif|png|jpg))
+
+
+# media files
+- url: /(.*\.(mp3|ogg|txt))
+  static_files: main/\1
+  upload: main/(.*\.(mp3|ogg|txt))
+
+- url: /
+  static_files: index.html
+  upload:       index.html
+
+
+- url: /favicon.ico
+  static_files: images/favicon.ico
+  upload:       images/favicon.ico
+
+- url: /(.*\.(js))
+  static_files: \1
+  upload: js/(.*\.(js))
+
+- url: /(.*\.(pde))
+  static_files: main/\1
+  upload: main/(.*\.(pde))

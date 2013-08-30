@@ -10,7 +10,7 @@ class Obstacle {
         img = loadImage(fn);
         fileName = fn;
     }
-    
+
     Obstacle(PImage i, String fn, PVector pos) {
         this.pos = pos;
         img = i;
@@ -20,12 +20,17 @@ class Obstacle {
     void update() { }
 
     boolean isColliding() {
-        for(PVector pt : car.collisionPts){
+        for (int i=0; i<car.collisionPts.length; ++i){
+            PVector pt = car.collisionPts[i];
+
+            // transform pt into image space resulting in p
             PVector s = new PVector(img.width/2, img.height/2);
             PVector b = pos.get();
             b.sub(s);
             PVector p = pt.get();
             p.sub(b);
+
+            // check whether p is in the image and not transparent
             if (
                 p.x > 0 && p.x < img.width &&
                 p.y > 0 && p.y < img.height
@@ -40,6 +45,8 @@ class Obstacle {
     }
 
     void draw() {
+        if (fileName.equals("bridgesides.png")) return;  // the bridge is special
+
         image(
             img,
             pos.x, pos.y,
