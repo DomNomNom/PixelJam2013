@@ -96,19 +96,18 @@ class Road {
             Obstacle o = obstacles.get(i);
             o.update();
 
-            // PORT hint: boolean isPowerup = false; // since in JS we can't do instanceof
-            // if (o.isColliding()) {
-            //     if (o instanceof Powerup) {
-            //         ((Powerup)o).applyEffect();
-            //         obstacles.remove(i);
-            //     }
-            //     else {
-            //         car.collide();
-            //     }
-            // }
-            // else if (o.pos.y > bot) { // remove old obstacles
-            //     obstacles.remove(i);
-            // }
+            if (o.isColliding()) {
+                if (o instanceof Powerup) {
+                    ((Powerup)o).applyEffect();
+                    obstacles.remove(i);
+                }
+                else {
+                    car.collide();
+                }
+            }
+            else if (o.pos.y > bot) { // remove old obstacles
+                obstacles.remove(i);
+            }
         }
     }
 
@@ -134,11 +133,11 @@ class Road {
     }
 
     void generateObstacle() {
-        // RoadTile topTile = lastTile();
-        // if (topTile.lanes_all.size() == 0) {
-        //     //println("trying to generate obstacle for tile with no lanes");
-        //     return;
-        // }
+        RoadTile topTile = lastTile();
+        if (topTile.lanes_all.size() == 0) {
+            //println("trying to generate obstacle for tile with no lanes");
+            return;
+        }
 
         // Float lane = topTile.lanes_all.get(int(random(topTile.lanes_all.size())));
         // boolean fast = topTile.lanes_fast.contains(lane);
@@ -153,11 +152,11 @@ class Road {
         // obstacles.add(e);
 
 
-        // // generate powerups
-        // if (random(5) < 1) {
-        //     lane = topTile.lanes_all.get(int(random(topTile.lanes_all.size())));
-        //     obstacles.add(randomPowerup(new PVector(lane, cam.top - 750)));
-        // }
+        // generate powerups
+        if (random(1) < 1) { // one in X chance
+            float lane = topTile.lanes_all.get(int(random(topTile.lanes_all.size())));
+            obstacles.add(randomPowerup(new PVector(lane, cam.top - 750)));
+        }
     }
 
     void draw() {
@@ -168,9 +167,9 @@ class Road {
         }
         if (!trainSignals && trainSound.isPlaying()) trainSound.pause();
 
-        // for (Obstacle o : obstacles){
-        //     o.draw();
-        // }
+        for (Obstacle o : obstacles){
+            o.draw();
+        }
 
         popMatrix();
     }

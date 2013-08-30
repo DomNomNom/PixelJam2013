@@ -55,7 +55,7 @@ int restart = 0;
 
 int  nameClash = 0;
 void nameClash() { }
-boolean javascript;
+boolean javascript; // whether we are in JS or not
 
 void setup() {
     // a hacky way of telling whether we are in javascript or not

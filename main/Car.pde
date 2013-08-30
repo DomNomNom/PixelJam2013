@@ -137,11 +137,11 @@ class Car {
                 if(speed > maxSpeed) speed = maxSpeed;
                 if(boosting) {
                     float time = millis() - boostTime;
-                    // if (time < Boost.time){  // PORT
-                    //     speed = boostSpeed;
-                    // } else if(time < Boost.time*2){
-                    //     speed = lerp(maxSpeed, boostSpeed, (Boost.time - (time-Boost.time))/Boost.time);
-                    // } else boosting = false;
+                    if (time < Boost.time){
+                        speed = boostSpeed;
+                    } else if(time < Boost.time*2){
+                        speed = lerp(maxSpeed, boostSpeed, (Boost.time - (time-Boost.time))/Boost.time);
+                    } else boosting = false;
                 }
             } else {
                 speed -= drag;
@@ -191,9 +191,8 @@ class Car {
         if (useEngine)
             engine.update();
         if(boosting){
-            // PORT
-            // if(millis() - boostTime < Boost.time) rocketFire.update();
-            // rocket.update();
+            if(millis() - boostTime < Boost.time) rocketFire.update();
+            rocket.update();
         }
         if(explosion.ready()) explosion.update();
     }
@@ -219,9 +218,8 @@ class Car {
         else {
             image(sprite, 0, 0);
             if(boosting){
-                // PORT
-                // rocket.draw();
-                // if(millis() - boostTime < Boost.time) rocketFire.draw();
+                rocket.draw();
+                if(millis() - boostTime < Boost.time) rocketFire.draw();
             }
         }
 
