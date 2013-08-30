@@ -78,11 +78,6 @@ class Car {
         explosion = new Animation(rkt, new PVector(0,0), 4, false);
         explosion.index = -1;
 
-        // hitbox = new PVector(
-        //     0.88 * sprite.width,
-        //     0.88 * sprite.height
-        // );
-        // hitbox.mult(0.5); // half
         hitbox = new PVector(20, 40);
     }
 
@@ -246,6 +241,7 @@ class Car {
             speed = 0;
             steer = 0;
             if (score > hiscore) hiscore = score;
+            if (tireScreech.isPlaying()) tireScreech.pause();
             if (!crash.isPlaying()){
                 crash.rewind();
                 crash.play();

@@ -60,13 +60,13 @@ class Selfy extends Powerup {
     Selfy(PVector pos) {super("assets/scaled/insta.png", pos);}
 
     void applyEffect(){
-        // selfyOverlay.selfy();
+        selfyOverlay.selfy();
         score += 10000;
     }
 };
 
 Powerup randomPowerup(PVector pos) {
-    switch((int)random(4)) {
+    switch ((int)random(4)) {
         case 0: return new Beer(pos);
         case 1: return new Selfy(pos);
         case 2: return new RayBans(pos);

@@ -29,7 +29,9 @@ ScoreNotify scoreNotify;
 
 GUI gui;
 
-// SelfyOverlay selfyOverlay;
+SelfyOverlay selfyOverlay;
+main globalSelfReference = this;
+
 PImage bridgeSides;
 PImage bridgeSign;
 PImage hashtag;
@@ -38,14 +40,12 @@ PImage hashtag;
 Animation trainSign;
 boolean trainSignals;
 
-// PVector debugPoint = new PVector(-100, -100);
 float drunk = 0;
 int drinkStart;
 int score = 0, hiscore = 0;
 
-main globalSelfReference = this;
 
-int gameState = 0; // hello, zooom in, play, dead
+int gameState = 0; // states: hello, zooom in, play, dead
 PImage gameState0;
 PImage gameState1;
 PImage gameState3;
@@ -128,7 +128,7 @@ void setup() {
     road = new Road();
     gui = new GUI();
     scoreNotify = new ScoreNotify();
-    // selfyOverlay = new SelfyOverlay();
+    selfyOverlay = new SelfyOverlay();
 
     // game.go()!
     gameState = 0;
@@ -200,7 +200,7 @@ void draw() {
         // }
     popMatrix();
 
-    // selfyOverlay.draw();
+    selfyOverlay.draw();
     gui.draw();
 
     if (gameState == 1) {
@@ -254,7 +254,7 @@ private void handleKey(int keyCode, boolean pressed){
             drunk += 0.05;
         }
         else if (key == 's') {
-            // selfyOverlay.selfy();
+            selfyOverlay.selfy();
         }
         else if (key == 'p') {
             toggleMute();

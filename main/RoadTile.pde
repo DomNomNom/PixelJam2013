@@ -58,30 +58,30 @@ class RoadTile {
         if(this.name.equals("TrainTracks") && y < cam.top && !trainSignals){
             trainSign.update();
             trainSign.draw(center.x, cam.top+100);
-            if(!trainSound.isPlaying()){
+            if (!trainSound.isPlaying()) {
                 trainSound.rewind();
                 trainSound.loop();
             }
             trainSignals = true;
         }
-        if(this.name.equals("Bridge") && y+(img.height*0.5) < cam.top){
+        if (this.name.equals("Bridge") && y+(img.height*0.5) < cam.top) {
             image(bridgeSign, center.x, cam.top+100);
         }
     }
 };
 
-class RoadTransition{
+class RoadTransition {
     int prob;
     String name;
-    RoadTransition(int p, String n){
+    RoadTransition(int p, String n) {
         prob = p; name = n;
     }
 };
 
-class RoadTileObstacle{
+class RoadTileObstacle {
     PVector pos;
     String fileName;
-    RoadTileObstacle(PVector p, String n){
+    RoadTileObstacle(PVector p, String n) {
         pos = p; fileName = n;
     }
 };
